@@ -10,6 +10,12 @@ class MovieLoadSuccess extends MovieState {
   MovieLoadSuccess({required this.movies});
 }
 
+class MoviesByQueryLoadSuccess extends MovieState {
+  final List<Movie> movies;
+
+  MoviesByQueryLoadSuccess({required this.movies});
+}
+
 class MovieLoadFailure extends MovieState {
   final String message;
 
@@ -17,4 +23,3 @@ class MovieLoadFailure extends MovieState {
 }
 
 class MovieLoading extends MovieState {}
-

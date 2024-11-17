@@ -15,7 +15,6 @@ import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:movie_nest_app/movie_nest_app.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-
 import 'repositories/movie_repository.dart';
 
 void main() {
@@ -56,9 +55,9 @@ void main() {
     () async {
       WidgetsFlutterBinding.ensureInitialized();
       await GetIt.I<SessionService>().checkSession();
-      GetIt.I<Talker>()
-          .info(await GetIt.I<SessionService>().getSessionId()); //TODO temp
-      await dotenv.load(fileName: ".env");
+      // GetIt.I<Talker>()
+      //     .info(await GetIt.I<SessionService>().getSessionId()); 
+      await dotenv.load(fileName: '.env');
       runApp(MovieNestApp());
     },
     (e, st) => GetIt.I<Talker>().handle(e, st),

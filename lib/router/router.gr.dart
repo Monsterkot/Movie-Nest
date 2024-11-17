@@ -18,7 +18,7 @@ import 'package:movie_nest_app/views/error_page/error_page.dart' as _i4;
 import 'package:movie_nest_app/views/home_page/home_page.dart' as _i5;
 import 'package:movie_nest_app/views/movie_details_page/movie_details_page.dart'
     as _i6;
-import 'package:movie_nest_app/views/tv_show_details/tv_show_details_page.dart'
+import 'package:movie_nest_app/views/tv_show_details_page/tv_show_details_page.dart'
     as _i7;
 
 /// generated route for

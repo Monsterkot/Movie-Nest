@@ -10,6 +10,12 @@ class TvShowLoadSuccess extends TvShowState {
   TvShowLoadSuccess({required this.tvShows});
 }
 
+class TvShowsByQueryLoadSuccess extends TvShowState {
+  final List<TvShow> tvShows;
+
+  TvShowsByQueryLoadSuccess({required this.tvShows});
+}
+
 class TvShowLoadFailure extends TvShowState {
   final String message;
 

@@ -1,16 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_nest_app/blocs/Search_bloc/search_bloc.dart';
-import 'package:movie_nest_app/blocs/tv_show_bloc/tv_show_bloc.dart';
+import 'package:movie_nest_app/blocs/tv_show_bloc/tv_show_bloc.dart'
+    as tv_show_block;
 import 'package:movie_nest_app/router/router.gr.dart';
 import 'package:movie_nest_app/theme/app_colors.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
+import 'package:movie_nest_app/views/home_page/widgets/home.dart';
 import 'package:movie_nest_app/views/home_page/widgets/movie_list.dart';
 import 'package:movie_nest_app/views/home_page/widgets/tv_shows_list.dart';
 import 'package:movie_nest_app/views/widgets/custom_background.dart';
-
-import '../../blocs/movie_bloc/movie_bloc.dart';
+import '../../blocs/movie_bloc/movie_bloc.dart' as movie_block;
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -23,31 +22,31 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedTab = 0;
   bool _isSearching = false;
   final _searchController = TextEditingController();
-  final _tvShowBloc = TvShowBloc();
-  final _movieBloc = MovieBloc();
+  final _tvShowBloc = tv_show_block.TvShowBloc();
+  final _movieBloc = movie_block.MovieBloc();
 
   void _loadMovies() {
-    _movieBloc.add(LoadMovies());
+    _movieBloc.add(movie_block.LoadMovies());
   }
 
   void _loadTvShows() {
-    _tvShowBloc.add(LoadTvShows());
+    _tvShowBloc.add(tv_show_block.LoadTvShows());
   }
 
-  void onSelectTab(int index) {
+  void _onSelectTab(int index) {
     if (_selectedTab == index) return;
     setState(() {
       _selectedTab = index;
     });
-    loadInfo(index);
     if (_isSearching) {
       _isSearching = false; // Сбрасываем состояние поиска
       _searchController.clear(); // Очищаем текстовое поле поиска
-      context.read<SearchBloc>().add(ClearSearchQuery()); // Сбрасываем поиск
+      _clearQuery();
     }
+    _loadInfo(index);
   }
 
-  void loadInfo(int index) {
+  void _loadInfo(int index) {
     switch (index) {
       case 0:
         break;
@@ -66,16 +65,40 @@ class _HomeScreenState extends State<HomeScreen> {
     AutoRouter.of(context).push(const AccountRoute());
   }
 
-  void _searchMovie(String query) {
-    if (_searchController.text.isNotEmpty) {
-      context.read<SearchBloc>().add(SearchMovies(query: query));
+  void _searchContent(String query) {
+    switch (_selectedTab) {
+      case 0:
+        break;
+      case 1:
+        _movieBloc.add(movie_block.SearchMovies(query: query));
+        break;
+      case 2:
+        _tvShowBloc.add(tv_show_block.SearchTvShows(query: query));
+        break;
+      default:
+        break;
+    }
+  }
+
+  void _clearQuery() {
+    switch (_selectedTab) {
+      case 0:
+        break;
+      case 1:
+        _movieBloc.add(movie_block.ClearSearchQuery());
+        break;
+      case 2:
+        _tvShowBloc.add(tv_show_block.ClearSearchQuery());
+        break;
+      default:
+        break;
     }
   }
 
   @override
   void initState() {
     super.initState();
-    loadInfo(_selectedTab);
+    _loadInfo(_selectedTab);
   }
 
   @override
@@ -87,11 +110,11 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         title: _isSearching
             ? TextField(
-                // onChanged: (query) {
-                //   _searchMovie(query);
-                // },
+                onSubmitted: (query) {
+                  _searchContent(query);
+                },
                 onChanged: (query) {
-                  _searchMovie(query);
+                  _searchContent(query);
                 },
                 controller: _searchController,
                 autofocus: true,
@@ -119,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ? [
                 IconButton(
                   onPressed: () {
-                    context.read<SearchBloc>().add(ClearSearchQuery());
+                    _clearQuery();
                     setState(() {
                       _isSearching = false; // завершение поиска
                       _searchController.clear(); // очистка поля поиска
@@ -132,17 +155,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ]
             : [
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _isSearching = true; // переключение в режим поиска
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ),
-                ),
+                _selectedTab != 0
+                    ? IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _isSearching = true; // переключение в режим поиска
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
+                      )
+                    : const SizedBox.shrink(),
                 IconButton(
                   onPressed: () {
                     _openUserAccount();
@@ -160,9 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: IndexedStack(
           index: _selectedTab,
           children: [
-            const Text(
-              'News',
-            ),
+            const Home(),
             MovieList(movieBloc: _movieBloc),
             TvShowsList(
               tvShowBloc: _tvShowBloc,
@@ -174,8 +197,8 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _selectedTab,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.people_alt),
-            label: 'People',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.movie_filter),
@@ -186,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'TV series',
           ),
         ],
-        onTap: onSelectTab,
+        onTap: _onSelectTab,
       ),
     );
   }

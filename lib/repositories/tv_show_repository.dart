@@ -17,4 +17,10 @@ class TvShowRepository {
     final tvShowDetails = TvShowDetails.fromJson(json);
     return tvShowDetails;
   }
+
+  Future<PopularTvShowResponse> getTvShowsByQuery(String query, int page) async {
+    final json = await GetIt.I<TvShowService>().getTvShowsByQuery(query, page);
+    final tvShowsByQuery = PopularTvShowResponse.fromJson(json);
+    return tvShowsByQuery;
+  }
 }

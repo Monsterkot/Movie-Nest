@@ -35,4 +35,16 @@ class TvShowService {
     final data = response.data;
     return data;
   }
+
+  Future<Map<String, dynamic>> getTvShowsByQuery(String query, int page) async {
+    final uri = _makeUri('/search/tv', {
+      'query': query,
+      'page' : page.toString(),
+      'api_key': apiKey,
+      'language': 'en-US',
+    });
+    final response = await _dio.getUri(uri);
+    final data = response.data;
+    return data;
+  }
 }

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_nest_app/blocs/tv_show_details_bloc/tv_show_details_bloc.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
-import 'package:movie_nest_app/views/tv_show_details/widgets/tv_show_details_main_info_widget.dart';
-import 'package:movie_nest_app/views/tv_show_details/widgets/tv_show_details_screen_cast_widget.dart';
+import 'package:movie_nest_app/views/tv_show_details_page/widgets/tv_show_details_main_info_widget.dart';
+import 'package:movie_nest_app/views/tv_show_details_page/widgets/tv_show_details_screen_cast_widget.dart';
 import 'package:movie_nest_app/views/widgets/custom_background.dart';
 import '../../theme/app_colors.dart';
 

@@ -5,7 +5,6 @@ import 'package:movie_nest_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:movie_nest_app/blocs/url_launcher_bloc/url_launcher_bloc.dart';
 import 'package:movie_nest_app/router/router.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-import 'blocs/Search_bloc/search_bloc.dart';
 import 'theme/theme.dart';
 
 class MovieNestApp extends StatelessWidget {
@@ -17,9 +16,6 @@ class MovieNestApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        BlocProvider(
-          create: (context) => SearchBloc(),
-        ),
         BlocProvider(
           create: (context) => AuthBloc(),
         ),
