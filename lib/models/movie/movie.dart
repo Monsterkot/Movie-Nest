@@ -1,9 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:movie_nest_app/models/trending_content/trending_item.dart';
 
 part 'movie.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class Movie {
+class Movie extends TrendingItem{
   final String? posterPath;
   final bool adult;
   final String overview;
@@ -34,7 +35,8 @@ class Movie {
     required this.popularity,
     required this.voteCount,
     required this.video,
-    required this.voteAverage,
+    required this.voteAverage, 
+    required super.mediaType,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);

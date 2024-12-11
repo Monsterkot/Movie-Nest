@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:movie_nest_app/repositories/account_repository.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-import '../../models/account_info.dart';
+import '../../models/account_info/account_info.dart';
 
 part 'account_info_event.dart';
 part 'account_info_state.dart';

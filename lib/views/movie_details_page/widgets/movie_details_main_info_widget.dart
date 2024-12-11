@@ -1,11 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_nest_app/constants/app_constants.dart';
 import 'package:movie_nest_app/models/genre/genre.dart';
+import 'package:movie_nest_app/router/router.gr.dart';
 import 'package:movie_nest_app/theme/app_box_decoration_style.dart';
 import 'package:movie_nest_app/theme/app_button_style.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
 import 'package:movie_nest_app/views/widgets/radial_percent_widget.dart';
 import '../../../models/movie_details/movie_details.dart';
+import '../../../models/video/video.dart';
 
 class MovieDetailsMainInfoWidget extends StatelessWidget {
   const MovieDetailsMainInfoWidget({super.key, required this.movieDetails});
@@ -14,7 +17,9 @@ class MovieDetailsMainInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final boxDecoration = AppBoxDecorationStyle.boxDecoration;
-
+    final videos = movieDetails.videos.results
+        .where((video) => video.type == 'Trailer' && video.site == 'YouTube')
+        .toList();
     return Column(
       children: [
         _TopPosterWidget(movieDetails.posterPath, movieDetails.backdropPath),
@@ -25,14 +30,12 @@ class MovieDetailsMainInfoWidget extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                  child: _MovieNameWidget(
-                      movieDetails.title, movieDetails.releaseDate),
+                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                  child: _MovieNameWidget(movieDetails.title, movieDetails.releaseDate),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
-                  child: _ScoreWidget(movieDetails.voteAverage),
+                  child: _ScoreWidget(movieDetails.voteAverage, videos),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -44,8 +47,7 @@ class MovieDetailsMainInfoWidget extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: _OverviewWidget(movieDetails.overview),
                 ),
               ],
@@ -65,7 +67,9 @@ class _TopPosterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image(image: NetworkImage('$imageUrl$backdropPath')),
+        backdropPath != null
+            ? Image(image: NetworkImage('$imageUrl$backdropPath'))
+            : const SizedBox.shrink(),
         Positioned(
           top: 20,
           left: 20,
@@ -117,11 +121,13 @@ class _MovieNameWidget extends StatelessWidget {
 }
 
 class _ScoreWidget extends StatelessWidget {
-  const _ScoreWidget(this.voteAverage);
+  const _ScoreWidget(this.voteAverage, this.videos);
   final double voteAverage;
+  final List<Video>? videos;
   @override
   Widget build(BuildContext context) {
     final ratingToHundreds = (voteAverage * 10).truncateToDouble();
+    final trailerKey = videos?.isNotEmpty == true ? videos!.first.key : null;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -151,8 +157,14 @@ class _ScoreWidget extends StatelessWidget {
           height: 15,
         ),
         TextButton(
-          onPressed: () {},
-          style: AppButtonStyle.playTrailerButtonStyle,
+          onPressed: trailerKey != null
+              ? () {
+                  AutoRouter.of(context).push(YouTubePlayerRoute(youtubeKey: trailerKey));
+                }
+              : null,
+          style: trailerKey != null
+              ? AppButtonStyle.trailerButtonStyle
+              : AppButtonStyle.disabledTrailerButtonStyle,
           child: const Row(
             children: [
               Icon(Icons.play_arrow),
@@ -166,8 +178,7 @@ class _ScoreWidget extends StatelessWidget {
 }
 
 class _SummeryWidget extends StatelessWidget {
-  const _SummeryWidget(
-      this.genres, this.runtime, this.releaseDate, this.originCountry);
+  const _SummeryWidget(this.genres, this.runtime, this.releaseDate, this.originCountry);
   final List<Genre> genres;
   final int runtime;
   final DateTime? releaseDate;
@@ -175,8 +186,7 @@ class _SummeryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stringDate =
-        '${releaseDate!.day}/${releaseDate!.month}/${releaseDate!.year}';
+    final stringDate = '${releaseDate!.day}/${releaseDate!.month}/${releaseDate!.year}';
     final stringRuntime = formatRuntime(runtime);
     String formattedGenres = formatGenres(genres);
     return Text(

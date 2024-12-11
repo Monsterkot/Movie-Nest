@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:movie_nest_app/models/account_info.dart';
+import 'package:movie_nest_app/models/account_info/account_info.dart';
 import 'package:movie_nest_app/services/account_service.dart';
 
 class AccountRepository {

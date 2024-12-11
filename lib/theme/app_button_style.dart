@@ -16,7 +16,7 @@ abstract class AppButtonStyle {
     ),
   );
 
-  static final  linkAltButtonStyle = ButtonStyle(
+  static final linkAltButtonStyle = ButtonStyle(
     backgroundColor: WidgetStatePropertyAll(Colors.black.withOpacity(0.4)),
     textStyle: const WidgetStatePropertyAll(
       TextStyle(
@@ -37,7 +37,7 @@ abstract class AppButtonStyle {
     ),
   );
 
-  static final  inactiveButtonStyle = ButtonStyle(
+  static final inactiveButtonStyle = ButtonStyle(
     backgroundColor: WidgetStatePropertyAll(Colors.grey.withOpacity(0.1)),
     textStyle: const WidgetStatePropertyAll(
       TextStyle(
@@ -58,7 +58,7 @@ abstract class AppButtonStyle {
     ),
   );
 
-  static final  buttonStyle = ButtonStyle(
+  static final buttonStyle = ButtonStyle(
     backgroundColor: WidgetStatePropertyAll(Colors.lightBlue.shade600),
     textStyle: const WidgetStatePropertyAll(
       TextStyle(
@@ -79,7 +79,7 @@ abstract class AppButtonStyle {
     ),
   );
 
-  static final  logOutButtonStyle = ButtonStyle(
+  static final logOutButtonStyle = ButtonStyle(
     backgroundColor: WidgetStatePropertyAll(Colors.red.shade900),
     textStyle: const WidgetStatePropertyAll(
       TextStyle(
@@ -100,10 +100,26 @@ abstract class AppButtonStyle {
     ),
   );
 
-  
-
-  static final playTrailerButtonStyle = ButtonStyle(
+  static final trailerButtonStyle = ButtonStyle(
     foregroundColor: const WidgetStatePropertyAll(Colors.lightBlue),
+    textStyle: const WidgetStatePropertyAll(
+      TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+    shape: WidgetStatePropertyAll(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    ),
+  );
+
+  static final disabledTrailerButtonStyle = ButtonStyle(
+    foregroundColor:
+        const WidgetStatePropertyAll(Colors.grey), // Цвет текста для неактивного состояния
+    backgroundColor:
+        WidgetStatePropertyAll(Colors.grey[300]), // Цвет фона для неактивного состояния
     textStyle: const WidgetStatePropertyAll(
       TextStyle(
         fontSize: 18,

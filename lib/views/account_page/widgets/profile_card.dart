@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_nest_app/constants/app_constants.dart';
-import 'package:movie_nest_app/models/account_info.dart';
+import 'package:movie_nest_app/models/account_info/account_info.dart';
 import '../../../theme/app_box_decoration_style.dart';
 import '../../../theme/app_text_style.dart';
 

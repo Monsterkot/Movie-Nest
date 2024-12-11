@@ -62,10 +62,10 @@ class _TvShowsListState extends State<TvShowsList> {
           return _circularProgressIndicator();
         } else if (movieState is TvShowsByQueryLoadSuccess) {
           var movies = movieState.tvShows;
-          return _tvShowListList(movies);
+          return _tvShowList(movies);
         } else if (movieState is TvShowLoadSuccess) {
           var movies = movieState.tvShows;
-          return _tvShowListList(movies);
+          return _tvShowList(movies);
         } else {
           return _circularProgressIndicator();
         }
@@ -73,7 +73,7 @@ class _TvShowsListState extends State<TvShowsList> {
     );
   }
 
-  Widget _tvShowListList(List<TvShow> tvShows) {
+  Widget _tvShowList(List<TvShow> tvShows) {
     return ListView.builder(
       controller: _scrollController,
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -108,18 +108,12 @@ class _TvShowsListState extends State<TvShowsList> {
             child: Row(
               children: [
                 tvShow.posterPath != null
-                    ? Image(
+                    ? FadeInImage(
+                        placeholder: const AssetImage('lib/images/placeholder.png'),
                         image: NetworkImage('$imageUrl${tvShow.posterPath}'),
                       )
-                    : Container(
-                        height: 210,
-                        width: 95,
-                        color: Colors.grey,
-                        child: const Icon(
-                          Icons.local_movies,
-                          color: Colors.white,
-                          size: 50,
-                        ),
+                    : const Image(
+                        image: AssetImage('lib/images/no_poster_avalible.png'),
                       ),
                 const SizedBox(width: 15),
                 Expanded(

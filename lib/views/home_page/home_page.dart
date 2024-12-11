@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_nest_app/blocs/tv_show_bloc/tv_show_bloc.dart'
-    as tv_show_block;
+import 'package:movie_nest_app/blocs/tv_show_bloc/tv_show_bloc.dart' as tv_show_block;
 import 'package:movie_nest_app/router/router.gr.dart';
 import 'package:movie_nest_app/theme/app_colors.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
@@ -26,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final _movieBloc = movie_block.MovieBloc();
 
   void _loadMovies() {
-    _movieBloc.add(movie_block.LoadMovies());
+    _movieBloc.add(movie_block.LoadPopularMovies());
   }
 
   void _loadTvShows() {

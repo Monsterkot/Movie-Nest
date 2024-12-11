@@ -28,14 +28,13 @@ class _MovieListState extends State<MovieList> {
   void initState() {
     super.initState();
     _scrollController.addListener(() {
-      const threshold =
-          3; // Количество элементов до конца списка для начала загрузки
+      const threshold = 3; // Количество элементов до конца списка для начала загрузки
       const itemExtent = 163; // Высота одного элемента
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - threshold * itemExtent) {
         // Если достигнут конец списка с запасом, загружаем следующую страницу
         if (!widget.movieBloc.isLoadingInProgress) {
-          widget.movieBloc.add(LoadMovies());
+          widget.movieBloc.add(LoadPopularMovies());
         }
       }
     });
@@ -109,18 +108,12 @@ class _MovieListState extends State<MovieList> {
             child: Row(
               children: [
                 movie.posterPath != null
-                    ? Image(
+                    ? FadeInImage(
+                        placeholder: const AssetImage('lib/images/placeholder.png'),
                         image: NetworkImage('$imageUrl${movie.posterPath}'),
                       )
-                    : Container(
-                        height: 210,
-                        width: 95,
-                        color: Colors.grey,
-                        child: const Icon(
-                          Icons.local_movies,
-                          color: Colors.white,
-                          size: 50,
-                        ),
+                    : const Image(
+                        image: AssetImage('lib/images/no_poster_avalible.png'),
                       ),
                 const SizedBox(width: 15),
                 Expanded(

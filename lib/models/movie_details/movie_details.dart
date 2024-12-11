@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:movie_nest_app/models/movie_details/movie_details_credits/movie_details_credits.dart';
+import 'package:movie_nest_app/models/movie_details/movie_details_videos/movie_details_videos.dart';
 
 import '../genre/genre.dart';
 import 'production_company/production_company.dart';
@@ -36,6 +38,8 @@ class MovieDetails {
   final bool video;
   final double voteAverage;
   final int voteCount;
+  final MovieDetailsCredits credits;
+  final MovieDetailsVideos videos;
 
   MovieDetails({
     required this.adult,
@@ -64,6 +68,8 @@ class MovieDetails {
     required this.video,
     required this.voteAverage,
     required this.voteCount,
+    required this.credits,
+    required this.videos,
   });
 
   factory MovieDetails.fromJson(Map<String, dynamic> json) => _$MovieDetailsFromJson(json);

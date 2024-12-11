@@ -25,9 +25,11 @@ TvShow _$TvShowFromJson(Map<String, dynamic> json) => TvShow(
       posterPath: json['poster_path'] as String?,
       voteAverage: (json['vote_average'] as num).toDouble(),
       voteCount: (json['vote_count'] as num).toInt(),
+      mediaType: json['media_type'] as String?,
     );
 
 Map<String, dynamic> _$TvShowToJson(TvShow instance) => <String, dynamic>{
+      'media_type': instance.mediaType,
       'backdrop_path': instance.backdropPath,
       'first_air_date': instance.firstAirDate?.toIso8601String(),
       'genre_ids': instance.genreIds,

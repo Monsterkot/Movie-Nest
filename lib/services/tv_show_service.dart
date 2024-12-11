@@ -27,8 +27,42 @@ class TvShowService {
     return data;
   }
 
+  Future<Map<String, dynamic>> getAiringTodayTvShows() async {
+    final uri = _makeUri('/tv/airing_today', {
+      'api_key': apiKey,
+      'page': 1.toString(),
+      'language': 'en-US',
+    });
+    final response = await _dio.getUri(uri);
+    Map<String, dynamic> data = response.data;
+    return data;
+  }
+
+  Future<Map<String, dynamic>> getOnTheAirTvShows() async {
+    final uri = _makeUri('/tv/on_the_air', {
+      'api_key': apiKey,
+      'page': 1.toString(),
+      'language': 'en-US',
+    });
+    final response = await _dio.getUri(uri);
+    Map<String, dynamic> data = response.data;
+    return data;
+  }
+
+  Future<Map<String, dynamic>> getTopRatedTvShows() async {
+    final uri = _makeUri('/tv/top_rated', {
+      'api_key': apiKey,
+      'page': 1.toString(),
+      'language': 'en-US',
+    });
+    final response = await _dio.getUri(uri);
+    Map<String, dynamic> data = response.data;
+    return data;
+  }
+
   Future<Map<String, dynamic>> getTvShowDetails(int tvShowId) async {
     final uri = _makeUri('/tv/$tvShowId', {
+      'append_to_response' : 'credits,videos',
       'api_key': apiKey,
     });
     final response = await _dio.getUri(uri);

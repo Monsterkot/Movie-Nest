@@ -10,4 +10,10 @@ class SearchTvShows extends TvShowEvent {
   SearchTvShows({required this.query});
 }
 
-class ClearSearchQuery extends TvShowEvent{}
+class LoadTvShowLists extends TvShowEvent {
+  final String filter;
+
+  LoadTvShowLists({required this.filter});
+}
+
+class ClearSearchQuery extends TvShowEvent {}

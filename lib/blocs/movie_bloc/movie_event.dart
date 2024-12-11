@@ -2,7 +2,14 @@ part of 'movie_bloc.dart';
 
 class MovieEvent {}
 
-class LoadMovies extends MovieEvent {}
+class LoadPopularMovies extends MovieEvent {}
+
+class LoadMovieLists extends MovieEvent {
+  final String filter;
+
+  LoadMovieLists({required this.filter});
+  
+}
 
 class SearchMovies extends MovieEvent {
   final String query;
@@ -11,4 +18,3 @@ class SearchMovies extends MovieEvent {
 }
 
 class ClearSearchQuery extends MovieEvent {}
-

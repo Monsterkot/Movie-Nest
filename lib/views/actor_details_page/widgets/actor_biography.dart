@@ -4,17 +4,15 @@ import 'package:movie_nest_app/theme/app_button_style.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
 
 class ActorBiographyWidget extends StatefulWidget {
-  const ActorBiographyWidget({super.key});
-
+  const ActorBiographyWidget({super.key, required this.biography});
+  final String biography;
   @override
   State<ActorBiographyWidget> createState() => _ActorBiographyWidgetState();
 }
 
 class _ActorBiographyWidgetState extends State<ActorBiographyWidget> {
   bool _isExpanded = false;
-  final String _fullBiography =
-      "William Bradley Pitt (born December 18, 1963) is an American actor and film producer. He is the recipient of various accolades, including an Academy Award, a British Academy Film Award, and two Golden Globe Awards for his acting, in addition to a second Academy Award, a second British Academy Film Award, and a third Golden Globe Award as a producer under his production company, Plan B Entertainment.";
-  
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,7 +32,7 @@ class _ActorBiographyWidgetState extends State<ActorBiographyWidget> {
                 height: 10,
               ),
               Text(
-                _fullBiography,
+                widget.biography,
                 maxLines: _isExpanded ? 200 : 5,
                 overflow: TextOverflow.ellipsis,
                 style: AppTextStyle.small18WhiteTextStyle,

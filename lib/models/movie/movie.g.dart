@@ -23,9 +23,11 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
       voteCount: (json['vote_count'] as num).toInt(),
       video: json['video'] as bool,
       voteAverage: (json['vote_average'] as num).toDouble(),
+      mediaType: json['media_type'] as String?,
     );
 
 Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
+      'media_type': instance.mediaType,
       'poster_path': instance.posterPath,
       'adult': instance.adult,
       'overview': instance.overview,

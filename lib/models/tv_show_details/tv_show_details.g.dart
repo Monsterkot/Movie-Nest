@@ -29,6 +29,8 @@ TvShowDetails _$TvShowDetailsFromJson(Map<String, dynamic> json) =>
       genres: (json['genres'] as List<dynamic>)
           .map((e) => Genre.fromJson(e as Map<String, dynamic>))
           .toList(),
+      credits: TvShowCredits.fromJson(json['credits'] as Map<String, dynamic>),
+      videos: TvShowVideos.fromJson(json['videos'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$TvShowDetailsToJson(TvShowDetails instance) =>
@@ -47,4 +49,6 @@ Map<String, dynamic> _$TvShowDetailsToJson(TvShowDetails instance) =>
       'poster_path': instance.posterPath,
       'vote_average': instance.voteAverage,
       'genres': instance.genres.map((e) => e.toJson()).toList(),
+      'credits': instance.credits.toJson(),
+      'videos': instance.videos.toJson(),
     };

@@ -68,7 +68,7 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
                         children: [
                           TvShowDetailsMainInfoWidget(
                               tvShowDetails: state.tvShowDetails),
-                          const TvShowDetailsMainScreenCastWidget(),
+                          TvShowDetailsMainScreenCastWidget(tvShowCredits: state.tvShowDetails.credits),
                           const SizedBox(height: 10),
                         ],
                       )

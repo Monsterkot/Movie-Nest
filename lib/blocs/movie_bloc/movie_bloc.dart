@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:movie_nest_app/repositories/movie_repository.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import '../../models/movie/movie.dart';
-import '../../models/popular_movie_response/popular_movie_response.dart';
+import '../../models/popular_movie_response/movie_response.dart';
 part 'movie_event.dart';
 part 'movie_state.dart';
 
@@ -18,13 +18,45 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     on<SearchMovies>((event, emit) async {
       await _searchMovies(event.query, emit);
     });
-    on<LoadMovies>((event, emit) async {
+    on<LoadPopularMovies>((event, emit) async {
       await _loadNextPage(emit);
     });
     on<ClearSearchQuery>((event, emit) async {
       _searchQuery = null;
       await _resetList(emit);
     });
+    on<LoadMovieLists>((event, emit) async {
+      await _loadMovieLists(event.filter, emit);
+    });
+  }
+
+  Future<void> _loadMovieLists(String filter, Emitter<MovieState> emit) async {
+    emit(MovieLoading());
+    try {
+      switch (filter) {
+        case 'Now Playing':
+          final nowPlayingMovies = await GetIt.I<MovieRepository>().getNowPlayingMovies();
+          emit(MovieLoadSuccess(movies: nowPlayingMovies.movies));
+          break;
+        case 'Top Rated':
+          final topRatedMovies = await GetIt.I<MovieRepository>().getTopRatedMovies();
+          emit(MovieLoadSuccess(movies: topRatedMovies.movies));
+          break;
+        case 'Upcoming':
+          final upcomingMovies = await GetIt.I<MovieRepository>().getUpcomingMovies();
+          emit(MovieLoadSuccess(movies: upcomingMovies.movies));
+          break;
+        case 'Popular':
+          final popularMovies = await GetIt.I<MovieRepository>().getPopularMovies(1);
+          emit(MovieLoadSuccess(movies: popularMovies.movies));
+          break;
+        default:
+          GetIt.I<Talker>().error('Unknown movie filter.');
+      }
+    } catch (e, st) {
+      GetIt.I<Talker>().handle(e, st);
+      emit(MovieLoadFailure(message: 'Something went wrong, try again later'));
+    }
   }
 
   Future<void> _resetList(Emitter<MovieState> emit) async {
@@ -39,7 +71,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     await _resetList(emit);
   }
 
-  Future<PopularMovieResponse> _loadMovies(int nextPage) async {
+  Future<MovieResponse> _loadMovies(int nextPage) async {
     final query = _searchQuery;
     if (query == null) {
       return await GetIt.I<MovieRepository>().getPopularMovies(nextPage);
@@ -69,8 +101,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     } catch (e, st) {
       GetIt.I<Talker>().handle(e, st);
       if (_currentPage == 0) {
-        emit(
-            MovieLoadFailure(message: 'Something went wrong, try again later'));
+        emit(MovieLoadFailure(message: 'Something went wrong, try again later'));
       }
     } finally {
       isLoadingInProgress = false;

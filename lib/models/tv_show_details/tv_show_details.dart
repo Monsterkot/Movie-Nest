@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:movie_nest_app/models/genre/genre.dart';
 import 'package:movie_nest_app/models/tv_show_details/created_by/created_by.dart';
+import 'package:movie_nest_app/models/tv_show_details/tv_show_credits/tv_show_credits.dart';
+import 'tv_show_videos/tv_show_videos.dart';
 part 'tv_show_details.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
@@ -20,6 +22,8 @@ class TvShowDetails {
   final String? posterPath;
   final double voteAverage;
   final List<Genre> genres;
+  final TvShowCredits credits;
+  final TvShowVideos videos;
 
   TvShowDetails({
     required this.backdropPath,
@@ -36,10 +40,11 @@ class TvShowDetails {
     required this.posterPath,
     required this.voteAverage,
     required this.genres,
+    required this.credits,
+    required this.videos,
   });
 
-  factory TvShowDetails.fromJson(Map<String, dynamic> json) =>
-      _$TvShowDetailsFromJson(json);
+  factory TvShowDetails.fromJson(Map<String, dynamic> json) => _$TvShowDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$TvShowDetailsToJson(this);
 

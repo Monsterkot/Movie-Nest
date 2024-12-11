@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:movie_nest_app/constants/app_constants.dart';
+import 'package:movie_nest_app/models/person/person_details.dart';
 import 'package:movie_nest_app/theme/app_box_decoration_style.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
+import 'package:movie_nest_app/utils/date_formatter.dart';
 
 class ActorMainInfoWidget extends StatelessWidget {
-  const ActorMainInfoWidget({super.key});
+  const ActorMainInfoWidget({super.key, required this.actor});
+
+  final PersonDetails actor;
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +26,20 @@ class ActorMainInfoWidget extends StatelessWidget {
               ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: const Image(
-                  image: AssetImage('lib/images/actor.png'),
-                ),
+                child: actor.profilePath == null
+                    ? const Image(
+                        image: AssetImage('lib/images/no_image_avalible.png'),
+                      )
+                    : FadeInImage(
+                        placeholder: const AssetImage('lib/images/placeholder.png'),
+                        image: NetworkImage('$imageUrl${actor.profilePath}'),
+                      ),
               ),
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                'Brad Pitt',
+              Text(
+                actor.name,
                 style: AppTextStyle.bigWhiteTextStyle,
               ),
               const SizedBox(
@@ -47,34 +57,34 @@ class ActorMainInfoWidget extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Stage Name',
                         style: AppTextStyle.small18WhiteBoldTextStyle,
                       ),
                       Text(
-                        'Brad Pitt',
+                        actor.name,
                         style: AppTextStyle.small16WhiteTextStyle,
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 60,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Known For',
                         style: AppTextStyle.small18WhiteBoldTextStyle,
                       ),
                       Text(
-                        'Acting',
+                        actor.knownForDepartment,
                         style: AppTextStyle.small16WhiteTextStyle,
                       ),
                     ],
@@ -82,34 +92,34 @@ class ActorMainInfoWidget extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Known Credits',
                         style: AppTextStyle.small18WhiteBoldTextStyle,
                       ),
                       Text(
-                        '205',
+                        actor.combinedCredits.length.toString(),
                         style: AppTextStyle.small16WhiteTextStyle,
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 60,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Gender',
                         style: AppTextStyle.small18WhiteBoldTextStyle,
                       ),
                       Text(
-                        'Male',
+                        actor.gender.label,
                         style: AppTextStyle.small16WhiteTextStyle,
                       ),
                     ],
@@ -117,20 +127,39 @@ class ActorMainInfoWidget extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Birthday',
                         style: AppTextStyle.small18WhiteBoldTextStyle,
                       ),
-                      Text(
-                        'December 18, 1963 (60 years old)',
-                        style: AppTextStyle.small16WhiteTextStyle,
-                      ),
+                      if (actor.deathday == null)
+                        Text(
+                          '${DateFormatter.stringFromDate(actor.birthday)} (${DateTime.now().year - actor.birthday!.year} years)',
+                          style: AppTextStyle.small16WhiteTextStyle,
+                        )
+                      else ...[
+                        //оператор развертывания
+                        Text(
+                          DateFormatter.stringFromDate(actor.birthday),
+                          style: AppTextStyle.small16WhiteTextStyle,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          'Deathday',
+                          style: AppTextStyle.small18WhiteBoldTextStyle,
+                        ),
+                        Text(
+                          '${DateFormatter.stringFromDate(actor.deathday)} (${actor.deathday!.year - actor.birthday!.year} years)',
+                          style: AppTextStyle.small16WhiteTextStyle,
+                        ),
+                      ]
                     ],
                   )
                 ],
@@ -138,17 +167,17 @@ class ActorMainInfoWidget extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const Row(
+              Row(
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Place of Birth',
                         style: AppTextStyle.small18WhiteBoldTextStyle,
                       ),
                       Text(
-                        'Shawnee, Oklahoma, USA',
+                        actor.placeOfBirth,
                         style: AppTextStyle.small16WhiteTextStyle,
                       ),
                     ],

@@ -25,6 +25,38 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
       _searchQuery = null;
       await _resetList(emit);
     });
+    on<LoadTvShowLists>((event, emit) async {
+      await _loadTvShowLists(event.filter, emit);
+    });
+  }
+
+  Future<void> _loadTvShowLists(String filter, Emitter<TvShowState> emit) async {
+    emit(TvShowLoading());
+    try {
+      switch (filter) {
+        case 'Airing Today':
+          final airingTodayTvShows = await GetIt.I<TvShowRepository>().getAiringTodayTvShows();
+          emit(TvShowLoadSuccess(tvShows: airingTodayTvShows.tvShows));
+          break;
+        case 'Top Rated':
+          final topRatedTvShows = await GetIt.I<TvShowRepository>().getTopRatedTvShows();
+          emit(TvShowLoadSuccess(tvShows: topRatedTvShows.tvShows));
+          break;
+        case 'On The Air':
+          final onTheAirTvShows = await GetIt.I<TvShowRepository>().getOnTheAirTvShows();
+          emit(TvShowLoadSuccess(tvShows: onTheAirTvShows.tvShows));
+          break;
+        case 'Popular':
+          final popularTvShows = await GetIt.I<TvShowRepository>().getPopularTvShows(1);
+          emit(TvShowLoadSuccess(tvShows: popularTvShows.tvShows));
+          break;
+        default:
+          GetIt.I<Talker>().error('Unknown movie filter.');
+      }
+    } catch (e, st) {
+      GetIt.I<Talker>().handle(e, st);
+      emit(TvShowLoadFailure(message: 'Something went wrong, try again later'));
+    }
   }
 
   Future<void> _resetList(Emitter<TvShowState> emit) async {
@@ -69,8 +101,7 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     } catch (e, st) {
       GetIt.I<Talker>().handle(e, st);
       if (_currentPage == 0) {
-        emit(
-            TvShowLoadFailure(message: 'Something went wrong, try again later'));
+        emit(TvShowLoadFailure(message: 'Something went wrong, try again later'));
       }
     } finally {
       isLoadingInProgress = false;

@@ -27,8 +27,13 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    _movieDetailsBloc = MovieDetailsBloc()
-      ..add(LoadMovieDetails(movieId: widget.movieId));
+    _movieDetailsBloc = MovieDetailsBloc()..add(LoadMovieDetails(movieId: widget.movieId));
+  }
+
+  @override
+  void dispose() {
+    _movieDetailsBloc.close();
+    super.dispose();
   }
 
   @override
@@ -66,9 +71,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 : state is MovieDetailsLoadSuccess
                     ? ListView(
                         children: [
-                          MovieDetailsMainInfoWidget(
-                              movieDetails: state.movieDetails),
-                          const MovieDetailsMainScreenCastWidget(),
+                          MovieDetailsMainInfoWidget(movieDetails: state.movieDetails),
+                          MovieDetailsMainScreenCastWidget(
+                              movieDetailsCredits: state.movieDetails.credits),
                           const SizedBox(height: 10),
                         ],
                       )

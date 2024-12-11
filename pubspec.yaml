@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   auto_route: ^9.2.2
   get_it: ^7.7.0
   talker_flutter: ^4.4.1
@@ -22,6 +21,7 @@ dependencies:
   json_annotation: ^4.9.0
   intl: ^0.19.0
   flutter_dotenv: ^5.2.1
+  youtube_player_flutter: ^9.1.1
   
 
 dev_dependencies:

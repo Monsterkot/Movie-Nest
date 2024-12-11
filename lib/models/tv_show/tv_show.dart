@@ -1,7 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:movie_nest_app/models/trending_content/trending_item.dart';
 part 'tv_show.g.dart';
+
 @JsonSerializable(fieldRename: FieldRename.snake)
-class TvShow {
+class TvShow extends TrendingItem {
   final String? backdropPath;
   @JsonKey(fromJson: _parseDateFromString)
   final DateTime? firstAirDate;
@@ -31,6 +33,7 @@ class TvShow {
     required this.posterPath,
     required this.voteAverage,
     required this.voteCount,
+    required super.mediaType,
   });
 
   factory TvShow.fromJson(Map<String, dynamic> json) => _$TvShowFromJson(json);
