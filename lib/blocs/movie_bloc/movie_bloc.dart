@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:movie_nest_app/repositories/movie_repository.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import '../../models/movie/movie.dart';
-import '../../models/popular_movie_response/movie_response.dart';
+import '../../models/movie_response/movie_response.dart';
 part 'movie_event.dart';
 part 'movie_state.dart';
 

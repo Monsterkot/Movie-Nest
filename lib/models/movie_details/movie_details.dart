@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:movie_nest_app/models/movie_details/movie_details_credits/movie_details_credits.dart';
 import 'package:movie_nest_app/models/movie_details/movie_details_videos/movie_details_videos.dart';
@@ -10,7 +11,7 @@ import 'spoken_language/spoken_language.dart';
 part 'movie_details.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class MovieDetails {
+class MovieDetails extends Equatable {
   final bool adult;
   final String? backdropPath;
   //final String? belongsToCollection;
@@ -41,7 +42,7 @@ class MovieDetails {
   final MovieDetailsCredits credits;
   final MovieDetailsVideos videos;
 
-  MovieDetails({
+  const MovieDetails({
     required this.adult,
     required this.backdropPath,
     //required this.belongsToCollection,
@@ -79,4 +80,35 @@ class MovieDetails {
     if (rawDate == null || rawDate.isEmpty) return null;
     return DateTime.tryParse(rawDate);
   }
+
+  @override
+  List<Object?> get props => [
+        adult,
+        backdropPath,
+        budget,
+        genres,
+        homepage,
+        id,
+        imdbId,
+        originCountry,
+        originalLanguage,
+        originalTitle,
+        overview,
+        popularity,
+        posterPath,
+        productionCompanies,
+        productionCountries,
+        releaseDate,
+        revenue,
+        runtime,
+        spokenLanguages,
+        status,
+        tagline,
+        title,
+        video,
+        voteAverage,
+        voteCount,
+        credits,
+        videos,
+      ];
 }

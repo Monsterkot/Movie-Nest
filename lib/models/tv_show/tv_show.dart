@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:movie_nest_app/models/trending_content/trending_item.dart';
 part 'tv_show.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class TvShow extends TrendingItem {
+class TvShow extends TrendingItem with EquatableMixin {
   final String? backdropPath;
   @JsonKey(fromJson: _parseDateFromString)
   final DateTime? firstAirDate;
@@ -19,7 +20,7 @@ class TvShow extends TrendingItem {
   final double voteAverage;
   final int voteCount;
 
-  TvShow({
+  const TvShow({
     required this.backdropPath,
     required this.firstAirDate,
     required this.genreIds,
@@ -44,4 +45,22 @@ class TvShow extends TrendingItem {
     if (rawDate == null || rawDate.isEmpty) return null;
     return DateTime.tryParse(rawDate);
   }
+
+  @override
+  List<Object?> get props => [
+        backdropPath,
+        firstAirDate,
+        genreIds,
+        id,
+        name,
+        originCountry,
+        originalLanguage,
+        originalName,
+        overview,
+        popularity,
+        posterPath,
+        voteAverage,
+        voteCount,
+        mediaType,
+      ];
 }

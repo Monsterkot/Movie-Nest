@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'video.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class Video {
+class Video extends Equatable {
   @JsonKey(name: 'iso_639_1')
   final String iso6391;
   @JsonKey(name: 'iso_3166_1')
@@ -16,8 +17,8 @@ class Video {
   final bool official;
   final String publishedAt;
   final String id;
-  
-  Video({
+
+  const Video({
     required this.iso6391,
     required this.iso31661,
     required this.name,
@@ -33,4 +34,18 @@ class Video {
   factory Video.fromJson(Map<String, dynamic> json) => _$VideoFromJson(json);
 
   Map<String, dynamic> toJson() => _$VideoToJson(this);
+
+  @override
+  List<Object?> get props => [
+        iso6391,
+        iso31661,
+        name,
+        key,
+        site,
+        size,
+        type,
+        official,
+        publishedAt,
+        id,
+      ];
 }

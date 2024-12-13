@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:movie_nest_app/models/movie/movie.dart';
 import '../../constants/gender.dart';
@@ -6,7 +7,7 @@ import '../tv_show/tv_show.dart';
 part 'person_details.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class PersonDetails {
+class PersonDetails extends Equatable {
   final bool adult;
   final List<String> alsoKnownAs;
   final String biography;
@@ -27,7 +28,7 @@ class PersonDetails {
   @JsonKey(fromJson: _combineCredits, toJson: _combineCreditsToJson)
   final List<TrendingItem> combinedCredits;
 
-  PersonDetails({
+  const PersonDetails({
     required this.adult,
     required this.alsoKnownAs,
     required this.biography,
@@ -108,4 +109,23 @@ class PersonDetails {
   static Gender _genderFromJson(int value) => Gender.fromValue(value);
 
   static int _genderToJson(Gender gender) => Gender.toValue(gender);
+
+  @override
+  List<Object?> get props => [
+        adult,
+        alsoKnownAs,
+        biography,
+        birthday,
+        deathday,
+        gender,
+        homepage,
+        id,
+        imdbId,
+        knownForDepartment,
+        name,
+        placeOfBirth,
+        popularity,
+        profilePath,
+        combinedCredits,
+      ];
 }

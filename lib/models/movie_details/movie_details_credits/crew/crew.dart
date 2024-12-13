@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'crew.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class Crew {
+class Crew extends Equatable {
   final bool adult;
   final int? gender;
   final int id;
@@ -14,7 +15,7 @@ class Crew {
   final String creditId;
   final String department;
   final String job;
-  Crew({
+  const Crew({
     required this.adult,
     required this.gender,
     required this.id,
@@ -30,4 +31,19 @@ class Crew {
 
   factory Crew.fromJson(Map<String, dynamic> json) => _$CrewFromJson(json);
   Map<String, dynamic> toJson() => _$CrewToJson(this);
+
+  @override
+  List<Object?> get props => [
+        adult,
+        gender,
+        id,
+        knownForDepartment,
+        name,
+        originalName,
+        popularity,
+        profilePath,
+        creditId,
+        department,
+        job,
+      ];
 }

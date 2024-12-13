@@ -34,7 +34,7 @@ void main() {
       ),
     ),
   );
-
+  
   GetIt.I.registerLazySingleton<AuthService>(() => AuthService(dio: dio));
   GetIt.I.registerLazySingleton<SessionService>(() => SessionService());
   GetIt.I.registerLazySingleton<AccountService>(() => AccountService(dio: dio));

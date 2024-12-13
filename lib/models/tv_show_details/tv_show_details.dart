@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:movie_nest_app/models/genre/genre.dart';
 import 'package:movie_nest_app/models/tv_show_details/created_by/created_by.dart';
@@ -6,7 +7,7 @@ import 'tv_show_videos/tv_show_videos.dart';
 part 'tv_show_details.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class TvShowDetails {
+class TvShowDetails extends Equatable {
   final String? backdropPath;
   final List<CreatedBy> createdBy;
   @JsonKey(fromJson: _parseDateFromString)
@@ -25,7 +26,7 @@ class TvShowDetails {
   final TvShowCredits credits;
   final TvShowVideos videos;
 
-  TvShowDetails({
+  const TvShowDetails({
     required this.backdropPath,
     required this.createdBy,
     required this.firstAirDate,
@@ -52,4 +53,24 @@ class TvShowDetails {
     if (rawDate == null || rawDate.isEmpty) return null;
     return DateTime.tryParse(rawDate);
   }
+
+  @override
+  List<Object?> get props => [
+        backdropPath,
+        createdBy,
+        firstAirDate,
+        id,
+        name,
+        numberOfEpisodes,
+        numberOfSeasons,
+        originCountry,
+        originalName,
+        overview,
+        popularity,
+        posterPath,
+        voteAverage,
+        genres,
+        credits,
+        videos,
+      ];
 }

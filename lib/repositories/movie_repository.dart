@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:movie_nest_app/models/movie_details/movie_details.dart';
-import 'package:movie_nest_app/models/popular_movie_response/movie_response.dart';
+import 'package:movie_nest_app/models/movie_response/movie_response.dart';
 import 'package:movie_nest_app/services/movie_service.dart';
 
 class MovieRepository {

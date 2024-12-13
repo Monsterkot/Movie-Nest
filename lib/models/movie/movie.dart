@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:movie_nest_app/models/trending_content/trending_item.dart';
 
 part 'movie.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class Movie extends TrendingItem{
+class Movie extends TrendingItem with EquatableMixin {
   final String? posterPath;
   final bool adult;
   final String overview;
@@ -21,7 +22,7 @@ class Movie extends TrendingItem{
   final bool video;
   final double voteAverage;
 
-  Movie({
+  const Movie({
     required this.posterPath,
     required this.adult,
     required this.overview,
@@ -35,7 +36,7 @@ class Movie extends TrendingItem{
     required this.popularity,
     required this.voteCount,
     required this.video,
-    required this.voteAverage, 
+    required this.voteAverage,
     required super.mediaType,
   });
 
@@ -47,4 +48,23 @@ class Movie extends TrendingItem{
     if (rawDate == null || rawDate.isEmpty) return null;
     return DateTime.tryParse(rawDate);
   }
+
+  @override
+  List<Object?> get props => [
+        posterPath,
+        adult,
+        overview,
+        releaseDate,
+        genreIds,
+        id,
+        originalTitle,
+        originalLanguage,
+        title,
+        backdropPath,
+        popularity,
+        voteCount,
+        video,
+        voteAverage,
+        mediaType,
+      ];
 }

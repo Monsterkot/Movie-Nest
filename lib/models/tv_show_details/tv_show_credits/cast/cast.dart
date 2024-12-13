@@ -1,7 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'cast.g.dart';
+
 @JsonSerializable(fieldRename: FieldRename.snake)
-class Cast {
+class Cast extends Equatable {
   final bool adult;
   final int? gender;
   final int id;
@@ -13,7 +15,7 @@ class Cast {
   final String character;
   final String creditId;
   final int order;
-  Cast({
+  const Cast({
     required this.adult,
     required this.gender,
     required this.id,
@@ -27,7 +29,21 @@ class Cast {
     required this.order,
   });
 
-  factory Cast.fromJson(Map<String, dynamic> json) =>
-      _$CastFromJson(json);
+  factory Cast.fromJson(Map<String, dynamic> json) => _$CastFromJson(json);
   Map<String, dynamic> toJson() => _$CastToJson(this);
+
+  @override
+  List<Object?> get props => [
+        adult,
+        gender,
+        id,
+        knownForDepartment,
+        name,
+        originalName,
+        popularity,
+        profilePath,
+        character,
+        creditId,
+        order,
+      ];
 }
