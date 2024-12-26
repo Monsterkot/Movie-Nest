@@ -11,18 +11,20 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
     on<LoadMovieDetails>((event, emit) async {
       try {
         emit(MovieDetailsLoading());
-        final movieDetails =
-            await GetIt.I<MovieRepository>().getMovieDetails(event.movieId);
-        emit(MovieDetailsLoadSuccess(movieDetails: movieDetails));
+        final movieDetails = await GetIt.I<MovieRepository>().getMovieDetails(event.movieId);
+        final isMovieFavorite = await GetIt.I<MovieRepository>().isFavorite(event.movieId);
+        emit(MovieDetailsLoadSuccess(
+          movieDetails: movieDetails,
+          isMovieFavorite: isMovieFavorite,
+        ));
       } catch (e, st) {
         GetIt.I<Talker>().handle(e, st);
-        emit(MovieDetailsLoadFailure(
-            message: 'Something went wrong, try again later'));
+        emit(MovieDetailsLoadFailure(message: 'Something went wrong, try again later'));
       }
     });
   }
 
-   @override
+  @override
   void onError(Object error, StackTrace stackTrace) {
     super.onError(error, stackTrace);
     GetIt.I<Talker>().handle(error, stackTrace);

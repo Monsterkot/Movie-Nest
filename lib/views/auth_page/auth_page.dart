@@ -5,7 +5,6 @@ import 'package:movie_nest_app/theme/app_colors.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
 import 'package:movie_nest_app/views/auth_page/widgets/form_widget.dart';
 import 'package:movie_nest_app/views/auth_page/widgets/header_widget.dart';
-import 'package:movie_nest_app/views/widgets/custom_background.dart';
 import '../../blocs/auth_bloc/auth_bloc.dart';
 
 @RoutePage()
@@ -33,8 +32,8 @@ class _AuthPageState extends State<AuthPage> {
                 ),
                 centerTitle: true,
               ),
-              body: CustomPaint(
-                painter: BackgroundPainter(),
+              body: Container(
+                color: AppColors.mainColor,
                 child: const Column(
                   children: [
                     HeaderWidget(),

@@ -34,7 +34,7 @@ class LogOutButton extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.black.withOpacity(0.5),
+          backgroundColor: Colors.black.withValues(alpha: 0.5),
           content: const Text('Are you sure you want to log out?'),
           contentTextStyle: AppTextStyle.small16WhiteTextStyle,
           contentPadding:

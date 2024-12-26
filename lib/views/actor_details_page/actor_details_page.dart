@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_nest_app/blocs/actor_details_bloc/person_bloc.dart';
 import 'package:movie_nest_app/views/actor_details_page/widgets/actor_known_for.dart';
 import 'package:movie_nest_app/views/actor_details_page/widgets/actor_main_info.dart';
-import 'package:movie_nest_app/views/widgets/custom_background.dart';
 import 'package:movie_nest_app/views/widgets/loading_indicator.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_style.dart';
@@ -68,9 +67,8 @@ class _ActorDetailsScreenState extends State<ActorDetailsScreen> {
             color: Colors.white,
           ),
         ),
-        body: CustomPaint(
-          size: Size.infinite,
-          painter: BackgroundPainter(),
+        body: Container(
+          color: AppColors.mainColor,
           child: BlocBuilder<PersonBloc, PersonState>(
             builder: (context, state) {
               if (state is PersonDetailsLoadSuccess) {

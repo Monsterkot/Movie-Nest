@@ -86,10 +86,10 @@ class _TopPosterWidget extends StatelessWidget {
                 : Container(
                     height: 210,
                     width: 120,
-                    color: Colors.black.withOpacity(0.6),
+                    color: Colors.black.withValues(alpha: 0.6),
                     child: Icon(
                       Icons.local_movies,
-                      color: Colors.white.withOpacity(0.6),
+                      color: Colors.white.withValues(alpha: 0.6),
                       size: 50,
                     ),
                   ),

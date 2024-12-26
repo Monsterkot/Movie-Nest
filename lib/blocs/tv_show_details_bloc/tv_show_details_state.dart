@@ -5,9 +5,10 @@ abstract class TvShowDetailsState {}
 class TvShowDetailsInitial extends TvShowDetailsState {}
 
 class TvShowDetailsLoadSuccess extends TvShowDetailsState {
-  TvShowDetailsLoadSuccess({required this.tvShowDetails});
+  TvShowDetailsLoadSuccess({required this.tvShowDetails, required this.isTvShowFavorite});
 
   final TvShowDetails tvShowDetails;
+  final bool isTvShowFavorite;
 }
 
 class TvShowDetailsLoadFailure extends TvShowDetailsState {

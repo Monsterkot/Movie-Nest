@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:like_button/like_button.dart';
 import 'package:movie_nest_app/blocs/movie_details_bloc/movie_details_bloc.dart';
+import 'package:movie_nest_app/repositories/movie_repository.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
 import 'package:movie_nest_app/views/movie_details_page/widgets/movie_details_main_info_widget.dart';
 import 'package:movie_nest_app/views/movie_details_page/widgets/movie_details_screen_cast_widget.dart';
-import 'package:movie_nest_app/views/widgets/custom_background.dart';
 import '../../theme/app_colors.dart';
 
 @RoutePage()
@@ -36,18 +38,29 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
     super.dispose();
   }
 
+  Future<bool> onLikeButtonTapped(bool isLiked, int movieId) async {
+    await GetIt.I<MovieRepository>().toggleFavorite(movieId: movieId, isLiked: !isLiked);
+    return !isLiked;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
       bloc: _movieDetailsBloc,
       builder: (context, state) {
+        bool isMovieFavorite = false;
+        late int movieId;
+        if (state is MovieDetailsLoadSuccess) {
+          isMovieFavorite = state.isMovieFavorite;
+          movieId = state.movieDetails.id;
+        }
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.mainColor,
             centerTitle: true,
             title: state is MovieDetailsLoadSuccess
                 ? Text(
-                    state.movieDetails.title, // Используем название фильма
+                    state.movieDetails.title,
                     style: AppTextStyle.middleWhiteTextStyle,
                   )
                 : const Text(
@@ -57,10 +70,27 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             leading: const BackButton(
               color: Colors.white,
             ),
+            actions: state is MovieDetailsLoadSuccess
+                ? [
+                    LikeButton(
+                      isLiked: isMovieFavorite,
+                      onTap: (isLiked) => onLikeButtonTapped(isLiked, movieId),
+                      padding: const EdgeInsets.only(right: 10),
+                      likeBuilder: (bool isLiked) {
+                        return Icon(
+                          Icons.favorite,
+                          size: 30,
+                          color: isLiked ? Colors.red : Colors.black,
+                        );
+                      },
+                    ),
+                  ]
+                : [
+                    const SizedBox.shrink(),
+                  ],
           ),
-          body: CustomPaint(
-            painter: BackgroundPainter(),
-            size: Size.infinite,
+          body: Container(
+            color: AppColors.mainColor,
             child: state is MovieDetailsLoadFailure
                 ? Center(
                     child: Text(

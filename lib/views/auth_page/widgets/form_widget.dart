@@ -45,7 +45,7 @@ class _FormWidgetState extends State<FormWidget> {
     if (_isSnackBarVisible) return;
     _isSnackBarVisible = true;
     final snackBar = SnackBar(
-      backgroundColor: Colors.grey.withOpacity(0.4),
+      backgroundColor: Colors.grey.withValues(alpha: 0.4),
       content: Text(message),
       duration: const Duration(seconds: 2),
       behavior: SnackBarBehavior.fixed,

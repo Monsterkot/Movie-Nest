@@ -13,8 +13,7 @@ class AccountInfoBloc extends Bloc<AccountInfoEvent, AccountInfoState> {
     on<LoadAccountInfoEvent>((event, emit) async {
       try {
         emit(AccountInfoLoading());
-        final accountInfo =
-            await GetIt.I<AccountRepository>().fetchAccountInfo();
+        final accountInfo = await GetIt.I<AccountRepository>().getAccountInfo();
         emit(AccountInfoLoaded(accountInfo));
       } catch (e, st) {
         GetIt.I<Talker>().handle(e, st);

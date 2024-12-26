@@ -175,6 +175,8 @@ class ActorMainInfoWidget extends StatelessWidget {
                       const Text(
                         'Place of Birth',
                         style: AppTextStyle.small18WhiteBoldTextStyle,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       Text(
                         actor.placeOfBirth,

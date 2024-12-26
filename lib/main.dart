@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:movie_nest_app/repositories/account_repository.dart';
@@ -34,7 +35,9 @@ void main() {
       ),
     ),
   );
-  
+
+  GetIt.I.registerSingleton<FlutterSecureStorage>(const FlutterSecureStorage());
+
   GetIt.I.registerLazySingleton<AuthService>(() => AuthService(dio: dio));
   GetIt.I.registerLazySingleton<SessionService>(() => SessionService());
   GetIt.I.registerLazySingleton<AccountService>(() => AccountService(dio: dio));
@@ -62,8 +65,7 @@ void main() {
     () async {
       WidgetsFlutterBinding.ensureInitialized();
       await GetIt.I<SessionService>().checkSession();
-      // GetIt.I<Talker>()
-      //     .info(await GetIt.I<SessionService>().getSessionId());
+      GetIt.I<Talker>().info(await GetIt.I<SessionService>().getSessionId());
       await dotenv.load(fileName: '.env');
       runApp(MovieNestApp());
     },

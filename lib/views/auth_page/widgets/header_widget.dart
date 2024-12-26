@@ -23,7 +23,7 @@ class HeaderWidget extends StatelessWidget {
           if (isSnackBarVisible) return;
           isSnackBarVisible = true;
           final snackBar = SnackBar(
-            backgroundColor: Colors.grey.withOpacity(0.4),
+            backgroundColor: Colors.grey.withValues(alpha: 0.4),
             content: Text(state.message),
             duration: const Duration(seconds: 2),
             behavior: SnackBarBehavior.fixed,

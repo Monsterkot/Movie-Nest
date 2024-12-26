@@ -5,7 +5,6 @@ import 'package:movie_nest_app/blocs/account_info_bloc/account_info_bloc.dart';
 import 'package:movie_nest_app/theme/app_colors.dart';
 import 'package:movie_nest_app/views/account_page/widgets/profile_card.dart';
 import 'package:movie_nest_app/views/account_page/widgets/view_full_profile_button.dart';
-import 'package:movie_nest_app/views/widgets/custom_background.dart';
 import '../../theme/app_text_style.dart';
 import 'widgets/log_out_button.dart';
 
@@ -27,8 +26,8 @@ class AccountPage extends StatelessWidget {
             style: AppTextStyle.middleWhiteTextStyle,
           ),
         ),
-        body: CustomPaint(
-          painter: BackgroundPainter(),
+        body: Container(
+          color: AppColors.mainColor,
           child: BlocBuilder<AccountInfoBloc, AccountInfoState>(
             builder: (context, state) {
               if (state is AccountInfoLoading) {

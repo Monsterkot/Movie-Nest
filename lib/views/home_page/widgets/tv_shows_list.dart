@@ -164,7 +164,7 @@ class _TvShowsListState extends State<TvShowsList> {
                 _onTvShowTap(tvShow.id);
               },
               borderRadius: const BorderRadius.all(Radius.circular(10)),
-              highlightColor: Colors.blueGrey.shade400.withOpacity(0.5),
+              highlightColor: Colors.blueGrey.shade400.withValues(alpha: 0.5),
             ),
           ),
         ],

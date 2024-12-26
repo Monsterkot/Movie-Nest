@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_nest_app/theme/app_colors.dart';
 import '../widgets/custom_app_bar.dart';
-import '../widgets/custom_background.dart';
 
 @RoutePage()
 class ErrorPage extends StatelessWidget {
@@ -21,9 +21,8 @@ class ErrorPage extends StatelessWidget {
           ),
         ),
       ),
-      body: CustomPaint(
-        size: Size.infinite,
-        painter: BackgroundPainter(),
+      body: Container(
+        color: AppColors.mainColor,
         child: const Center(
           child: Text(
             'Route error',

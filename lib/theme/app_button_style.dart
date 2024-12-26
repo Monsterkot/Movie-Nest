@@ -17,7 +17,7 @@ abstract class AppButtonStyle {
   );
 
   static final linkAltButtonStyle = ButtonStyle(
-    backgroundColor: WidgetStatePropertyAll(Colors.black.withOpacity(0.4)),
+    backgroundColor: WidgetStatePropertyAll(Colors.black.withValues(alpha: 0.4)),
     textStyle: const WidgetStatePropertyAll(
       TextStyle(
         fontSize: 16,
@@ -38,7 +38,7 @@ abstract class AppButtonStyle {
   );
 
   static final inactiveButtonStyle = ButtonStyle(
-    backgroundColor: WidgetStatePropertyAll(Colors.grey.withOpacity(0.1)),
+    backgroundColor: WidgetStatePropertyAll(Colors.grey.withValues(alpha: 0.1)),
     textStyle: const WidgetStatePropertyAll(
       TextStyle(
         fontSize: 16,

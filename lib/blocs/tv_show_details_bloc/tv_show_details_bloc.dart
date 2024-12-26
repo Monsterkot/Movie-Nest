@@ -6,20 +6,17 @@ import '../../models/tv_show_details/tv_show_details.dart';
 part 'tv_show_details_event.dart';
 part 'tv_show_details_state.dart';
 
-
-
 class TvShowDetailsBloc extends Bloc<TvShowDetailsEvent, TvShowDetailsState> {
   TvShowDetailsBloc() : super(TvShowDetailsInitial()) {
     on<LoadTvShowDetails>((event, emit) async {
       try {
         emit(TvShowDetailsIsLoading());
-        final tvShowDetails =
-            await GetIt.I<TvShowRepository>().getTvShowDetails(event.tvShowId);
-        emit(TvShowDetailsLoadSuccess(tvShowDetails: tvShowDetails));
+        final tvShowDetails = await GetIt.I<TvShowRepository>().getTvShowDetails(event.tvShowId);
+        final isTvShowFavorite = await GetIt.I<TvShowRepository>().isFavorite(event.tvShowId);
+        emit(TvShowDetailsLoadSuccess(tvShowDetails: tvShowDetails, isTvShowFavorite: isTvShowFavorite));
       } catch (e, st) {
         GetIt.I<Talker>().handle(e, st);
-        emit(TvShowDetailsLoadFailure(
-            message: 'Something went wrong, try again later'));
+        emit(TvShowDetailsLoadFailure(message: 'Something went wrong, try again later'));
       }
     });
   }

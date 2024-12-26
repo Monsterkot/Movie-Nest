@@ -1,5 +1,11 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get_it/get_it.dart';
+import 'package:movie_nest_app/constants/media_type.dart';
+import 'package:movie_nest_app/repositories/account_repository.dart';
+import 'package:movie_nest_app/services/session_service.dart';
 import '../constants/app_constants.dart';
 
 class MovieService {
@@ -80,5 +86,40 @@ class MovieService {
     final response = await _dio.getUri(uri);
     final data = response.data;
     return data;
+  }
+
+  Future<Map<String, dynamic>> isFavorite(int movieId) async {
+    final sessionId = await GetIt.I<FlutterSecureStorage>().read(key: 'session_id');
+    final uri = _makeUri('/movie/$movieId/account_states', {
+      'api_key': apiKey,
+      'session_id': sessionId,
+    });
+    final response = await _dio.getUri(uri);
+    Map<String, dynamic> data = response.data;
+    return data;
+  }
+
+  Future<int> markAsFavorite(
+      {required MediaType mediaType, required int mediaId, required bool isFavorite}) async {
+    final accountId = await GetIt.I<AccountRepository>().getAccountId();
+    final sessionId = await GetIt.I<SessionService>().getSessionId();
+    final uri = _makeUri('/account/$accountId/favorite', {
+      'api_key': apiKey,
+      'session_id': sessionId,
+    });
+    final parameters = {
+      'media_type': mediaType.asString(),
+      'media_id': mediaId,
+      'favorite': isFavorite,
+    };
+    final response = await _dio.postUri(uri,
+        data: jsonEncode(parameters),
+        options: Options(headers: {
+          Headers.contentTypeHeader: Headers.jsonContentType,
+        }));
+    if (response.statusCode == 201) {
+      return 1;
+    }
+    return 0;
   }
 }

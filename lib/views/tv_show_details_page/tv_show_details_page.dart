@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:like_button/like_button.dart';
 import 'package:movie_nest_app/blocs/tv_show_details_bloc/tv_show_details_bloc.dart';
+import 'package:movie_nest_app/repositories/tv_show_repository.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
 import 'package:movie_nest_app/views/tv_show_details_page/widgets/tv_show_details_main_info_widget.dart';
 import 'package:movie_nest_app/views/tv_show_details_page/widgets/tv_show_details_screen_cast_widget.dart';
-import 'package:movie_nest_app/views/widgets/custom_background.dart';
 import '../../theme/app_colors.dart';
 
 @RoutePage()
@@ -27,8 +29,12 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    _tvShowDetailsBloc = TvShowDetailsBloc()
-      ..add(LoadTvShowDetails(tvShowId: widget.tvShowId));
+    _tvShowDetailsBloc = TvShowDetailsBloc()..add(LoadTvShowDetails(tvShowId: widget.tvShowId));
+  }
+
+  Future<bool> onLikeButtonTapped(bool isLiked, int tvShowId) async {
+    await GetIt.I<TvShowRepository>().toggleFavorite(tvShowId: tvShowId, isLiked: !isLiked);
+    return !isLiked;
   }
 
   @override
@@ -36,6 +42,12 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
     return BlocBuilder<TvShowDetailsBloc, TvShowDetailsState>(
       bloc: _tvShowDetailsBloc,
       builder: (context, state) {
+        bool isTvShowFavorite = false;
+        late int tvShowId;
+        if (state is TvShowDetailsLoadSuccess) {
+          isTvShowFavorite = state.isTvShowFavorite;
+          tvShowId = state.tvShowDetails.id;
+        }
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.mainColor,
@@ -52,10 +64,27 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
             leading: const BackButton(
               color: Colors.white,
             ),
+            actions: state is TvShowDetailsLoadSuccess
+                ? [
+                    LikeButton(
+                      isLiked: isTvShowFavorite,
+                      onTap: (isLiked) => onLikeButtonTapped(isLiked, tvShowId),
+                      padding: const EdgeInsets.only(right: 10),
+                      likeBuilder: (bool isLiked) {
+                        return Icon(
+                          Icons.favorite,
+                          size: 30,
+                          color: isLiked ? Colors.red : Colors.black,
+                        );
+                      },
+                    ),
+                  ]
+                : [
+                    const SizedBox.shrink(),
+                  ],
           ),
-          body: CustomPaint(
-            painter: BackgroundPainter(),
-            size: Size.infinite,
+          body: Container(
+            color: AppColors.mainColor,
             child: state is TvShowDetailsLoadFailure
                 ? Center(
                     child: Text(
@@ -66,9 +95,9 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
                 : state is TvShowDetailsLoadSuccess
                     ? ListView(
                         children: [
-                          TvShowDetailsMainInfoWidget(
-                              tvShowDetails: state.tvShowDetails),
-                          TvShowDetailsMainScreenCastWidget(tvShowCredits: state.tvShowDetails.credits),
+                          TvShowDetailsMainInfoWidget(tvShowDetails: state.tvShowDetails),
+                          TvShowDetailsMainScreenCastWidget(
+                              tvShowCredits: state.tvShowDetails.credits),
                           const SizedBox(height: 10),
                         ],
                       )

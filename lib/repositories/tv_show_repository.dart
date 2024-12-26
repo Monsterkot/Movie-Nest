@@ -3,6 +3,8 @@ import 'package:movie_nest_app/models/popular_tv_show_response/popular_tv_show_r
 import 'package:movie_nest_app/models/tv_show_details/tv_show_details.dart';
 import 'package:movie_nest_app/services/tv_show_service.dart';
 
+import '../constants/media_type.dart';
+
 class TvShowRepository {
   Future<PopularTvShowResponse> getPopularTvShows(int page) async {
     final json = await GetIt.I<TvShowService>().getPopularTvShows(page);
@@ -38,5 +40,16 @@ class TvShowRepository {
     final json = await GetIt.I<TvShowService>().getTvShowsByQuery(query, page);
     final tvShowsByQuery = PopularTvShowResponse.fromJson(json);
     return tvShowsByQuery;
+  }
+
+  Future<bool> isFavorite(int movieId) async {
+    final json = await GetIt.I<TvShowService>().isFavorite(movieId);
+    final isFavorite = json['favorite'] as bool;
+    return isFavorite;
+  }
+
+  Future<void> toggleFavorite({required int tvShowId, required bool isLiked}) async {
+    await GetIt.I<TvShowService>()
+        .markAsFavorite(mediaType: MediaType.tv, mediaId: tvShowId, isFavorite: isLiked);
   }
 }

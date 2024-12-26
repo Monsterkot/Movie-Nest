@@ -7,7 +7,6 @@ import 'package:movie_nest_app/theme/app_text_style.dart';
 import 'package:movie_nest_app/views/home_page/widgets/home.dart';
 import 'package:movie_nest_app/views/home_page/widgets/movie_list.dart';
 import 'package:movie_nest_app/views/home_page/widgets/tv_shows_list.dart';
-import 'package:movie_nest_app/views/widgets/custom_background.dart';
 import '../../blocs/movie_bloc/movie_bloc.dart' as movie_block;
 
 @RoutePage()
@@ -178,9 +177,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
       ),
-      body: CustomPaint(
-        size: Size.infinite,
-        painter: BackgroundPainter(),
+      body: Container(
+        color: AppColors.mainColor,
         child: IndexedStack(
           index: _selectedTab,
           children: [

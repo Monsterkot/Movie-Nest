@@ -1,9 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get_it/get_it.dart';
 
 class SessionService {
   bool _isAuthenticated = false;
   bool get isAuthenticated => _isAuthenticated;
-  final _secureStorage = const FlutterSecureStorage();
+  final _secureStorage = GetIt.I<FlutterSecureStorage>();
+  
   Future<void> setSessionId(String sessionId) async {
     await _secureStorage.write(key: 'session_id', value: sessionId);
     _isAuthenticated = true;
