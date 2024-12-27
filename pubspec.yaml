@@ -23,9 +23,9 @@ dependencies:
   flutter_dotenv: ^5.2.1
   youtube_player_flutter: ^9.1.1
   equatable: ^2.0.7
-  palette_generator: ^0.3.3+5
   like_button: ^2.0.5
   flutter_native_splash: ^2.4.3
+  palette_generator: ^0.3.3+5
   
 
 dev_dependencies:

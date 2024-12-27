@@ -8,6 +8,8 @@ import 'package:movie_nest_app/repositories/movie_repository.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
 import 'package:movie_nest_app/views/movie_details_page/widgets/movie_details_main_info_widget.dart';
 import 'package:movie_nest_app/views/movie_details_page/widgets/movie_details_screen_cast_widget.dart';
+import 'package:palette_generator/palette_generator.dart';
+import '../../constants/app_constants.dart';
 import '../../theme/app_colors.dart';
 
 @RoutePage()
@@ -25,7 +27,8 @@ class MovieDetailsScreen extends StatefulWidget {
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   late MovieDetailsBloc _movieDetailsBloc;
-
+  Color _dominantColor = AppColors.mainColor;
+  bool _paletteGenerated = false; // Флаг для отслеживания, была ли сгенерирована палитра
   @override
   void initState() {
     super.initState();
@@ -43,6 +46,24 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
     return !isLiked;
   }
 
+  Future<void> _generatePalette(String posterPath) async {
+    final generator = await PaletteGenerator.fromImageProvider(
+      NetworkImage('$imageUrl$posterPath'),
+      maximumColorCount: 10,
+    );
+    if (mounted) {
+      setState(() {
+        _dominantColor = generator.dominantColor?.color ?? AppColors.mainColor;
+      });
+    }
+  }
+
+  bool isColorLight(Color color) {
+    // Используем формулу для определения яркости
+    final double brightness = (0.299 * color.r + 0.587 * color.g + 0.114 * color.b);
+    return brightness > 0.5; // Пороговое значение, можно настроить
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
@@ -53,22 +74,31 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
         if (state is MovieDetailsLoadSuccess) {
           isMovieFavorite = state.isMovieFavorite;
           movieId = state.movieDetails.id;
+
+          // Генерация палитры только один раз
+          if (!_paletteGenerated && state.movieDetails.posterPath != null) {
+            _paletteGenerated = true; // Устанавливаем флаг
+            _generatePalette(state.movieDetails.posterPath!);
+          }
         }
+        final bool isLightColor = isColorLight(_dominantColor);
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: AppColors.mainColor,
+            backgroundColor: _dominantColor,
             centerTitle: true,
             title: state is MovieDetailsLoadSuccess
                 ? Text(
                     state.movieDetails.title,
-                    style: AppTextStyle.middleWhiteTextStyle,
+                    style: isLightColor
+                        ? AppTextStyle.middleBlackTextStyle
+                        : AppTextStyle.middleWhiteTextStyle,
                   )
                 : const Text(
                     'Loading...',
                     style: AppTextStyle.middleWhiteTextStyle,
                   ),
-            leading: const BackButton(
-              color: Colors.white,
+            leading: BackButton(
+              color: isLightColor ? Colors.black : Colors.white,
             ),
             actions: state is MovieDetailsLoadSuccess
                 ? [
@@ -80,7 +110,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                         return Icon(
                           Icons.favorite,
                           size: 30,
-                          color: isLiked ? Colors.red : Colors.black,
+                          color: isLiked ? Colors.red : Colors.black87,
                         );
                       },
                     ),
@@ -90,7 +120,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                   ],
           ),
           body: Container(
-            color: AppColors.mainColor,
+            color: _dominantColor,
             child: state is MovieDetailsLoadFailure
                 ? Center(
                     child: Text(

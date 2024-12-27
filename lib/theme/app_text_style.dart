@@ -14,6 +14,12 @@ class AppTextStyle {
     color: Colors.white,
   );
 
+  static const middleBlackTextStyle = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+    color: Colors.black,
+  );
+
   static const middleGreyTextStyle = TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 20,
