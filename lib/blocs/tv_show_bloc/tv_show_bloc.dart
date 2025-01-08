@@ -19,7 +19,7 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
       await _searchMovies(event.query, emit);
     });
     on<LoadTvShows>((event, emit) async {
-      await _loadNextPage(emit);
+      await _loadNextPage(emit, tvShowsAreFavorite: false);
     });
     on<ClearSearchQuery>((event, emit) async {
       _searchQuery = null;
@@ -27,6 +27,9 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     });
     on<LoadTvShowLists>((event, emit) async {
       await _loadTvShowLists(event.filter, emit);
+    });
+    on<LoadFavoriteTvShows>((event, emit) async {
+      await _loadNextPage(emit, tvShowsAreFavorite: true);
     });
   }
 
@@ -63,7 +66,7 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     _currentPage = 0;
     _totalPage = 1;
     _allTvShows.clear();
-    await _loadNextPage(emit);
+    await _loadNextPage(emit, tvShowsAreFavorite: false);
   }
 
   Future<void> _searchMovies(String query, Emitter<TvShowState> emit) async {
@@ -71,7 +74,10 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     await _resetList(emit);
   }
 
-  Future<PopularTvShowResponse> _loadTvShows(int nextPage) async {
+  Future<TvShowResponse> _loadTvShows(int nextPage, bool tvShowsAreFavorite) async {
+    if (tvShowsAreFavorite) {
+      return await GetIt.I<TvShowRepository>().getFavoriteTvShows(nextPage);
+    }
     final query = _searchQuery;
     if (query == null) {
       return await GetIt.I<TvShowRepository>().getPopularTvShows(nextPage);
@@ -80,14 +86,14 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     }
   }
 
-  Future<void> _loadNextPage(Emitter<TvShowState> emit) async {
+  Future<void> _loadNextPage(Emitter<TvShowState> emit, {required bool tvShowsAreFavorite}) async {
     if (isLoadingInProgress || _currentPage >= _totalPage) return;
     try {
       isLoadingInProgress = true;
       if (_currentPage == 0) emit(TvShowLoading());
       final nextPage = _currentPage + 1;
 
-      final tvShowResponse = await _loadTvShows(nextPage);
+      final tvShowResponse = await _loadTvShows(nextPage, tvShowsAreFavorite);
 
       _allTvShows.addAll(tvShowResponse.tvShows);
       _currentPage = tvShowResponse.page;

@@ -69,7 +69,7 @@ class _FormWidgetState extends State<FormWidget> {
               _showSnackbar(state.errorMessage);
             }
             if (state is AuthSuccess) {
-              AutoRouter.of(context).replace(const HomeRoute());
+              AutoRouter.of(context).replace(const MainHomeRoute());
             }
           },
         ),

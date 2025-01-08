@@ -8,24 +8,25 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i9;
-import 'package:flutter/material.dart' as _i10;
+import 'package:auto_route/auto_route.dart' as _i10;
+import 'package:flutter/material.dart' as _i11;
 import 'package:movie_nest_app/views/account_page/account_page.dart' as _i1;
 import 'package:movie_nest_app/views/actor_details_page/actor_details_page.dart'
     as _i2;
 import 'package:movie_nest_app/views/auth_page/auth_page.dart' as _i3;
 import 'package:movie_nest_app/views/error_page/error_page.dart' as _i4;
-import 'package:movie_nest_app/views/home_page/home_page.dart' as _i5;
+import 'package:movie_nest_app/views/favorites_page/favorites_page.dart' as _i5;
+import 'package:movie_nest_app/views/home_page/main_home_page.dart' as _i6;
 import 'package:movie_nest_app/views/movie_details_page/movie_details_page.dart'
-    as _i6;
-import 'package:movie_nest_app/views/tv_show_details_page/tv_show_details_page.dart'
     as _i7;
-import 'package:movie_nest_app/views/youtube_player/youtube_player.dart' as _i8;
+import 'package:movie_nest_app/views/tv_show_details_page/tv_show_details_page.dart'
+    as _i8;
+import 'package:movie_nest_app/views/youtube_player/youtube_player.dart' as _i9;
 
 /// generated route for
 /// [_i1.AccountPage]
-class AccountRoute extends _i9.PageRouteInfo<void> {
-  const AccountRoute({List<_i9.PageRouteInfo>? children})
+class AccountRoute extends _i10.PageRouteInfo<void> {
+  const AccountRoute({List<_i10.PageRouteInfo>? children})
       : super(
           AccountRoute.name,
           initialChildren: children,
@@ -33,7 +34,7 @@ class AccountRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'AccountRoute';
 
-  static _i9.PageInfo page = _i9.PageInfo(
+  static _i10.PageInfo page = _i10.PageInfo(
     name,
     builder: (data) {
       return const _i1.AccountPage();
@@ -43,11 +44,11 @@ class AccountRoute extends _i9.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.ActorDetailsScreen]
-class ActorDetailsRoute extends _i9.PageRouteInfo<ActorDetailsRouteArgs> {
+class ActorDetailsRoute extends _i10.PageRouteInfo<ActorDetailsRouteArgs> {
   ActorDetailsRoute({
-    _i10.Key? key,
+    _i11.Key? key,
     required int id,
-    List<_i9.PageRouteInfo>? children,
+    List<_i10.PageRouteInfo>? children,
   }) : super(
           ActorDetailsRoute.name,
           args: ActorDetailsRouteArgs(
@@ -59,7 +60,7 @@ class ActorDetailsRoute extends _i9.PageRouteInfo<ActorDetailsRouteArgs> {
 
   static const String name = 'ActorDetailsRoute';
 
-  static _i9.PageInfo page = _i9.PageInfo(
+  static _i10.PageInfo page = _i10.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<ActorDetailsRouteArgs>();
@@ -77,7 +78,7 @@ class ActorDetailsRouteArgs {
     required this.id,
   });
 
-  final _i10.Key? key;
+  final _i11.Key? key;
 
   final int id;
 
@@ -89,8 +90,8 @@ class ActorDetailsRouteArgs {
 
 /// generated route for
 /// [_i3.AuthPage]
-class AuthRoute extends _i9.PageRouteInfo<void> {
-  const AuthRoute({List<_i9.PageRouteInfo>? children})
+class AuthRoute extends _i10.PageRouteInfo<void> {
+  const AuthRoute({List<_i10.PageRouteInfo>? children})
       : super(
           AuthRoute.name,
           initialChildren: children,
@@ -98,7 +99,7 @@ class AuthRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'AuthRoute';
 
-  static _i9.PageInfo page = _i9.PageInfo(
+  static _i10.PageInfo page = _i10.PageInfo(
     name,
     builder: (data) {
       return const _i3.AuthPage();
@@ -108,8 +109,8 @@ class AuthRoute extends _i9.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.ErrorPage]
-class ErrorRoute extends _i9.PageRouteInfo<void> {
-  const ErrorRoute({List<_i9.PageRouteInfo>? children})
+class ErrorRoute extends _i10.PageRouteInfo<void> {
+  const ErrorRoute({List<_i10.PageRouteInfo>? children})
       : super(
           ErrorRoute.name,
           initialChildren: children,
@@ -117,7 +118,7 @@ class ErrorRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'ErrorRoute';
 
-  static _i9.PageInfo page = _i9.PageInfo(
+  static _i10.PageInfo page = _i10.PageInfo(
     name,
     builder: (data) {
       return const _i4.ErrorPage();
@@ -126,31 +127,50 @@ class ErrorRoute extends _i9.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.HomeScreen]
-class HomeRoute extends _i9.PageRouteInfo<void> {
-  const HomeRoute({List<_i9.PageRouteInfo>? children})
+/// [_i5.FavoritesPage]
+class FavoritesRoute extends _i10.PageRouteInfo<void> {
+  const FavoritesRoute({List<_i10.PageRouteInfo>? children})
       : super(
-          HomeRoute.name,
+          FavoritesRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'HomeRoute';
+  static const String name = 'FavoritesRoute';
 
-  static _i9.PageInfo page = _i9.PageInfo(
+  static _i10.PageInfo page = _i10.PageInfo(
     name,
     builder: (data) {
-      return const _i5.HomeScreen();
+      return const _i5.FavoritesPage();
     },
   );
 }
 
 /// generated route for
-/// [_i6.MovieDetailsScreen]
-class MovieDetailsRoute extends _i9.PageRouteInfo<MovieDetailsRouteArgs> {
+/// [_i6.MainHomePage]
+class MainHomeRoute extends _i10.PageRouteInfo<void> {
+  const MainHomeRoute({List<_i10.PageRouteInfo>? children})
+      : super(
+          MainHomeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MainHomeRoute';
+
+  static _i10.PageInfo page = _i10.PageInfo(
+    name,
+    builder: (data) {
+      return const _i6.MainHomePage();
+    },
+  );
+}
+
+/// generated route for
+/// [_i7.MovieDetailsScreen]
+class MovieDetailsRoute extends _i10.PageRouteInfo<MovieDetailsRouteArgs> {
   MovieDetailsRoute({
-    _i10.Key? key,
+    _i11.Key? key,
     required int movieId,
-    List<_i9.PageRouteInfo>? children,
+    List<_i10.PageRouteInfo>? children,
   }) : super(
           MovieDetailsRoute.name,
           args: MovieDetailsRouteArgs(
@@ -162,11 +182,11 @@ class MovieDetailsRoute extends _i9.PageRouteInfo<MovieDetailsRouteArgs> {
 
   static const String name = 'MovieDetailsRoute';
 
-  static _i9.PageInfo page = _i9.PageInfo(
+  static _i10.PageInfo page = _i10.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<MovieDetailsRouteArgs>();
-      return _i6.MovieDetailsScreen(
+      return _i7.MovieDetailsScreen(
         key: args.key,
         movieId: args.movieId,
       );
@@ -180,7 +200,7 @@ class MovieDetailsRouteArgs {
     required this.movieId,
   });
 
-  final _i10.Key? key;
+  final _i11.Key? key;
 
   final int movieId;
 
@@ -191,12 +211,12 @@ class MovieDetailsRouteArgs {
 }
 
 /// generated route for
-/// [_i7.TvShowDetailsScreen]
-class TvShowDetailsRoute extends _i9.PageRouteInfo<TvShowDetailsRouteArgs> {
+/// [_i8.TvShowDetailsScreen]
+class TvShowDetailsRoute extends _i10.PageRouteInfo<TvShowDetailsRouteArgs> {
   TvShowDetailsRoute({
-    _i10.Key? key,
+    _i11.Key? key,
     required int tvShowId,
-    List<_i9.PageRouteInfo>? children,
+    List<_i10.PageRouteInfo>? children,
   }) : super(
           TvShowDetailsRoute.name,
           args: TvShowDetailsRouteArgs(
@@ -208,11 +228,11 @@ class TvShowDetailsRoute extends _i9.PageRouteInfo<TvShowDetailsRouteArgs> {
 
   static const String name = 'TvShowDetailsRoute';
 
-  static _i9.PageInfo page = _i9.PageInfo(
+  static _i10.PageInfo page = _i10.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<TvShowDetailsRouteArgs>();
-      return _i7.TvShowDetailsScreen(
+      return _i8.TvShowDetailsScreen(
         key: args.key,
         tvShowId: args.tvShowId,
       );
@@ -226,7 +246,7 @@ class TvShowDetailsRouteArgs {
     required this.tvShowId,
   });
 
-  final _i10.Key? key;
+  final _i11.Key? key;
 
   final int tvShowId;
 
@@ -237,12 +257,12 @@ class TvShowDetailsRouteArgs {
 }
 
 /// generated route for
-/// [_i8.YouTubePlayerWidget]
-class YouTubePlayerRoute extends _i9.PageRouteInfo<YouTubePlayerRouteArgs> {
+/// [_i9.YouTubePlayerWidget]
+class YouTubePlayerRoute extends _i10.PageRouteInfo<YouTubePlayerRouteArgs> {
   YouTubePlayerRoute({
-    _i10.Key? key,
+    _i11.Key? key,
     required String youtubeKey,
-    List<_i9.PageRouteInfo>? children,
+    List<_i10.PageRouteInfo>? children,
   }) : super(
           YouTubePlayerRoute.name,
           args: YouTubePlayerRouteArgs(
@@ -254,11 +274,11 @@ class YouTubePlayerRoute extends _i9.PageRouteInfo<YouTubePlayerRouteArgs> {
 
   static const String name = 'YouTubePlayerRoute';
 
-  static _i9.PageInfo page = _i9.PageInfo(
+  static _i10.PageInfo page = _i10.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<YouTubePlayerRouteArgs>();
-      return _i8.YouTubePlayerWidget(
+      return _i9.YouTubePlayerWidget(
         key: args.key,
         youtubeKey: args.youtubeKey,
       );
@@ -272,7 +292,7 @@ class YouTubePlayerRouteArgs {
     required this.youtubeKey,
   });
 
-  final _i10.Key? key;
+  final _i11.Key? key;
 
   final String youtubeKey;
 

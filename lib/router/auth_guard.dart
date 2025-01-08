@@ -8,7 +8,7 @@ class AuthGuard extends AutoRouteGuard {
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     if (GetIt.I<SessionService>().isAuthenticated) {
       //setAccountId();
-      resolver.redirect(const HomeRoute());
+      resolver.redirect(const MainHomeRoute());
     } else {
       resolver.next(true);
     }

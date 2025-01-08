@@ -19,7 +19,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       await _searchMovies(event.query, emit);
     });
     on<LoadPopularMovies>((event, emit) async {
-      await _loadNextPage(emit);
+      await _loadNextPage(emit, moviesAreFavorite: false);
     });
     on<ClearSearchQuery>((event, emit) async {
       _searchQuery = null;
@@ -27,6 +27,9 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     });
     on<LoadMovieLists>((event, emit) async {
       await _loadMovieLists(event.filter, emit);
+    });
+    on<LoadFavoriteMovies>((event, emit) async {
+      await _loadNextPage(emit, moviesAreFavorite: true);
     });
   }
 
@@ -63,7 +66,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     _currentPage = 0;
     _totalPage = 1;
     _allMovies.clear();
-    await _loadNextPage(emit);
+    await _loadNextPage(emit, moviesAreFavorite: false);
   }
 
   Future<void> _searchMovies(String query, Emitter<MovieState> emit) async {
@@ -71,7 +74,10 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     await _resetList(emit);
   }
 
-  Future<MovieResponse> _loadMovies(int nextPage) async {
+  Future<MovieResponse> _loadMovies(int nextPage, bool moviesAreFavorite) async {
+    if (moviesAreFavorite) {
+      return await GetIt.I<MovieRepository>().getFavoriteMovies(nextPage);
+    }
     final query = _searchQuery;
     if (query == null) {
       return await GetIt.I<MovieRepository>().getPopularMovies(nextPage);
@@ -80,14 +86,14 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     }
   }
 
-  Future<void> _loadNextPage(Emitter<MovieState> emit) async {
+  Future<void> _loadNextPage(Emitter<MovieState> emit, {required bool moviesAreFavorite}) async {
     if (isLoadingInProgress || _currentPage >= _totalPage) return;
     try {
       isLoadingInProgress = true;
       if (_currentPage == 0) emit(MovieLoading());
       final nextPage = _currentPage + 1;
 
-      final moviesResponse = await _loadMovies(nextPage);
+      final moviesResponse = await _loadMovies(nextPage, moviesAreFavorite);
 
       _allMovies.addAll(moviesResponse.movies);
       _currentPage = moviesResponse.page;

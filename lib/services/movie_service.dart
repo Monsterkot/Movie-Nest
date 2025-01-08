@@ -122,4 +122,19 @@ class MovieService {
     }
     return 0;
   }
+
+  Future<Map<String, dynamic>> getFavoriteMovies(int page) async{
+    final accountId = await GetIt.I<AccountRepository>().getAccountId();
+    final sessionId = await GetIt.I<SessionService>().getSessionId();
+    final uri = _makeUri('/account/$accountId/favorite/movies', {
+      'language': 'en-US',
+      'page': page.toString(),
+      'session_id': sessionId,
+      'sort_by': 'created_at.desc',
+      'api_key': apiKey,
+    });
+    final response = await _dio.getUri(uri);
+    final data = response.data;
+    return data;
+  }
 }

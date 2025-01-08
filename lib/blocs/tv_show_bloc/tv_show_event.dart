@@ -17,3 +17,5 @@ class LoadTvShowLists extends TvShowEvent {
 }
 
 class ClearSearchQuery extends TvShowEvent {}
+
+class LoadFavoriteTvShows extends TvShowEvent {}

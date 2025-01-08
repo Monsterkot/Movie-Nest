@@ -6,7 +6,6 @@ import 'package:movie_nest_app/theme/app_colors.dart';
 import 'package:movie_nest_app/views/account_page/widgets/profile_card.dart';
 import 'package:movie_nest_app/views/account_page/widgets/view_full_profile_button.dart';
 import '../../theme/app_text_style.dart';
-import 'widgets/log_out_button.dart';
 
 @RoutePage()
 class AccountPage extends StatelessWidget {
@@ -41,7 +40,6 @@ class AccountPage extends StatelessWidget {
                   children: [
                     ProfileCard(accountInfo: state.accountInfo),
                     ViewFullProfileButton(username: state.accountInfo.username),
-                    const LogOutButton(),
                   ],
                 );
               } else if (state is AccountInfoError) {

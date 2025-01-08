@@ -14,14 +14,14 @@ import '../../../theme/app_box_decoration_style.dart';
 import '../../../theme/app_text_style.dart';
 import '../../../utils/date_formatter.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomeWidget extends StatefulWidget {
+  const HomeWidget({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeWidget> createState() => _HomeWidgetState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeWidgetState extends State<HomeWidget> {
   String? _trendingSelectedValue;
   String? _moviesSelectedValue;
   String? _tvSeriesSelectedValue;
@@ -511,20 +511,20 @@ class _HomeState extends State<Home> {
   }
 
   Widget _tvSeriesItem(TvShow tvShow) {
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Stack(
-      children: [
-        DecoratedBox(
-          decoration: AppBoxDecorationStyle.boxDecoration,
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
-            clipBehavior: Clip.hardEdge,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FadeInImage(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Stack(
+        children: [
+          DecoratedBox(
+            decoration: AppBoxDecorationStyle.boxDecoration,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              clipBehavior: Clip.hardEdge,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  FadeInImage(
                     height: 230,
                     placeholder: const AssetImage('lib/images/placeholder.png'),
                     image: NetworkImage('$imageUrl${tvShow.posterPath}'),
@@ -534,45 +534,45 @@ class _HomeState extends State<Home> {
                       );
                     },
                   ),
-                const SizedBox(height: 2),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        tvShow.name,
-                        style: AppTextStyle.small18WhiteTextStyle,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                      Text(
-                        DateFormatter.stringFromDate(tvShow.firstAirDate),
-                        style: AppTextStyle.small14White70TextStyle,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                    ],
+                  const SizedBox(height: 2),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          tvShow.name,
+                          style: AppTextStyle.small18WhiteTextStyle,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                        Text(
+                          DateFormatter.stringFromDate(tvShow.firstAirDate),
+                          style: AppTextStyle.small14White70TextStyle,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () {
-              AutoRouter.of(context).push(TvShowDetailsRoute(tvShowId: tvShow.id));
-            },
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                AutoRouter.of(context).push(TvShowDetailsRoute(tvShowId: tvShow.id));
+              },
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+            ),
           ),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    );
+  }
 }

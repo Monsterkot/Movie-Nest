@@ -51,4 +51,10 @@ class MovieRepository {
     await GetIt.I<MovieService>()
         .markAsFavorite(mediaType: MediaType.movie, mediaId: movieId, isFavorite: isLiked);
   }
+
+  Future<MovieResponse> getFavoriteMovies(int page) async {
+    final json = await GetIt.I<MovieService>().getFavoriteMovies(page);
+    final favoriteMovies = MovieResponse.fromJson(json);
+    return favoriteMovies;
+  }
 }

@@ -6,27 +6,27 @@ import 'package:movie_nest_app/services/tv_show_service.dart';
 import '../constants/media_type.dart';
 
 class TvShowRepository {
-  Future<PopularTvShowResponse> getPopularTvShows(int page) async {
+  Future<TvShowResponse> getPopularTvShows(int page) async {
     final json = await GetIt.I<TvShowService>().getPopularTvShows(page);
-    final popularTvShows = PopularTvShowResponse.fromJson(json);
+    final popularTvShows = TvShowResponse.fromJson(json);
     return popularTvShows;
   }
 
-  Future<PopularTvShowResponse> getAiringTodayTvShows() async {
+  Future<TvShowResponse> getAiringTodayTvShows() async {
     final json = await GetIt.I<TvShowService>().getAiringTodayTvShows();
-    final airingTodayTvShows = PopularTvShowResponse.fromJson(json);
+    final airingTodayTvShows = TvShowResponse.fromJson(json);
     return airingTodayTvShows;
   }
 
-  Future<PopularTvShowResponse> getOnTheAirTvShows() async {
+  Future<TvShowResponse> getOnTheAirTvShows() async {
     final json = await GetIt.I<TvShowService>().getOnTheAirTvShows();
-    final onTheAirTvShows = PopularTvShowResponse.fromJson(json);
+    final onTheAirTvShows = TvShowResponse.fromJson(json);
     return onTheAirTvShows;
   }
 
-  Future<PopularTvShowResponse> getTopRatedTvShows() async {
+  Future<TvShowResponse> getTopRatedTvShows() async {
     final json = await GetIt.I<TvShowService>().getTopRatedTvShows();
-    final topRatedTvShows = PopularTvShowResponse.fromJson(json);
+    final topRatedTvShows = TvShowResponse.fromJson(json);
     return topRatedTvShows;
   }
 
@@ -36,9 +36,9 @@ class TvShowRepository {
     return tvShowDetails;
   }
 
-  Future<PopularTvShowResponse> getTvShowsByQuery(String query, int page) async {
+  Future<TvShowResponse> getTvShowsByQuery(String query, int page) async {
     final json = await GetIt.I<TvShowService>().getTvShowsByQuery(query, page);
-    final tvShowsByQuery = PopularTvShowResponse.fromJson(json);
+    final tvShowsByQuery = TvShowResponse.fromJson(json);
     return tvShowsByQuery;
   }
 
@@ -51,5 +51,11 @@ class TvShowRepository {
   Future<void> toggleFavorite({required int tvShowId, required bool isLiked}) async {
     await GetIt.I<TvShowService>()
         .markAsFavorite(mediaType: MediaType.tv, mediaId: tvShowId, isFavorite: isLiked);
+  }
+
+  Future<TvShowResponse> getFavoriteTvShows(int page) async {
+    final json = await GetIt.I<TvShowService>().getFavoriteTvShows(page);
+    final favoriteTvShows = TvShowResponse.fromJson(json);
+    return favoriteTvShows;
   }
 }

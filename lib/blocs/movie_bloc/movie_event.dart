@@ -18,3 +18,5 @@ class SearchMovies extends MovieEvent {
 }
 
 class ClearSearchQuery extends MovieEvent {}
+
+class LoadFavoriteMovies extends MovieEvent {}

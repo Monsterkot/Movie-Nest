@@ -1,15 +1,12 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_nest_app/blocs/tv_show_bloc/tv_show_bloc.dart' as tv_show_block;
-import 'package:movie_nest_app/router/router.gr.dart';
 import 'package:movie_nest_app/theme/app_colors.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
-import 'package:movie_nest_app/views/home_page/widgets/home.dart';
+import 'package:movie_nest_app/views/home_page/widgets/home_widget.dart';
 import 'package:movie_nest_app/views/home_page/widgets/movie_list.dart';
 import 'package:movie_nest_app/views/home_page/widgets/tv_shows_list.dart';
 import '../../blocs/movie_bloc/movie_bloc.dart' as movie_block;
 
-@RoutePage()
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   @override
@@ -22,6 +19,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final _searchController = TextEditingController();
   final _tvShowBloc = tv_show_block.TvShowBloc();
   final _movieBloc = movie_block.MovieBloc();
+  double xOffset = 0;
+  double yOffset = 0;
+  bool isDrawerOpen = false;
 
   void _loadMovies() {
     _movieBloc.add(movie_block.LoadPopularMovies());
@@ -57,10 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
       default:
         break;
     }
-  }
-
-  void _openUserAccount() {
-    AutoRouter.of(context).push(const AccountRoute());
   }
 
   void _searchContent(String query) {
@@ -101,112 +97,128 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: AppColors.mainColor,
-        centerTitle: true,
-        title: _isSearching
-            ? TextField(
-                onSubmitted: (query) {
-                  _searchContent(query);
-                },
-                onChanged: (query) {
-                  _searchContent(query);
-                },
-                controller: _searchController,
-                autofocus: true,
-                style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                  hintText: 'Search...',
-                  hintStyle: TextStyle(color: Colors.white60),
-                  border: InputBorder.none,
-                ),
-              )
-            : const Text(
-                'MovieNest',
-                style: AppTextStyle.middleWhiteTextStyle,
-              ),
-        leading: _isSearching
-            ? null
-            : IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
-              ),
-        actions: _isSearching
-            ? [
-                IconButton(
-                  onPressed: () {
-                    _clearQuery();
-                    setState(() {
-                      _isSearching = false; // завершение поиска
-                      _searchController.clear(); // очистка поля поиска
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.close,
-                    color: Colors.white,
-                  ),
-                ),
-              ]
-            : [
-                _selectedTab != 0
-                    ? IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _isSearching = true; // переключение в режим поиска
-                          });
-                        },
-                        icon: const Icon(
-                          Icons.search,
-                          color: Colors.white,
-                        ),
-                      )
-                    : const SizedBox.shrink(),
-                IconButton(
-                  onPressed: () {
-                    _openUserAccount();
-                  },
-                  icon: const Icon(
-                    Icons.account_circle,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-      ),
-      body: Container(
+    return AnimatedContainer(
+      transform: Matrix4.translationValues(xOffset, yOffset, 0)
+        ..scale(isDrawerOpen ? 0.85 : 1.00)
+        ..rotateZ(isDrawerOpen ? -50 : 0),
+      duration: const Duration(milliseconds: 300),
+      decoration: BoxDecoration(
         color: AppColors.mainColor,
-        child: IndexedStack(
-          index: _selectedTab,
-          children: [
-            const Home(),
-            MovieList(movieBloc: _movieBloc),
-            TvShowsList(
-              tvShowBloc: _tvShowBloc,
+        borderRadius: isDrawerOpen ? BorderRadius.circular(40) : BorderRadius.circular(0),
+      ),
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: AppColors.mainColor,
+          centerTitle: true,
+          title: _isSearching
+              ? TextField(
+                  onSubmitted: (query) {
+                    _searchContent(query);
+                  },
+                  onChanged: (query) {
+                    _searchContent(query);
+                  },
+                  controller: _searchController,
+                  autofocus: true,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: const InputDecoration(
+                    hintText: 'Search...',
+                    hintStyle: TextStyle(color: Colors.white60),
+                    border: InputBorder.none,
+                  ),
+                )
+              : const Text(
+                  'Welcome!',
+                  style: AppTextStyle.middleWhiteTextStyle,
+                ),
+          leading: _isSearching
+              ? null
+              : isDrawerOpen
+                  ? GestureDetector(
+                      child: const Icon(Icons.arrow_back),
+                      onTap: () {
+                        setState(() {
+                          xOffset = 0;
+                          yOffset = 0;
+                          isDrawerOpen = false;
+                        });
+                      },
+                    )
+                  : GestureDetector(
+                      child: const Icon(Icons.menu),
+                      onTap: () {
+                        setState(() {
+                          xOffset = 290;
+                          yOffset = 80;
+                          isDrawerOpen = true;
+                        });
+                      },
+                    ),
+          actions: _isSearching
+              ? [
+                  IconButton(
+                    onPressed: () {
+                      _clearQuery();
+                      setState(() {
+                        _isSearching = false; // завершение поиска
+                        _searchController.clear(); // очистка поля поиска
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ),
+                  ),
+                ]
+              : [
+                  _selectedTab != 0
+                      ? IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isSearching = true; // переключение в режим поиска
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.search,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                ],
+        ),
+        body: Container(
+          color: AppColors.mainColor,
+          child: IndexedStack(
+            index: _selectedTab,
+            children: [
+              const HomeWidget(),
+              MovieList(movieBloc: _movieBloc),
+              TvShowsList(
+                tvShowBloc: _tvShowBloc,
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: AppColors.mainColor,
+          currentIndex: _selectedTab,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.movie_filter),
+              label: 'Movies',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.tv),
+              label: 'TV series',
             ),
           ],
+          onTap: _onSelectTab,
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedTab,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.movie_filter),
-            label: 'Movies',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.tv),
-            label: 'TV series',
-          ),
-        ],
-        onTap: _onSelectTab,
       ),
     );
   }
