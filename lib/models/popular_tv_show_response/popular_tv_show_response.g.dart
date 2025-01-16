@@ -9,7 +9,7 @@ part of 'popular_tv_show_response.dart';
 TvShowResponse _$PopularTvShowResponseFromJson(Map<String, dynamic> json) => TvShowResponse(
       page: (json['page'] as num).toInt(),
       tvShows: (json['results'] as List<dynamic>)
-          .map((e) => TvShow.fromJson(e as Map<String, dynamic>))
+          .map((e) => TvShow.fromJson(Map<String, dynamic>.from(e)))
           .toList(),
       totalPages: (json['total_pages'] as num).toInt(),
       totalResults: (json['total_results'] as num).toInt(),

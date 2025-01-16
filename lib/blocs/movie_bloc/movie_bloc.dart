@@ -94,6 +94,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       final nextPage = _currentPage + 1;
 
       final moviesResponse = await _loadMovies(nextPage, moviesAreFavorite);
+      if (moviesResponse.page == 1 && nextPage >= 2) return;//проверка на случай если загрузились фильмы из кеша
 
       _allMovies.addAll(moviesResponse.movies);
       _currentPage = moviesResponse.page;

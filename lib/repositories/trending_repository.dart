@@ -9,7 +9,7 @@ class TrendingRepository {
   Future<List<TrendingItem>> getAllTrending(String timeWindow) async {
     final data = await GetIt.I<TrendingService>().getAllTrending(timeWindow);
     final results = data['results'] as List<dynamic>;
-    return results.map((json) => parseTrendingItem(json as Map<String, dynamic>)).toList();
+    return results.map((json) => parseTrendingItem(Map<String, dynamic>.from(json))).toList();
   }
 
   TrendingItem parseTrendingItem(Map<String, dynamic> json) {

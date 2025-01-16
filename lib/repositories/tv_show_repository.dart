@@ -6,25 +6,25 @@ import 'package:movie_nest_app/services/tv_show_service.dart';
 import '../constants/media_type.dart';
 
 class TvShowRepository {
-  Future<TvShowResponse> getPopularTvShows(int page) async {
+  Future<TvShowResponse> getPopularTvShows(int page) async {//TODO cache
     final json = await GetIt.I<TvShowService>().getPopularTvShows(page);
     final popularTvShows = TvShowResponse.fromJson(json);
     return popularTvShows;
   }
 
-  Future<TvShowResponse> getAiringTodayTvShows() async {
+  Future<TvShowResponse> getAiringTodayTvShows() async {//TODO cache
     final json = await GetIt.I<TvShowService>().getAiringTodayTvShows();
     final airingTodayTvShows = TvShowResponse.fromJson(json);
     return airingTodayTvShows;
   }
 
-  Future<TvShowResponse> getOnTheAirTvShows() async {
+  Future<TvShowResponse> getOnTheAirTvShows() async {//TODO cache
     final json = await GetIt.I<TvShowService>().getOnTheAirTvShows();
     final onTheAirTvShows = TvShowResponse.fromJson(json);
     return onTheAirTvShows;
   }
 
-  Future<TvShowResponse> getTopRatedTvShows() async {
+  Future<TvShowResponse> getTopRatedTvShows() async {//TODO cache
     final json = await GetIt.I<TvShowService>().getTopRatedTvShows();
     final topRatedTvShows = TvShowResponse.fromJson(json);
     return topRatedTvShows;

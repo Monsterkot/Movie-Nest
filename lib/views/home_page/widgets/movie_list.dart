@@ -111,6 +111,11 @@ class _MovieListState extends State<MovieList> {
                     ? FadeInImage(
                         placeholder: const AssetImage('lib/images/placeholder.png'),
                         image: NetworkImage('$imageUrl${movie.posterPath}'),
+                        imageErrorBuilder: (context, error, stackTrace) {
+                          return const Image(
+                            image: AssetImage('lib/images/no_poster_avalible.png'),
+                          );
+                        },
                       )
                     : const Image(
                         image: AssetImage('lib/images/no_poster_avalible.png'),

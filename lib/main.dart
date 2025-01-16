@@ -5,6 +5,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:movie_nest_app/repositories/account_repository.dart';
 import 'package:movie_nest_app/repositories/person_repository.dart';
 import 'package:movie_nest_app/repositories/trending_repository.dart';
@@ -36,6 +38,15 @@ void main() {
     ),
   );
 
+  Bloc.observer = TalkerBlocObserver(
+      talker: talker,
+      settings: const TalkerBlocLoggerSettings(
+        printStateFullData: false,
+        printEventFullData: false,
+      ));
+
+  FlutterError.onError = (details) => GetIt.I<Talker>().handle(details.exception, details.stack);
+
   GetIt.I.registerSingleton<FlutterSecureStorage>(const FlutterSecureStorage());
 
   GetIt.I.registerLazySingleton<AuthService>(() => AuthService(dio: dio));
@@ -52,18 +63,11 @@ void main() {
   GetIt.I.registerLazySingleton<TrendingRepository>(() => TrendingRepository());
   GetIt.I.registerLazySingleton<PersonRepository>(() => PersonRepository());
 
-  Bloc.observer = TalkerBlocObserver(
-      talker: talker,
-      settings: const TalkerBlocLoggerSettings(
-        printStateFullData: false,
-        printEventFullData: false,
-      ));
-
-  FlutterError.onError = (details) => GetIt.I<Talker>().handle(details.exception, details.stack);
-
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+      await Hive.initFlutter();
+      await Hive.openBox('movienest_data');
       await GetIt.I<SessionService>().checkSession();
       GetIt.I<Talker>().info(await GetIt.I<SessionService>().getSessionId());
       await dotenv.load(fileName: '.env');

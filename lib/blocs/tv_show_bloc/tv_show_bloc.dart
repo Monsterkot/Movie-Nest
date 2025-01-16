@@ -94,7 +94,8 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
       final nextPage = _currentPage + 1;
 
       final tvShowResponse = await _loadTvShows(nextPage, tvShowsAreFavorite);
-
+      if (tvShowResponse.page == 1 && nextPage >= 2) return;
+      
       _allTvShows.addAll(tvShowResponse.tvShows);
       _currentPage = tvShowResponse.page;
       _totalPage = tvShowResponse.totalPages;

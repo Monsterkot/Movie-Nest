@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 
 import '../constants/app_constants.dart';
 import '../constants/media_type.dart';
@@ -22,15 +23,41 @@ class TvShowService {
     }
   }
 
+  Future<void> cacheTvShows(String key, Map<String, dynamic> data) async {
+    final box = Hive.box('movienest_data');
+    box.delete(key);
+    await box.put(key, data);
+  }
+
+  Future<Map<String, dynamic>?> getCachedTvShows(String key) async {
+    final box = Hive.box('movienest_data');
+    final cachedData = box.get(key);
+    if (cachedData != null) {
+      return Map<String, dynamic>.from(cachedData);
+    } else {
+      return null;
+    }
+  }
+
   Future<Map<String, dynamic>> getPopularTvShows(int page) async {
     final uri = _makeUri('/tv/popular', {
       'api_key': apiKey,
       'page': page.toString(),
       'language': 'en-US',
     });
-    final response = await _dio.getUri(uri);
-    Map<String, dynamic> data = response.data;
-    return data;
+    try {
+      final response = await _dio.getUri(uri);
+      Map<String, dynamic> data = response.data;
+      await cacheTvShows('popular_tv_shows', data);
+      return data;
+    } catch (e) {
+      final cachedData = await getCachedTvShows('popular_tv_shows');
+      if (cachedData != null) {
+        return cachedData;
+      } else {
+        throw Exception('Empty cache.');
+      }
+    }
   }
 
   Future<Map<String, dynamic>> getAiringTodayTvShows() async {
@@ -39,9 +66,19 @@ class TvShowService {
       'page': 1.toString(),
       'language': 'en-US',
     });
-    final response = await _dio.getUri(uri);
-    Map<String, dynamic> data = response.data;
-    return data;
+    try {
+      final response = await _dio.getUri(uri);
+      Map<String, dynamic> data = response.data;
+      await cacheTvShows('airing_today_tv_shows', data);
+      return data;
+    } catch (e) {
+      final cachedData = await getCachedTvShows('airing_today_tv_shows');
+      if (cachedData != null) {
+        return cachedData;
+      } else {
+        throw Exception('Empty cache.');
+      }
+    }
   }
 
   Future<Map<String, dynamic>> getOnTheAirTvShows() async {
@@ -50,9 +87,19 @@ class TvShowService {
       'page': 1.toString(),
       'language': 'en-US',
     });
-    final response = await _dio.getUri(uri);
-    Map<String, dynamic> data = response.data;
-    return data;
+    try {
+      final response = await _dio.getUri(uri);
+      Map<String, dynamic> data = response.data;
+      await cacheTvShows('on_the_air_tv_shows', data);
+      return data;
+    } catch (e) {
+      final cachedData = await getCachedTvShows('on_the_air_tv_shows');
+      if (cachedData != null) {
+        return cachedData;
+      } else {
+        throw Exception('Empty cache.');
+      }
+    }
   }
 
   Future<Map<String, dynamic>> getTopRatedTvShows() async {
@@ -61,14 +108,24 @@ class TvShowService {
       'page': 1.toString(),
       'language': 'en-US',
     });
-    final response = await _dio.getUri(uri);
-    Map<String, dynamic> data = response.data;
-    return data;
+    try {
+      final response = await _dio.getUri(uri);
+      Map<String, dynamic> data = response.data;
+      await cacheTvShows('top_rated_tv_shows', data);
+      return data;
+    } catch (e) {
+      final cachedData = await getCachedTvShows('top_rated_tv_shows');
+      if (cachedData != null) {
+        return cachedData;
+      } else {
+        throw Exception('Empty cache.');
+      }
+    }
   }
 
   Future<Map<String, dynamic>> getTvShowDetails(int tvShowId) async {
     final uri = _makeUri('/tv/$tvShowId', {
-      'append_to_response' : 'credits,videos',
+      'append_to_response': 'credits,videos',
       'api_key': apiKey,
     });
     final response = await _dio.getUri(uri);
@@ -79,7 +136,7 @@ class TvShowService {
   Future<Map<String, dynamic>> getTvShowsByQuery(String query, int page) async {
     final uri = _makeUri('/search/tv', {
       'query': query,
-      'page' : page.toString(),
+      'page': page.toString(),
       'api_key': apiKey,
       'language': 'en-US',
     });
@@ -123,7 +180,7 @@ class TvShowService {
     return 0;
   }
 
-  Future<Map<String, dynamic>> getFavoriteTvShows(int page) async{
+  Future<Map<String, dynamic>> getFavoriteTvShows(int page) async {
     final accountId = await GetIt.I<AccountRepository>().getAccountId();
     final sessionId = await GetIt.I<SessionService>().getSessionId();
     final uri = _makeUri('/account/$accountId/favorite/tv', {
@@ -133,8 +190,18 @@ class TvShowService {
       'sort_by': 'created_at.desc',
       'api_key': apiKey,
     });
-    final response = await _dio.getUri(uri);
-    final data = response.data;
-    return data;
+    try {
+      final response = await _dio.getUri(uri);
+      final data = response.data;
+      await cacheTvShows('favorite_tv_shows', data);
+      return data;
+    } catch (e) {
+      final cachedData = await getCachedTvShows('favorite_tv_shows');
+      if (cachedData != null) {
+        return cachedData;
+      } else {
+        throw Exception('Empty cache.');
+      }
+    }
   }
 }

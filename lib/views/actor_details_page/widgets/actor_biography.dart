@@ -33,7 +33,7 @@ class _ActorBiographyWidgetState extends State<ActorBiographyWidget> {
               ),
               Text(
                 widget.biography,
-                maxLines: _isExpanded ? 200 : 5,
+                maxLines: _isExpanded ? 10000 : 5,
                 overflow: TextOverflow.ellipsis,
                 style: AppTextStyle.small18WhiteTextStyle,
                 textAlign: TextAlign.justify,

@@ -7,6 +7,7 @@ import 'package:movie_nest_app/blocs/tv_show_bloc/tv_show_bloc.dart';
 import 'package:movie_nest_app/constants/app_constants.dart';
 import 'package:movie_nest_app/models/trending_content/trending_item.dart';
 import 'package:movie_nest_app/router/router.gr.dart';
+import 'package:movie_nest_app/theme/app_colors.dart';
 import 'package:movie_nest_app/views/widgets/loading_indicator.dart';
 import '../../../models/movie/movie.dart';
 import '../../../models/tv_show/tv_show.dart';
@@ -31,6 +32,9 @@ class _HomeWidgetState extends State<HomeWidget> {
   late MovieBloc _movieBloc;
   late TrendingBloc _trendingBloc;
   late TvShowBloc _tvShowBloc;
+  String _currentTimeWindow = 'day';
+  String _curentMovieFilter = 'Popular';
+  String _curentTvShowFilter = 'Popular';
 
   @override
   void initState() {
@@ -39,11 +43,11 @@ class _HomeWidgetState extends State<HomeWidget> {
     _moviesSelectedValue = _movieListsItems.first;
     _tvSeriesSelectedValue = _tvSeriesItems.first;
     _trendingBloc = TrendingBloc();
-    _trendingBloc.add(LoadTrendings(timeWindow: 'day'));
+    _trendingBloc.add(LoadTrendings(timeWindow: _currentTimeWindow));
     _movieBloc = MovieBloc();
-    _movieBloc.add(LoadMovieLists(filter: _movieListsItems.first));
+    _movieBloc.add(LoadMovieLists(filter: _curentMovieFilter));
     _tvShowBloc = TvShowBloc();
-    _tvShowBloc.add(LoadTvShowLists(filter: _tvSeriesItems.first));
+    _tvShowBloc.add(LoadTvShowLists(filter: _curentTvShowFilter));
   }
 
   @override
@@ -66,12 +70,20 @@ class _HomeWidgetState extends State<HomeWidget> {
           create: (context) => _tvShowBloc,
         ),
       ],
-      child: ListView(
-        children: [
-          _trendingContent(),
-          _movieLists(),
-          _tvSeriesLists(),
-        ],
+      child: RefreshIndicator(
+        color: AppColors.mainColor,
+        onRefresh: () async {
+          _trendingBloc.add(LoadTrendings(timeWindow: _currentTimeWindow));
+          _movieBloc.add(LoadMovieLists(filter: _curentMovieFilter));
+          _tvShowBloc.add(LoadTvShowLists(filter: _curentTvShowFilter));
+        },
+        child: ListView(
+          children: [
+            _trendingContent(),
+            _movieLists(),
+            _tvSeriesLists(),
+          ],
+        ),
       ),
     );
   }
@@ -112,8 +124,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                             _trendingSelectedValue = newValue;
                           });
 
-                          final timeWindow = newValue == 'Today' ? 'day' : 'week';
-                          _trendingBloc.add(LoadTrendings(timeWindow: timeWindow));
+                          _currentTimeWindow = newValue == 'Today' ? 'day' : 'week';
+                          _trendingBloc.add(LoadTrendings(timeWindow: _currentTimeWindow));
                         },
                         iconEnabledColor: Colors.blue,
                         iconSize: 30,
@@ -305,8 +317,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                         onChanged: (String? movieFilter) {
                           setState(() {
                             _moviesSelectedValue = movieFilter;
+                            _curentMovieFilter = movieFilter!;
                           });
-                          _movieBloc.add(LoadMovieLists(filter: movieFilter!));
+                          _movieBloc.add(LoadMovieLists(filter: _curentMovieFilter));
                         },
                         iconEnabledColor: Colors.blue,
                         iconSize: 30,
@@ -457,8 +470,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                         onChanged: (String? tvShowFilter) {
                           setState(() {
                             _tvSeriesSelectedValue = tvShowFilter;
+                            _curentTvShowFilter = tvShowFilter!;
                           });
-                          _tvShowBloc.add(LoadTvShowLists(filter: tvShowFilter!));
+                          _tvShowBloc.add(LoadTvShowLists(filter: _curentTvShowFilter));
                         },
                         iconEnabledColor: Colors.blue,
                         iconSize: 30,
@@ -471,7 +485,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               ),
             ),
             SizedBox(
-              height: 303,
+              height: 304,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: BlocBuilder<TvShowBloc, TvShowState>(

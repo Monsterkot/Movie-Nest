@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 import 'package:movie_nest_app/constants/media_type.dart';
 import 'package:movie_nest_app/repositories/account_repository.dart';
 import 'package:movie_nest_app/services/session_service.dart';
@@ -22,15 +23,48 @@ class MovieService {
     }
   }
 
+  Future<void> cacheMovies(String key, Map<String, dynamic> data) async {
+    final box = Hive.box('movienest_data');
+    box.delete(key);
+    await box.put(key, data);
+  }
+
+  Future<void> cacheMovieList(String key, Map<String, dynamic> data) async {
+    final box = Hive.box('movienest_data');
+    //box.delete(key);
+    data['page'] = 1;
+    await box.put(key, data);
+  }
+
+  Future<Map<String, dynamic>?> getCachedMovies(String key) async {
+    final box = Hive.box('movienest_data');
+    final cachedData = box.get(key);
+    if (cachedData != null) {
+      return Map<String, dynamic>.from(cachedData);
+    } else {
+      return null;
+    }
+  }
+
   Future<Map<String, dynamic>> getPopularMovies(int page) async {
     final uri = _makeUri('/movie/popular', {
       'api_key': apiKey,
       'page': page.toString(),
       'language': 'en-US',
     });
-    final response = await _dio.getUri(uri);
-    Map<String, dynamic> data = response.data;
-    return data;
+    try {
+      final response = await _dio.getUri(uri);
+      Map<String, dynamic> data = response.data;
+      await cacheMovieList('popular_movies', data);
+      return data;
+    } catch (e) {
+      final cachedData = await getCachedMovies('popular_movies');
+      if (cachedData != null) {
+        return cachedData;
+      } else {
+        throw Exception("Empty cache.");
+      }
+    }
   }
 
   Future<Map<String, dynamic>> getTopRatedMovies() async {
@@ -39,9 +73,19 @@ class MovieService {
       'page': 1.toString(),
       'language': 'en-US',
     });
-    final response = await _dio.getUri(uri);
-    Map<String, dynamic> data = response.data;
-    return data;
+    try {
+      final response = await _dio.getUri(uri);
+      Map<String, dynamic> data = response.data;
+      await cacheMovies('top_rated_movies', data);
+      return data;
+    } catch (e) {
+      final cachedData = await getCachedMovies('top_rated_movies');
+      if (cachedData != null) {
+        return cachedData;
+      } else {
+        throw Exception("Empty cache.");
+      }
+    }
   }
 
   Future<Map<String, dynamic>> getUpcomingMovies() async {
@@ -50,9 +94,19 @@ class MovieService {
       'page': 1.toString(),
       'language': 'en-US',
     });
-    final response = await _dio.getUri(uri);
-    Map<String, dynamic> data = response.data;
-    return data;
+    try {
+      final response = await _dio.getUri(uri);
+      Map<String, dynamic> data = response.data;
+      await cacheMovies('upcoming_movies', data);
+      return data;
+    } catch (e) {
+      final cachedData = await getCachedMovies('upcoming_movies');
+      if (cachedData != null) {
+        return cachedData;
+      } else {
+        throw Exception('Empty cache.');
+      }
+    }
   }
 
   Future<Map<String, dynamic>> getNowPlayingMovies() async {
@@ -61,9 +115,19 @@ class MovieService {
       'page': 1.toString(),
       'language': 'en-US',
     });
-    final response = await _dio.getUri(uri);
-    Map<String, dynamic> data = response.data;
-    return data;
+    try {
+      final response = await _dio.getUri(uri);
+      Map<String, dynamic> data = response.data;
+      await cacheMovies('now_playing_movies', data);
+      return data;
+    } catch (e) {
+      final cachedData = await getCachedMovies('now_playing_movies');
+      if (cachedData != null) {
+        return cachedData;
+      } else {
+        throw Exception('Empty cache.');
+      }
+    }
   }
 
   Future<Map<String, dynamic>> getMovieDetails(int movieId) async {
@@ -123,7 +187,7 @@ class MovieService {
     return 0;
   }
 
-  Future<Map<String, dynamic>> getFavoriteMovies(int page) async{
+  Future<Map<String, dynamic>> getFavoriteMovies(int page) async {
     final accountId = await GetIt.I<AccountRepository>().getAccountId();
     final sessionId = await GetIt.I<SessionService>().getSessionId();
     final uri = _makeUri('/account/$accountId/favorite/movies', {
@@ -133,8 +197,18 @@ class MovieService {
       'sort_by': 'created_at.desc',
       'api_key': apiKey,
     });
-    final response = await _dio.getUri(uri);
-    final data = response.data;
-    return data;
+    try {
+      final response = await _dio.getUri(uri);
+      final data = response.data;
+      await cacheMovies('favorite_movies', data);
+      return data;
+    } catch (e) {
+      final cachedData = await getCachedMovies('favorite_movies');
+      if (cachedData != null) {
+        return cachedData;
+      } else {
+        throw Exception('Empty cache.');
+      }
+    }
   }
 }

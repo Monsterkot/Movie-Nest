@@ -10,7 +10,7 @@ MovieResponse _$MovieResponseFromJson(Map<String, dynamic> json) =>
     MovieResponse(
       page: (json['page'] as num).toInt(),
       movies: (json['results'] as List<dynamic>)
-          .map((e) => Movie.fromJson(e as Map<String, dynamic>))
+          .map((e) => Movie.fromJson(Map<String, dynamic>.from(e)))
           .toList(),
       totalPages: (json['total_pages'] as num).toInt(),
       totalResults: (json['total_results'] as num).toInt(),
