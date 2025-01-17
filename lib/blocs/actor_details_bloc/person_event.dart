@@ -4,6 +4,5 @@ abstract class PersonEvent {}
 
 class LoadPersonDetails extends PersonEvent {
   final int id;
-
   LoadPersonDetails({required this.id});
 }

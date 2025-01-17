@@ -16,7 +16,7 @@ class TvShowDetailsBloc extends Bloc<TvShowDetailsEvent, TvShowDetailsState> {
         emit(TvShowDetailsLoadSuccess(tvShowDetails: tvShowDetails, isTvShowFavorite: isTvShowFavorite));
       } catch (e, st) {
         GetIt.I<Talker>().handle(e, st);
-        emit(TvShowDetailsLoadFailure(message: 'Something went wrong, try again later'));
+        emit(TvShowDetailsLoadFailure());
       }
     });
   }

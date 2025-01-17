@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_nest_app/constants/app_constants.dart';
 import 'package:movie_nest_app/models/trending_content/trending_item.dart';
+import '../../../generated/l10n.dart';
 import '../../../models/movie/movie.dart';
 import '../../../models/tv_show/tv_show.dart';
 import '../../../router/router.gr.dart';
@@ -21,10 +22,10 @@ class ActorKnownForWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
-                'Known For',
+                S.of(context).knownFor,
                 style: AppTextStyle.middleWhiteTextStyle,
               ),
             ),

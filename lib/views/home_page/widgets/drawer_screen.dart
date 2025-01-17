@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../router/router.gr.dart';
 import '../../../services/session_service.dart';
 import '../../../theme/app_text_style.dart';
@@ -33,7 +34,7 @@ class DrawerScreenState extends State<DrawerScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.black.withValues(alpha: 0.5),
-          content: const Text('Are you sure you want to log out?'),
+          content:  Text(S.of(context).areYouSureYouWantToLogOut),
           contentTextStyle: AppTextStyle.small16WhiteTextStyle,
           contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           actions: [
@@ -41,13 +42,13 @@ class DrawerScreenState extends State<DrawerScreen> {
               onPressed: () {
                 _logoutUser(context);
               },
-              child: const Text('Yes'),
+              child: Text(S.of(context).yes),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('No'),
+              child: Text(S.of(context).no),
             ),
           ],
           actionsAlignment: MainAxisAlignment.spaceAround,
@@ -93,17 +94,17 @@ class DrawerScreenState extends State<DrawerScreen> {
               spacing: 20,
               children: <Widget>[
                 NewRow(
-                  text: 'Profile',
+                  text: S.of(context).profile,
                   icon: Icons.person_outline,
                   onTap: _openUserAccount,
                 ),
                 NewRow(
-                  text: 'Favorites',
+                  text: S.of(context).favorites,
                   icon: Icons.favorite_border,
                   onTap: _openFavorites,
                 ),
-                const NewRow(
-                  text: 'Settings',
+                NewRow(
+                  text: S.of(context).settings,
                   icon: Icons.settings,
                 ),
               ],
@@ -120,7 +121,7 @@ class DrawerScreenState extends State<DrawerScreen> {
                     width: 10,
                   ),
                   Text(
-                    'Log out',
+                    S.of(context).logOut,
                     style: TextStyle(color: Colors.red.withValues(alpha: 0.5)),
                   )
                 ],

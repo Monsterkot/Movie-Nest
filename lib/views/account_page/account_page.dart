@@ -5,6 +5,7 @@ import 'package:movie_nest_app/blocs/account_info_bloc/account_info_bloc.dart';
 import 'package:movie_nest_app/theme/app_colors.dart';
 import 'package:movie_nest_app/views/account_page/widgets/profile_card.dart';
 import 'package:movie_nest_app/views/account_page/widgets/view_full_profile_button.dart';
+import '../../generated/l10n.dart';
 import '../../theme/app_text_style.dart';
 
 @RoutePage()
@@ -20,8 +21,8 @@ class AccountPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: AppColors.mainColor,
           centerTitle: true,
-          title: const Text(
-            'Your Profile',
+          title: Text(
+            S.of(context).yourProfile,
             style: AppTextStyle.middleWhiteTextStyle,
           ),
         ),
@@ -45,7 +46,7 @@ class AccountPage extends StatelessWidget {
               } else if (state is AccountInfoError) {
                 return Center(
                     child: Text(
-                  state.message,
+                  S.of(context).somethingWentWrong,
                   style: AppTextStyle.middleWhiteTextStyle,
                 ));
               }

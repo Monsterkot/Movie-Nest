@@ -5,6 +5,7 @@ import 'package:movie_nest_app/blocs/movie_bloc/movie_bloc.dart';
 import 'package:movie_nest_app/constants/app_constants.dart';
 import 'package:movie_nest_app/theme/app_box_decoration_style.dart';
 import 'package:movie_nest_app/utils/date_formatter.dart';
+import '../../../generated/l10n.dart';
 import '../../../models/movie/movie.dart';
 import '../../../router/router.gr.dart';
 import '../../../theme/app_text_style.dart';
@@ -54,7 +55,7 @@ class _MovieListState extends State<MovieList> {
         if (movieState is MovieLoadFailure) {
           return Center(
             child: Text(
-              movieState.message,
+              S.of(context).somethingWentWrong,
               style: AppTextStyle.middleWhiteTextStyle,
             ),
           );

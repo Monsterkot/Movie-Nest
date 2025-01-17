@@ -14,15 +14,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLoginEvent>((event, emit) async {
       emit(AuthLoading());
       if (event.username.isEmpty || event.password.isEmpty) {
-        emit(AuthFailure(
-            errorMessage: 'Username and password fields must be filled in'));
+        emit(AuthFailure(errorCode: 1));
         return;
       }
       try {
-        final String? sessionId = await _authService.auth(
-            username: event.username, password: event.password);
+        final String? sessionId =
+            await _authService.auth(username: event.username, password: event.password);
         if (sessionId == null || sessionId == '') {
-          emit(AuthFailure(errorMessage: 'Unknown error, try again later'));
+          emit(AuthFailure(errorCode: 2));
           return;
         } else {
           await _sessionService.setSessionId(sessionId);
@@ -30,7 +29,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       } catch (e, st) {
         GetIt.I<Talker>().handle(e, st);
-        emit(AuthFailure(errorMessage: 'Invalid username or password'));
+        emit(AuthFailure(errorCode: 3));
       }
     });
   }

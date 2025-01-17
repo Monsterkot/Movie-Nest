@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_nest_app/blocs/url_launcher_bloc/url_launcher_bloc.dart';
+import 'package:movie_nest_app/generated/l10n.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({super.key});
@@ -24,7 +25,7 @@ class HeaderWidget extends StatelessWidget {
           isSnackBarVisible = true;
           final snackBar = SnackBar(
             backgroundColor: Colors.grey.withValues(alpha: 0.4),
-            content: Text(state.message),
+            content: Text(S.of(context).somethingWentWrong),
             duration: const Duration(seconds: 2),
             behavior: SnackBarBehavior.fixed,
             elevation: 10,
@@ -47,7 +48,7 @@ class HeaderWidget extends StatelessWidget {
               height: 25,
             ),
             Text(
-              'Log in to your account',
+              S.of(context).logInToYourAccount,
               style: theme.textTheme.headlineMedium,
             ),
             Padding(
@@ -57,11 +58,11 @@ class HeaderWidget extends StatelessWidget {
                   children: [
                     TextSpan(
                       text:
-                          'To use the editing and rating features of TMDB, as well as to receive personal recommendations, you must log in to your account. If you don\'t have an account, registering it is free and easy. ',
+                          S.of(context).loginInstructions,
                       style: theme.textTheme.headlineSmall,
                     ),
                     TextSpan(
-                      text: 'Click here to register.',
+                      text: S.of(context).clickHereToRegister,
                       style: linkTextStyle,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -81,11 +82,11 @@ class HeaderWidget extends StatelessWidget {
                   children: [
                     TextSpan(
                       text:
-                          'If you have registered but have not received a confirmation email. ',
+                          S.of(context).confirmEmailText,
                       style: theme.textTheme.headlineSmall,
                     ),
                     TextSpan(
-                      text: 'Click here to confirm email.',
+                      text: S.of(context).clickHereToConfirmEmail,
                       style: linkTextStyle,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {

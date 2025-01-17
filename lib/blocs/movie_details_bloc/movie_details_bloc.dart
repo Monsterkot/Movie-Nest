@@ -19,7 +19,7 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
         ));
       } catch (e, st) {
         GetIt.I<Talker>().handle(e, st);
-        emit(MovieDetailsLoadFailure(message: 'Something went wrong, try again later'));
+        emit(MovieDetailsLoadFailure());
       }
     });
   }

@@ -4,6 +4,7 @@ import 'package:movie_nest_app/constants/app_constants.dart';
 import 'package:movie_nest_app/models/movie_details/movie_details_credits/movie_details_credits.dart';
 import 'package:movie_nest_app/router/router.gr.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
+import '../../../generated/l10n.dart';
 import '../../../theme/app_box_decoration_style.dart';
 
 class MovieDetailsMainScreenCastWidget extends StatelessWidget {
@@ -21,10 +22,10 @@ class MovieDetailsMainScreenCastWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+             Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
-                'Series Cast',
+                S.of(context).seriesCast,
                 style: AppTextStyle.middleWhiteTextStyle,
               ),
             ),
@@ -107,8 +108,8 @@ class MovieDetailsMainScreenCastWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               child: TextButton(
                 onPressed: () {},
-                child: const Text(
-                  'Full Cast & Crew',
+                child: Text(
+                  S.of(context).fullCastCrew,
                   style: AppTextStyle.small18WhiteTextStyle,
                 ),
               ),

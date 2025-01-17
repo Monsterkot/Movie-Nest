@@ -13,7 +13,7 @@ class AuthSuccess extends AuthState {
 }
 
 class AuthFailure extends AuthState {
-  AuthFailure({required this.errorMessage});
+  AuthFailure({required this.errorCode});
+  final int errorCode;
   
-  final String errorMessage;
 }

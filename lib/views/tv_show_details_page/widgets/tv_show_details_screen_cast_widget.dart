@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_nest_app/generated/l10n.dart';
 import 'package:movie_nest_app/models/tv_show_details/tv_show_credits/tv_show_credits.dart';
 import 'package:movie_nest_app/router/router.gr.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
@@ -20,10 +21,10 @@ class TvShowDetailsMainScreenCastWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
-                'Series Cast',
+                S.of(context).seriesCast,
                 style: AppTextStyle.middleWhiteTextStyle,
               ),
             ),
@@ -35,7 +36,7 @@ class TvShowDetailsMainScreenCastWidget extends StatelessWidget {
                   radius: const Radius.circular(10),
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: actors.length,//TODO
+                    itemCount: actors.length, //TODO
                     itemExtent: 140,
                     itemBuilder: (BuildContext context, int index) {
                       final actor = actors[index];
@@ -106,8 +107,8 @@ class TvShowDetailsMainScreenCastWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               child: TextButton(
                 onPressed: () {},
-                child: const Text(
-                  'Full Cast & Crew',
+                child: Text(
+                  S.of(context).fullCastCrew,
                   style: AppTextStyle.small18WhiteTextStyle,
                 ),
               ),

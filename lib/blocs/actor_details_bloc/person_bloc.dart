@@ -16,7 +16,7 @@ class PersonBloc extends Bloc<PersonEvent, PersonState> {
         emit(PersonDetailsLoadSuccess(person: person));
       } catch (e, st) {
         GetIt.I<Talker>().handle(e, st);
-        emit(PersonDetailsLoadFailure(message: 'Something went wrong, try again later'));
+        emit(PersonDetailsLoadFailure());
       }
     });
   }

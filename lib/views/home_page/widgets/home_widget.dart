@@ -9,6 +9,7 @@ import 'package:movie_nest_app/models/trending_content/trending_item.dart';
 import 'package:movie_nest_app/router/router.gr.dart';
 import 'package:movie_nest_app/theme/app_colors.dart';
 import 'package:movie_nest_app/views/widgets/loading_indicator.dart';
+import '../../../generated/l10n.dart';
 import '../../../models/movie/movie.dart';
 import '../../../models/tv_show/tv_show.dart';
 import '../../../theme/app_box_decoration_style.dart';
@@ -26,9 +27,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   String? _trendingSelectedValue;
   String? _moviesSelectedValue;
   String? _tvSeriesSelectedValue;
-  final List<String> _trendingItems = ['Today', 'This Week'];
-  final List<String> _movieListsItems = ['Popular', 'Now Playing', 'Top Rated', 'Upcoming'];
-  final List<String> _tvSeriesItems = ['Popular', 'Airing Today', 'On The Air', 'Top Rated'];
+
   late MovieBloc _movieBloc;
   late TrendingBloc _trendingBloc;
   late TvShowBloc _tvShowBloc;
@@ -39,9 +38,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   void initState() {
     super.initState();
-    _trendingSelectedValue = _trendingItems.first;
-    _moviesSelectedValue = _movieListsItems.first;
-    _tvSeriesSelectedValue = _tvSeriesItems.first;
+
     _trendingBloc = TrendingBloc();
     _trendingBloc.add(LoadTrendings(timeWindow: _currentTimeWindow));
     _movieBloc = MovieBloc();
@@ -58,6 +55,25 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> trendingItems = [
+      S.of(context).today,
+      S.of(context).thisWeek,
+    ];
+    final List<String> movieListsItems = [
+      S.of(context).popular,
+      S.of(context).nowPlaying,
+      S.of(context).topRated,
+      S.of(context).upcoming,
+    ];
+    final List<String> tvSeriesItems = [
+      S.of(context).popular,
+      S.of(context).airingToday,
+      S.of(context).onTheAir,
+      S.of(context).topRated,
+    ];
+    _trendingSelectedValue ??= trendingItems.first;
+    _moviesSelectedValue ??= movieListsItems.first;
+    _tvSeriesSelectedValue ??= tvSeriesItems.first;
     return MultiBlocProvider(
       providers: [
         BlocProvider<MovieBloc>(
@@ -79,16 +95,16 @@ class _HomeWidgetState extends State<HomeWidget> {
         },
         child: ListView(
           children: [
-            _trendingContent(),
-            _movieLists(),
-            _tvSeriesLists(),
+            _trendingContent(trendingItems),
+            _movieLists(movieListsItems),
+            _tvSeriesLists(tvSeriesItems),
           ],
         ),
       ),
     );
   }
 
-  Widget _trendingContent() {
+  Widget _trendingContent(List<String> trendingItems) {
     final boxDecoration = AppBoxDecorationStyle.boxDecoration;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -103,8 +119,8 @@ class _HomeWidgetState extends State<HomeWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Trending',
+                  Text(
+                    S.of(context).trending,
                     style: AppTextStyle.middleWhiteTextStyle,
                   ),
                   Container(
@@ -113,7 +129,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         value: _trendingSelectedValue,
-                        items: _trendingItems.map((String value) {
+                        items: trendingItems.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -123,8 +139,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                           setState(() {
                             _trendingSelectedValue = newValue;
                           });
-
-                          _currentTimeWindow = newValue == 'Today' ? 'day' : 'week';
+                          if (newValue == 'Today' || newValue == 'Сегодня') {
+                            _currentTimeWindow = 'day';
+                          } else {
+                            _currentTimeWindow = 'week';
+                          }
                           _trendingBloc.add(LoadTrendings(timeWindow: _currentTimeWindow));
                         },
                         iconEnabledColor: Colors.blue,
@@ -159,7 +178,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     } else if (state is LoadTrendingFailure) {
                       return Center(
                         child: Text(
-                          state.message,
+                          S.of(context).somethingWentWrong,
                           style: AppTextStyle.middleWhiteTextStyle,
                         ),
                       );
@@ -283,8 +302,10 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  Widget _movieLists() {
+  Widget _movieLists(List<String> movieListsItems) {
     final boxDecoration = AppBoxDecorationStyle.boxDecoration;
+    final filtersList = ['Popular', 'Now Playing', 'Top Rated', 'Upcoming'];
+    final filtersMap = Map.fromIterables(movieListsItems, filtersList);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Container(
@@ -298,8 +319,8 @@ class _HomeWidgetState extends State<HomeWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Movies',
+                  Text(
+                    S.of(context).movies,
                     style: AppTextStyle.middleWhiteTextStyle,
                   ),
                   Container(
@@ -308,7 +329,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         value: _moviesSelectedValue,
-                        items: _movieListsItems.map((String value) {
+                        items: movieListsItems.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -317,7 +338,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         onChanged: (String? movieFilter) {
                           setState(() {
                             _moviesSelectedValue = movieFilter;
-                            _curentMovieFilter = movieFilter!;
+                            _curentMovieFilter = filtersMap[movieFilter]!;
                           });
                           _movieBloc.add(LoadMovieLists(filter: _curentMovieFilter));
                         },
@@ -354,7 +375,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     } else if (state is MovieLoadFailure) {
                       return Center(
                         child: Text(
-                          state.message,
+                          S.of(context).somethingWentWrong,
                           style: AppTextStyle.middleWhiteTextStyle,
                         ),
                       );
@@ -436,8 +457,10 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  Widget _tvSeriesLists() {
+  Widget _tvSeriesLists(List<String> tvSeriesItems) {
     final boxDecoration = AppBoxDecorationStyle.boxDecoration;
+    final filtersList = ['Popular', 'Airing Today', 'On The Air', 'Top Rated'];
+    final filtersMap = Map.fromIterables(tvSeriesItems, filtersList);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Container(
@@ -451,8 +474,8 @@ class _HomeWidgetState extends State<HomeWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'TV Series',
+                  Text(
+                    S.of(context).tvSeries,
                     style: AppTextStyle.middleWhiteTextStyle,
                   ),
                   Container(
@@ -461,7 +484,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         value: _tvSeriesSelectedValue,
-                        items: _tvSeriesItems.map((String value) {
+                        items: tvSeriesItems.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -470,7 +493,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         onChanged: (String? tvShowFilter) {
                           setState(() {
                             _tvSeriesSelectedValue = tvShowFilter;
-                            _curentTvShowFilter = tvShowFilter!;
+                            _curentTvShowFilter = filtersMap[tvShowFilter]!;
                           });
                           _tvShowBloc.add(LoadTvShowLists(filter: _curentTvShowFilter));
                         },
@@ -507,7 +530,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     } else if (state is TvShowLoadFailure) {
                       return Center(
                         child: Text(
-                          state.message,
+                          S.of(context).somethingWentWrong,
                           style: AppTextStyle.middleWhiteTextStyle,
                         ),
                       );

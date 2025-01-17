@@ -6,6 +6,7 @@ import 'package:movie_nest_app/constants/app_constants.dart';
 import 'package:movie_nest_app/theme/app_box_decoration_style.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
 import 'package:movie_nest_app/utils/date_formatter.dart';
+import '../../../generated/l10n.dart';
 import '../../../models/tv_show/tv_show.dart';
 import '../../../router/router.gr.dart';
 
@@ -27,8 +28,7 @@ class _TvShowsListState extends State<TvShowsList> {
   void initState() {
     super.initState();
     _scrollController.addListener(() {
-      const threshold =
-          3; // Количество элементов до конца списка для начала загрузки
+      const threshold = 3; // Количество элементов до конца списка для начала загрузки
       const itemExtent = 163; // Высота одного элемента
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - threshold * itemExtent) {
@@ -54,7 +54,7 @@ class _TvShowsListState extends State<TvShowsList> {
         if (movieState is TvShowLoadFailure) {
           return Center(
             child: Text(
-              movieState.message,
+              S.of(context).somethingWentWrong,
               style: AppTextStyle.middleWhiteTextStyle,
             ),
           );
@@ -148,7 +148,7 @@ class _TvShowsListState extends State<TvShowsList> {
                       ),
                       const SizedBox(height: 15),
                       Text(
-                        tvShow.overview ?? '',//TODO
+                        tvShow.overview ?? '', //TODO
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(

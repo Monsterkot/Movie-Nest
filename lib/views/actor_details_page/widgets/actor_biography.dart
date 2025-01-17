@@ -3,6 +3,8 @@ import 'package:movie_nest_app/theme/app_box_decoration_style.dart';
 import 'package:movie_nest_app/theme/app_button_style.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
 
+import '../../../generated/l10n.dart';
+
 class ActorBiographyWidget extends StatefulWidget {
   const ActorBiographyWidget({super.key, required this.biography});
   final String biography;
@@ -24,8 +26,8 @@ class _ActorBiographyWidgetState extends State<ActorBiographyWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Biography',
+              Text(
+                S.of(context).biography,
                 style: AppTextStyle.middleWhiteTextStyle,
               ),
               const SizedBox(
@@ -49,7 +51,7 @@ class _ActorBiographyWidgetState extends State<ActorBiographyWidget> {
                       });
                     },
                     child: Text(
-                      _isExpanded ? 'Show Less' : 'Show More',
+                      _isExpanded ? S.of(context).showLess : S.of(context).showMore,
                     ),
                   ),
                 ],

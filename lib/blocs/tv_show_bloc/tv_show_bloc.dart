@@ -58,7 +58,7 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
       }
     } catch (e, st) {
       GetIt.I<Talker>().handle(e, st);
-      emit(TvShowLoadFailure(message: 'Something went wrong, try again later'));
+      emit(TvShowLoadFailure());
     }
   }
 
@@ -108,7 +108,7 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     } catch (e, st) {
       GetIt.I<Talker>().handle(e, st);
       if (_currentPage == 0) {
-        emit(TvShowLoadFailure(message: 'Something went wrong, try again later'));
+        emit(TvShowLoadFailure());
       }
     } finally {
       isLoadingInProgress = false;

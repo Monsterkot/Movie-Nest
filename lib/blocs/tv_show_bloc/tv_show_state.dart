@@ -17,9 +17,6 @@ class TvShowsByQueryLoadSuccess extends TvShowState {
 }
 
 class TvShowLoadFailure extends TvShowState {
-  final String message;
-
-  TvShowLoadFailure({required this.message});
 }
 
 class TvShowLoading extends TvShowState {}

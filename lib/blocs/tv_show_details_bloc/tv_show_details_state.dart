@@ -11,10 +11,6 @@ class TvShowDetailsLoadSuccess extends TvShowDetailsState {
   final bool isTvShowFavorite;
 }
 
-class TvShowDetailsLoadFailure extends TvShowDetailsState {
-  TvShowDetailsLoadFailure({required this.message});
-
-  final String message;
-}
+class TvShowDetailsLoadFailure extends TvShowDetailsState {}
 
 class TvShowDetailsIsLoading extends TvShowDetailsState {}

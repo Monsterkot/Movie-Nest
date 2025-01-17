@@ -5,8 +5,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:intl/intl.dart';
 import 'package:movie_nest_app/repositories/account_repository.dart';
 import 'package:movie_nest_app/repositories/person_repository.dart';
 import 'package:movie_nest_app/repositories/trending_repository.dart';
@@ -62,7 +62,8 @@ void main() {
   GetIt.I.registerLazySingleton<TvShowRepository>(() => TvShowRepository());
   GetIt.I.registerLazySingleton<TrendingRepository>(() => TrendingRepository());
   GetIt.I.registerLazySingleton<PersonRepository>(() => PersonRepository());
-
+  
+  GetIt.I<Talker>().info(Intl.getCurrentLocale());
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();

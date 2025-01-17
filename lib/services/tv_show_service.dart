@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 import '../constants/app_constants.dart';
 import '../constants/media_type.dart';
@@ -39,11 +40,16 @@ class TvShowService {
     }
   }
 
+  String getCurrentLocale() {
+    String locale = Intl.getCurrentLocale();
+    return locale.replaceAll('_', '-');
+  }
+
   Future<Map<String, dynamic>> getPopularTvShows(int page) async {
     final uri = _makeUri('/tv/popular', {
       'api_key': apiKey,
       'page': page.toString(),
-      'language': 'en-US',
+      'language': getCurrentLocale(),
     });
     try {
       final response = await _dio.getUri(uri);
@@ -64,7 +70,7 @@ class TvShowService {
     final uri = _makeUri('/tv/airing_today', {
       'api_key': apiKey,
       'page': 1.toString(),
-      'language': 'en-US',
+      'language': getCurrentLocale(),
     });
     try {
       final response = await _dio.getUri(uri);
@@ -85,7 +91,7 @@ class TvShowService {
     final uri = _makeUri('/tv/on_the_air', {
       'api_key': apiKey,
       'page': 1.toString(),
-      'language': 'en-US',
+      'language': getCurrentLocale(),
     });
     try {
       final response = await _dio.getUri(uri);
@@ -106,7 +112,7 @@ class TvShowService {
     final uri = _makeUri('/tv/top_rated', {
       'api_key': apiKey,
       'page': 1.toString(),
-      'language': 'en-US',
+      'language': getCurrentLocale(),
     });
     try {
       final response = await _dio.getUri(uri);
@@ -127,6 +133,7 @@ class TvShowService {
     final uri = _makeUri('/tv/$tvShowId', {
       'append_to_response': 'credits,videos',
       'api_key': apiKey,
+      'language': getCurrentLocale(),
     });
     final response = await _dio.getUri(uri);
     final data = response.data;
@@ -138,7 +145,7 @@ class TvShowService {
       'query': query,
       'page': page.toString(),
       'api_key': apiKey,
-      'language': 'en-US',
+      'language': getCurrentLocale(),
     });
     final response = await _dio.getUri(uri);
     final data = response.data;
@@ -184,7 +191,7 @@ class TvShowService {
     final accountId = await GetIt.I<AccountRepository>().getAccountId();
     final sessionId = await GetIt.I<SessionService>().getSessionId();
     final uri = _makeUri('/account/$accountId/favorite/tv', {
-      'language': 'en-US',
+      'language': getCurrentLocale(),
       'page': page.toString(),
       'session_id': sessionId,
       'sort_by': 'created_at.desc',

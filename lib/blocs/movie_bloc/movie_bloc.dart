@@ -58,7 +58,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       }
     } catch (e, st) {
       GetIt.I<Talker>().handle(e, st);
-      emit(MovieLoadFailure(message: 'Something went wrong, try again later'));
+      emit(MovieLoadFailure());
     }
   }
 
@@ -108,7 +108,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     } catch (e, st) {
       GetIt.I<Talker>().handle(e, st);
       if (_currentPage == 0) {
-        emit(MovieLoadFailure(message: 'Something went wrong, try again later'));
+        emit(MovieLoadFailure());
       }
     } finally {
       isLoadingInProgress = false;

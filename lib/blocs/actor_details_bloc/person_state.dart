@@ -13,7 +13,4 @@ class PersonDetailsLoadSuccess extends PersonState {
 }
 
 class PersonDetailsLoadFailure extends PersonState {
-  final String message;
-
-  PersonDetailsLoadFailure({required this.message});
 }

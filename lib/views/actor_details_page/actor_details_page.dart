@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_nest_app/blocs/actor_details_bloc/person_bloc.dart';
+import 'package:movie_nest_app/generated/l10n.dart';
 import 'package:movie_nest_app/views/actor_details_page/widgets/actor_known_for.dart';
 import 'package:movie_nest_app/views/actor_details_page/widgets/actor_main_info.dart';
 import 'package:movie_nest_app/views/widgets/loading_indicator.dart';
@@ -51,13 +52,13 @@ class _ActorDetailsScreenState extends State<ActorDetailsScreen> {
                   style: AppTextStyle.middleWhiteTextStyle,
                 );
               } else if (state is PersonDetailsLoadFailure) {
-                return const Text(
-                  'Error',
+                return Text(
+                  S.of(context).error,
                   style: AppTextStyle.middleWhiteTextStyle,
                 );
               } else {
-                return const Text(
-                  'Loading...',
+                return Text(
+                  S.of(context).loading,
                   style: AppTextStyle.middleWhiteTextStyle,
                 );
               }
@@ -84,7 +85,7 @@ class _ActorDetailsScreenState extends State<ActorDetailsScreen> {
                 );
               } else if (state is PersonDetailsLoadFailure) {
                 return Text(
-                  state.message,
+                  S.of(context).somethingWentWrong,
                   style: AppTextStyle.middleWhiteTextStyle,
                 );
               } else {

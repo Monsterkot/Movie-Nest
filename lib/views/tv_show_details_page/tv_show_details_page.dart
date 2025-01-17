@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:like_button/like_button.dart';
 import 'package:movie_nest_app/blocs/tv_show_details_bloc/tv_show_details_bloc.dart';
+import 'package:movie_nest_app/generated/l10n.dart';
 import 'package:movie_nest_app/repositories/tv_show_repository.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
 import 'package:movie_nest_app/views/tv_show_details_page/widgets/tv_show_details_main_info_widget.dart';
@@ -87,8 +88,8 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
                         ? AppTextStyle.middleBlackTextStyle
                         : AppTextStyle.middleWhiteTextStyle,
                   )
-                : const Text(
-                    'Loading...',
+                : Text(
+                    S.of(context).loading,
                     style: AppTextStyle.middleWhiteTextStyle,
                   ),
             leading: BackButton(
@@ -118,7 +119,7 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
             child: state is TvShowDetailsLoadFailure
                 ? Center(
                     child: Text(
-                      state.message,
+                      S.of(context).somethingWentWrong,
                       style: AppTextStyle.middleWhiteTextStyle,
                     ),
                   )

@@ -6,6 +6,7 @@ import 'package:movie_nest_app/theme/app_button_style.dart';
 import 'package:movie_nest_app/theme/app_text_field_style.dart';
 import '../../../blocs/auth_bloc/auth_bloc.dart';
 import '../../../blocs/url_launcher_bloc/url_launcher_bloc.dart';
+import '../../../generated/l10n.dart';
 
 class FormWidget extends StatefulWidget {
   const FormWidget({super.key});
@@ -66,7 +67,18 @@ class _FormWidgetState extends State<FormWidget> {
         BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthFailure) {
-              _showSnackbar(state.errorMessage);
+              switch (state.errorCode) {
+                case 1:
+                  _showSnackbar(S.of(context).usernameAndPasswordFieldsMustBeFilledIn);
+                  break;
+                case 2:
+                  _showSnackbar(S.of(context).unknownErrorTryAgainLater);
+                  break;
+                case 3:
+                  _showSnackbar(S.of(context).invalidUsernameOrPassword);
+                  break;
+              }
+              
             }
             if (state is AuthSuccess) {
               AutoRouter.of(context).replace(const MainHomeRoute());
@@ -76,7 +88,7 @@ class _FormWidgetState extends State<FormWidget> {
         BlocListener<UrlLauncherBloc, UrlLauncherState>(
           listener: (context, state) {
             if (state is UrlLauncherLaunchFailure) {
-              _showSnackbar(state.message);
+              _showSnackbar(S.of(context).somethingWentWrong);
             }
           },
         ),
@@ -90,7 +102,7 @@ class _FormWidgetState extends State<FormWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Username',
+                  S.of(context).username,
                   style: theme.textTheme.headlineSmall,
                 ),
                 const SizedBox(
@@ -108,7 +120,7 @@ class _FormWidgetState extends State<FormWidget> {
                   height: 10,
                 ),
                 Text(
-                  'Password',
+                  S.of(context).password,
                   style: theme.textTheme.headlineSmall,
                 ),
                 const SizedBox(
@@ -153,7 +165,7 @@ class _FormWidgetState extends State<FormWidget> {
                       style: authInProcess
                           ? AppButtonStyle.inactiveButtonStyle
                           : AppButtonStyle.buttonStyle,
-                      child: const Text('Login'),
+                      child: Text(S.of(context).login),
                     ),
                     const SizedBox(
                       width: 20,
@@ -165,7 +177,7 @@ class _FormWidgetState extends State<FormWidget> {
                             .add(LaunchUrlLauncherEvent('/reset-password'));
                       },
                       style: AppButtonStyle.linkButtonStyle,
-                      child: const Text('Reset password'),
+                      child: Text(S.of(context).resetPassword),
                     ),
                   ],
                 ),

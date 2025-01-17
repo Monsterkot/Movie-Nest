@@ -17,7 +17,4 @@ class MovieDetailsLoadSuccess extends MovieDetailsState {
 }
 
 class MovieDetailsLoadFailure extends MovieDetailsState {
-  final String message;
-
-  MovieDetailsLoadFailure({required this.message});
 }

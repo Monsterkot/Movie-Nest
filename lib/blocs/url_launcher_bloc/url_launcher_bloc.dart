@@ -15,7 +15,7 @@ class UrlLauncherBloc extends Bloc<UrlLauncherEvent, UrlLauncherState> {
         emit(UrlLauncherSuccess());
       } catch (e, st) {
         GetIt.I<Talker>().handle(e, st);
-        emit(UrlLauncherLaunchFailure('Something went wrong, try again later'));
+        emit(UrlLauncherLaunchFailure());
       }
     });
   }

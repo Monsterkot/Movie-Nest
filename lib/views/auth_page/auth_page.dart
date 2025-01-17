@@ -6,6 +6,7 @@ import 'package:movie_nest_app/theme/app_text_style.dart';
 import 'package:movie_nest_app/views/auth_page/widgets/form_widget.dart';
 import 'package:movie_nest_app/views/auth_page/widgets/header_widget.dart';
 import '../../blocs/auth_bloc/auth_bloc.dart';
+import '../../generated/l10n.dart';
 
 @RoutePage()
 class AuthPage extends StatefulWidget {
@@ -26,8 +27,8 @@ class _AuthPageState extends State<AuthPage> {
               resizeToAvoidBottomInset: false,
               appBar: AppBar(
                 backgroundColor: AppColors.mainColor,
-                title: const Text(
-                  'Log in to your account',
+                title: Text(
+                  S.of(context).logInToYourAccount,
                   style: AppTextStyle.middleWhiteTextStyle,
                 ),
                 centerTitle: true,

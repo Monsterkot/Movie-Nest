@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:movie_nest_app/constants/media_type.dart';
 import 'package:movie_nest_app/repositories/account_repository.dart';
 import 'package:movie_nest_app/services/session_service.dart';
@@ -31,8 +32,7 @@ class MovieService {
 
   Future<void> cacheMovieList(String key, Map<String, dynamic> data) async {
     final box = Hive.box('movienest_data');
-    //box.delete(key);
-    data['page'] = 1;
+    box.delete(key);
     await box.put(key, data);
   }
 
@@ -46,11 +46,16 @@ class MovieService {
     }
   }
 
+  String getCurrentLocale() {
+    String locale = Intl.getCurrentLocale();
+    return locale.replaceAll('_', '-');
+  }
+
   Future<Map<String, dynamic>> getPopularMovies(int page) async {
     final uri = _makeUri('/movie/popular', {
       'api_key': apiKey,
       'page': page.toString(),
-      'language': 'en-US',
+      'language': getCurrentLocale(),
     });
     try {
       final response = await _dio.getUri(uri);
@@ -71,7 +76,7 @@ class MovieService {
     final uri = _makeUri('/movie/top_rated', {
       'api_key': apiKey,
       'page': 1.toString(),
-      'language': 'en-US',
+      'language': getCurrentLocale(),
     });
     try {
       final response = await _dio.getUri(uri);
@@ -92,7 +97,7 @@ class MovieService {
     final uri = _makeUri('/movie/upcoming', {
       'api_key': apiKey,
       'page': 1.toString(),
-      'language': 'en-US',
+      'language': getCurrentLocale(),
     });
     try {
       final response = await _dio.getUri(uri);
@@ -113,7 +118,7 @@ class MovieService {
     final uri = _makeUri('/movie/now_playing', {
       'api_key': apiKey,
       'page': 1.toString(),
-      'language': 'en-US',
+      'language': getCurrentLocale(),
     });
     try {
       final response = await _dio.getUri(uri);
@@ -134,6 +139,7 @@ class MovieService {
     final uri = _makeUri('/movie/$movieId', {
       'append_to_response': 'credits,videos',
       'api_key': apiKey,
+      'language': getCurrentLocale(),
     });
     final response = await _dio.getUri(uri);
     final data = response.data;
@@ -145,7 +151,7 @@ class MovieService {
       'query': query,
       'page': page.toString(),
       'api_key': apiKey,
-      'language': 'en-US',
+      'language': getCurrentLocale(),
     });
     final response = await _dio.getUri(uri);
     final data = response.data;
@@ -191,7 +197,7 @@ class MovieService {
     final accountId = await GetIt.I<AccountRepository>().getAccountId();
     final sessionId = await GetIt.I<SessionService>().getSessionId();
     final uri = _makeUri('/account/$accountId/favorite/movies', {
-      'language': 'en-US',
+      'language': getCurrentLocale(),
       'page': page.toString(),
       'session_id': sessionId,
       'sort_by': 'created_at.desc',

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:movie_nest_app/constants/app_constants.dart';
+import 'package:movie_nest_app/generated/l10n.dart';
 import 'package:movie_nest_app/models/genre/genre.dart';
 import 'package:movie_nest_app/models/tv_show_details/tv_show_details.dart';
 import 'package:movie_nest_app/models/video/video.dart';
@@ -143,51 +144,57 @@ class _ScoreWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final ratingToHundreds = (voteAverage * 10).truncateToDouble();
     final trailerKey = videos?.isNotEmpty == true ? videos!.first.key : null;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        TextButton(
-          onPressed: () {},
-          child: Row(
-            children: [
-              SizedBox(
-                height: 50,
-                width: 50,
-                child: RadialPercentWidget(
-                  percent: ratingToHundreds,
-                  child: Text('${ratingToHundreds.toInt()}'),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 50,
+            width: 50,
+            child: RadialPercentWidget(
+              percent: ratingToHundreds,
+              child: Text(
+                '${ratingToHundreds.toInt()}',
+                style: const TextStyle(
+                  color: Colors.white,
                 ),
               ),
-              const SizedBox(width: 5),
-              const Text(
-                'User Score',
-                style: AppTextStyle.small18WhiteTextStyle,
+            ),
+          ),
+          const SizedBox(width: 5),
+          Flexible(
+            child: Text(
+              S.of(context).userScore,
+              style: AppTextStyle.small18WhiteTextStyle,
+              maxLines: 2,
+            ),
+          ),
+          Flexible(
+            child: TextButton(
+              onPressed: trailerKey != null
+                  ? () {
+                      AutoRouter.of(context).push(YouTubePlayerRoute(youtubeKey: trailerKey));
+                    }
+                  : null,
+              style: trailerKey != null
+                  ? AppButtonStyle.trailerButtonStyle
+                  : AppButtonStyle.disabledTrailerButtonStyle,
+              child: Row(
+                children: [
+                  const Icon(Icons.play_arrow),
+                  Flexible(
+                    child: Text(
+                      S.of(context).playTrailer,
+                      maxLines: 2,
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-        Container(
-          color: Colors.grey,
-          width: 1,
-          height: 15,
-        ),
-        TextButton(
-          onPressed: trailerKey != null
-              ? () {
-                  AutoRouter.of(context).push(YouTubePlayerRoute(youtubeKey: trailerKey));
-                }
-              : null,
-          style: trailerKey != null
-              ? AppButtonStyle.trailerButtonStyle
-              : AppButtonStyle.disabledTrailerButtonStyle,
-          child: const Row(
-            children: [
-              Icon(Icons.play_arrow),
-              Text('Play Trailer'),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -230,8 +237,8 @@ class _OverviewWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Overview',
+        Text(
+          S.of(context).overview,
           style: AppTextStyle.middleWhiteTextStyle,
         ),
         const SizedBox(

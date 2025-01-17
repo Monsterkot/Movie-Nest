@@ -6,6 +6,7 @@ import 'package:movie_nest_app/views/home_page/widgets/home_widget.dart';
 import 'package:movie_nest_app/views/home_page/widgets/movie_list.dart';
 import 'package:movie_nest_app/views/home_page/widgets/tv_shows_list.dart';
 import '../../blocs/movie_bloc/movie_bloc.dart' as movie_block;
+import '../../generated/l10n.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -122,14 +123,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   controller: _searchController,
                   autofocus: true,
                   style: const TextStyle(color: Colors.white),
-                  decoration: const InputDecoration(
-                    hintText: 'Search...',
-                    hintStyle: TextStyle(color: Colors.white60),
+                  decoration: InputDecoration(
+                    hintText: S.of(context).search,
+                    hintStyle: const TextStyle(color: Colors.white60),
                     border: InputBorder.none,
                   ),
                 )
-              : const Text(
-                  'Welcome!',
+              : Text(
+                  S.of(context).welcome,
                   style: AppTextStyle.middleWhiteTextStyle,
                 ),
           leading: _isSearching
@@ -203,18 +204,18 @@ class _HomeScreenState extends State<HomeScreen> {
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: AppColors.mainColor,
           currentIndex: _selectedTab,
-          items: const [
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+              icon: const Icon(Icons.home),
+              label: S.of(context).home,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.movie_filter),
-              label: 'Movies',
+              icon: const Icon(Icons.movie_filter),
+              label: S.of(context).movies,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.tv),
-              label: 'TV series',
+              icon: const Icon(Icons.tv),
+              label: S.of(context).tvSeries,
             ),
           ],
           onTap: _onSelectTab,

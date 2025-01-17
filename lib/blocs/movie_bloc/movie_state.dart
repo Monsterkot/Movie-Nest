@@ -17,9 +17,6 @@ class MoviesByQueryLoadSuccess extends MovieState {
 }
 
 class MovieLoadFailure extends MovieState {
-  final String message;
-
-  MovieLoadFailure({required this.message});
 }
 
 class MovieLoading extends MovieState {}

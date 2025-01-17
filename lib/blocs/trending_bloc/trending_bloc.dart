@@ -16,7 +16,7 @@ class TrendingBloc extends Bloc<TrendingEvent, TrendingState> {
         emit(LoadTrendingSuccess(trendings: trendings));
       } catch (e, st) {
         GetIt.I<Talker>().handle(e, st);
-        emit(LoadTrendingFailure(message: 'Something went wrong, try again later'));
+        emit(LoadTrendingFailure());
       }
     });
   }

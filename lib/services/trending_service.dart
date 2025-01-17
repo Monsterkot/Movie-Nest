@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import '../constants/app_constants.dart';
 
 class TrendingService {
@@ -32,8 +33,16 @@ class TrendingService {
     }
   }
 
+  String getCurrentLocale() {
+    String locale = Intl.getCurrentLocale();
+    return locale.replaceAll('_', '-');
+  }
+
   Future<Map<String, dynamic>> getAllTrending(String timeWindow) async {
-    final uri = _makeUri('/trending/all/$timeWindow', {'api_key': apiKey});
+    final uri = _makeUri('/trending/all/$timeWindow', {
+      'api_key': apiKey,
+      'language': getCurrentLocale(),
+    });
     try {
       final response = await _dio.getUri(uri);
       final data = response.data;

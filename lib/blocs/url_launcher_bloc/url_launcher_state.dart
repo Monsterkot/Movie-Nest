@@ -7,7 +7,4 @@ class UrlLauncherInitial extends UrlLauncherState {}
 class UrlLauncherSuccess extends UrlLauncherState {}
 
 class UrlLauncherLaunchFailure extends UrlLauncherState {
-  final String message;
-
-  UrlLauncherLaunchFailure(this.message);
 }

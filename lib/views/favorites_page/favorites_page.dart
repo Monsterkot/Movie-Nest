@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_nest_app/blocs/movie_bloc/movie_bloc.dart';
 import 'package:movie_nest_app/blocs/tv_show_bloc/tv_show_bloc.dart';
+import 'package:movie_nest_app/generated/l10n.dart';
 import 'package:movie_nest_app/models/tv_show/tv_show.dart';
 import 'package:movie_nest_app/theme/app_colors.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
-
 import '../../constants/app_constants.dart';
 import '../../models/movie/movie.dart';
 import '../../router/router.gr.dart';
@@ -23,14 +23,13 @@ class FavoritesPage extends StatefulWidget {
 class _FavoritesPageState extends State<FavoritesPage> {
   final ScrollController _movieScrollController = ScrollController();
   final ScrollController _tvShowScrollController = ScrollController();
-  final List<String> _items = ['Movies', 'TV Shows'];
+  
   String? _selectedItem;
   late MovieBloc _movieBloc;
   late TvShowBloc _tvShowBloc;
   @override
   void initState() {
     super.initState();
-    _selectedItem = _items.first;
     _movieBloc = MovieBloc();
     _tvShowBloc = TvShowBloc();
     _movieBloc.add(LoadFavoriteMovies());
@@ -75,12 +74,14 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> items = [S.of(context).movies, S.of(context).tvSeries];
+    _selectedItem ??= items.first;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         centerTitle: true,
-        title: const Text(
-          'Favorites',
+        title: Text(
+          S.of(context).favorites,
           style: AppTextStyle.middleWhiteTextStyle,
         ),
         leading: const BackButton(),
@@ -89,9 +90,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
         color: AppColors.mainColor,
         child: Column(
           children: [
-            _dropdownButton(),
+            _dropdownButton(items),
             Expanded(
-              child: _selectedItem == _items.first ? _favoriteMovieList() : _favoriteTvShowList(),
+              child: _selectedItem == items.first ? _favoriteMovieList() : _favoriteTvShowList(),
             ),
           ],
         ),
@@ -99,7 +100,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
     );
   }
 
-  Widget _dropdownButton() {
+  Widget _dropdownButton(List<String> items) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
@@ -109,7 +110,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             value: _selectedItem,
-            items: _items.map((String value) {
+            items: items.map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
@@ -148,7 +149,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         if (movieState is MovieLoadFailure) {
           return Center(
             child: Text(
-              movieState.message,
+              S.of(context).somethingWentWrong,
               style: AppTextStyle.middleWhiteTextStyle,
             ),
           );
@@ -171,7 +172,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         if (tvShowState is TvShowLoadFailure) {
           return Center(
             child: Text(
-              tvShowState.message,
+              S.of(context).somethingWentWrong,
               style: AppTextStyle.middleWhiteTextStyle,
             ),
           );

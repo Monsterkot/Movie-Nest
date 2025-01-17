@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_nest_app/blocs/url_launcher_bloc/url_launcher_bloc.dart';
+import '../../../generated/l10n.dart';
 import '../../../theme/app_box_decoration_style.dart';
 import '../../../theme/app_button_style.dart';
 
@@ -22,14 +23,14 @@ class ViewFullProfileButton extends StatelessWidget {
               _openUrl(context);
             },
             style: AppButtonStyle.linkAltButtonStyle,
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('View full profile'),
-                SizedBox(
+                Text(S.of(context).viewFullProfile),
+                const SizedBox(
                   width: 8,
                 ),
-                Icon(Icons.shortcut_sharp)
+                const Icon(Icons.shortcut_sharp)
               ],
             ),
           ),

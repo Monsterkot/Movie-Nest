@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:movie_nest_app/generated/l10n.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -98,7 +99,7 @@ class _YouTubePlayerWidgetState extends State<YouTubePlayerWidget> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(
-            _isPlayerReady ? _videoMetaData.title : 'Loading...',
+            _isPlayerReady ? _videoMetaData.title : S.of(context).loading,
             style: AppTextStyle.small18WhiteBoldTextStyle,
           ),
           leading: const BackButton(

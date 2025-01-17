@@ -10,10 +10,6 @@ class LoadTrendingSuccess extends TrendingState {
   LoadTrendingSuccess({required this.trendings});
 }
 
-class LoadTrendingFailure extends TrendingState {
-  final String message;
+class LoadTrendingFailure extends TrendingState {}
 
-  LoadTrendingFailure({required this.message});
-}
-
-class TrendingLoading extends TrendingState{}
+class TrendingLoading extends TrendingState {}

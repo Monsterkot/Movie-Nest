@@ -11,7 +11,4 @@ class AccountInfoLoaded extends AccountInfoState {
 }
 
 class AccountInfoError extends AccountInfoState {
-  final String message;
-
-  AccountInfoError(this.message);
 }

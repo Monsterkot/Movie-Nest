@@ -5,6 +5,8 @@ import 'package:movie_nest_app/theme/app_box_decoration_style.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
 import 'package:movie_nest_app/utils/date_formatter.dart';
 
+import '../../../generated/l10n.dart';
+
 class ActorMainInfoWidget extends StatelessWidget {
   const ActorMainInfoWidget({super.key, required this.actor});
 
@@ -45,10 +47,10 @@ class ActorMainInfoWidget extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Row(
+              Row(
                 children: [
                   Text(
-                    'Personal info',
+                    S.of(context).personalInfo,
                     style: AppTextStyle.middleWhiteTextStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -60,34 +62,38 @@ class ActorMainInfoWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Stage Name',
-                        style: AppTextStyle.small18WhiteBoldTextStyle,
-                      ),
-                      Text(
-                        actor.name,
-                        style: AppTextStyle.small16WhiteTextStyle,
-                      ),
-                    ],
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          S.of(context).stageName,
+                          style: AppTextStyle.small18WhiteBoldTextStyle,
+                        ),
+                        Text(
+                          actor.name,
+                          style: AppTextStyle.small16WhiteTextStyle,
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     width: 60,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Known For',
-                        style: AppTextStyle.small18WhiteBoldTextStyle,
-                      ),
-                      Text(
-                        actor.knownForDepartment,
-                        style: AppTextStyle.small16WhiteTextStyle,
-                      ),
-                    ],
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          S.of(context).knownFor,
+                          style: AppTextStyle.small18WhiteBoldTextStyle,
+                        ),
+                        Text(
+                          actor.knownForDepartment,
+                          style: AppTextStyle.small16WhiteTextStyle,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -98,8 +104,8 @@ class ActorMainInfoWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Known Credits',
+                      Text(
+                        S.of(context).knownCredits,
                         style: AppTextStyle.small18WhiteBoldTextStyle,
                       ),
                       Text(
@@ -114,8 +120,8 @@ class ActorMainInfoWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Gender',
+                      Text(
+                        S.of(context).gender,
                         style: AppTextStyle.small18WhiteBoldTextStyle,
                       ),
                       Text(
@@ -133,13 +139,13 @@ class ActorMainInfoWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Birthday',
+                      Text(
+                        S.of(context).birthday,
                         style: AppTextStyle.small18WhiteBoldTextStyle,
                       ),
                       if (actor.deathday == null)
                         Text(
-                          '${DateFormatter.stringFromDate(actor.birthday)} (${DateTime.now().year - actor.birthday!.year} years)',
+                          '${DateFormatter.stringFromDate(actor.birthday)} (${DateTime.now().year - actor.birthday!.year} ${S.of(context).years})',
                           style: AppTextStyle.small16WhiteTextStyle,
                         )
                       else ...[
@@ -151,12 +157,12 @@ class ActorMainInfoWidget extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Text(
-                          'Deathday',
+                        Text(
+                          S.of(context).deathday,
                           style: AppTextStyle.small18WhiteBoldTextStyle,
                         ),
                         Text(
-                          '${DateFormatter.stringFromDate(actor.deathday)} (${actor.deathday!.year - actor.birthday!.year} years)',
+                          '${DateFormatter.stringFromDate(actor.deathday)} (${actor.deathday!.year - actor.birthday!.year} ${S.of(context).years})',
                           style: AppTextStyle.small16WhiteTextStyle,
                         ),
                       ]
@@ -172,8 +178,8 @@ class ActorMainInfoWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Place of Birth',
+                      Text(
+                        S.of(context).placeOfBirth,
                         style: AppTextStyle.small18WhiteBoldTextStyle,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,

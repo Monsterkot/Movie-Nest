@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:movie_nest_app/theme/app_colors.dart';
 import 'package:movie_nest_app/theme/app_text_style.dart';
 
+import '../../generated/l10n.dart';
+
 @RoutePage()
 class ErrorPage extends StatelessWidget {
   const ErrorPage({super.key});
@@ -13,8 +15,8 @@ class ErrorPage extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          'Error',
+        title: Text(
+          S.of(context).error,
           style: AppTextStyle.middleWhiteTextStyle,
         ),
         leading: IconButton(
@@ -27,10 +29,10 @@ class ErrorPage extends StatelessWidget {
       ),
       body: Container(
         color: AppColors.mainColor,
-        child: const Center(
+        child: Center(
           child: Text(
-            'Route error',
-            style: TextStyle(
+            S.of(context).routeError,
+            style: const TextStyle(
               fontSize: 24,
               color: Colors.white,
             ),
