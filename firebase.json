@@ -1,0 +1,22 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "movienest-f5d22",
+                    "appId": "1:388926160854:android:43ee9090115d6db770ae77",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "movienest-f5d22",
+                    "configurations": {
+                        "android": "1:388926160854:android:43ee9090115d6db770ae77",
+                        "web": "1:388926160854:web:d20504a7e3e0ce3870ae77"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,12 +1,16 @@
 import 'dart:async';
+import 'dart:developer';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:intl/intl.dart';
+import 'package:movie_nest_app/firebase_options.dart';
 import 'package:movie_nest_app/repositories/account_repository.dart';
 import 'package:movie_nest_app/repositories/person_repository.dart';
 import 'package:movie_nest_app/repositories/trending_repository.dart';
@@ -62,11 +66,51 @@ void main() {
   GetIt.I.registerLazySingleton<TvShowRepository>(() => TvShowRepository());
   GetIt.I.registerLazySingleton<TrendingRepository>(() => TrendingRepository());
   GetIt.I.registerLazySingleton<PersonRepository>(() => PersonRepository());
-  
-  GetIt.I<Talker>().info(Intl.getCurrentLocale());
+
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      final messaging = FirebaseMessaging.instance;
+
+      final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+          FlutterLocalNotificationsPlugin();
+
+      const AndroidNotificationChannel channel = AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Notifications', // title
+        description: 'This channel is used for important notifications.', // description
+        importance: Importance.max,
+      );
+
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+          ?.createNotificationChannel(channel);
+
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        final notification = message.notification;
+        final android = message.notification?.android;
+
+        // If `onMessage` is triggered with a notification, construct our own
+        // local notification to show to users using the created channel.
+        if (notification != null && android != null) {
+          flutterLocalNotificationsPlugin.show(
+              notification.hashCode,
+              notification.title,
+              notification.body,
+              NotificationDetails(
+                android: AndroidNotificationDetails(
+                  channel.id,
+                  channel.name,
+                  channelDescription: channel.description,
+                  icon: 'launcher_icon',
+                ),
+              ));
+        }
+      });
+      messaging.getToken().then((token) => log(token ?? 'No token'));
       await Hive.initFlutter();
       await Hive.openBox('movienest_data');
       await GetIt.I<SessionService>().checkSession();
