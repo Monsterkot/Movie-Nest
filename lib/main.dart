@@ -29,6 +29,22 @@ import 'package:talker_flutter/talker_flutter.dart';
 import 'repositories/movie_repository.dart';
 
 void main() {
+  _initializeDependencies();
+  
+  
+  runZonedGuarded(
+    () async {
+      _initializeFlutterBindings();
+      await _initializeFirebase();
+      await _initializeHive();
+      await _checkSession();
+      runApp(MovieNestApp());
+    },
+    (e, st) => GetIt.I<Talker>().handle(e, st),
+  );
+}
+
+void _initializeDependencies() {
   final talker = TalkerFlutter.init();
   GetIt.I.registerSingleton(talker);
 
@@ -43,16 +59,23 @@ void main() {
   );
 
   Bloc.observer = TalkerBlocObserver(
-      talker: talker,
-      settings: const TalkerBlocLoggerSettings(
-        printStateFullData: false,
-        printEventFullData: false,
-      ));
+    talker: talker,
+    settings: const TalkerBlocLoggerSettings(
+      printStateFullData: false,
+      printEventFullData: false,
+    ),
+  );
 
   FlutterError.onError = (details) => GetIt.I<Talker>().handle(details.exception, details.stack);
 
   GetIt.I.registerSingleton<FlutterSecureStorage>(const FlutterSecureStorage());
 
+  // Регистрация сервисов
+  _registerServices(dio);
+  _registerRepositories();
+}
+
+void _registerServices(Dio dio) {
   GetIt.I.registerLazySingleton<AuthService>(() => AuthService(dio: dio));
   GetIt.I.registerLazySingleton<SessionService>(() => SessionService());
   GetIt.I.registerLazySingleton<AccountService>(() => AccountService(dio: dio));
@@ -60,64 +83,69 @@ void main() {
   GetIt.I.registerLazySingleton<TvShowService>(() => TvShowService(dio: dio));
   GetIt.I.registerLazySingleton<TrendingService>(() => TrendingService(dio: dio));
   GetIt.I.registerLazySingleton<PersonService>(() => PersonService(dio: dio));
+}
 
+void _registerRepositories() {
   GetIt.I.registerLazySingleton<MovieRepository>(() => MovieRepository());
   GetIt.I.registerLazySingleton<AccountRepository>(() => AccountRepository());
   GetIt.I.registerLazySingleton<TvShowRepository>(() => TvShowRepository());
   GetIt.I.registerLazySingleton<TrendingRepository>(() => TrendingRepository());
   GetIt.I.registerLazySingleton<PersonRepository>(() => PersonRepository());
+}
 
-  runZonedGuarded(
-    () async {
-      WidgetsFlutterBinding.ensureInitialized();
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-      final messaging = FirebaseMessaging.instance;
+void _initializeFlutterBindings() {
+  WidgetsFlutterBinding.ensureInitialized();
+}
 
-      final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-          FlutterLocalNotificationsPlugin();
-
-      const AndroidNotificationChannel channel = AndroidNotificationChannel(
-        'high_importance_channel', // id
-        'High Importance Notifications', // title
-        description: 'This channel is used for important notifications.', // description
-        importance: Importance.max,
-      );
-
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-          ?.createNotificationChannel(channel);
-
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        final notification = message.notification;
-        final android = message.notification?.android;
-
-        // If `onMessage` is triggered with a notification, construct our own
-        // local notification to show to users using the created channel.
-        if (notification != null && android != null) {
-          flutterLocalNotificationsPlugin.show(
-              notification.hashCode,
-              notification.title,
-              notification.body,
-              NotificationDetails(
-                android: AndroidNotificationDetails(
-                  channel.id,
-                  channel.name,
-                  channelDescription: channel.description,
-                  icon: 'launcher_icon',
-                ),
-              ));
-        }
-      });
-      messaging.getToken().then((token) => log(token ?? 'No token'));
-      await Hive.initFlutter();
-      await Hive.openBox('movienest_data');
-      await GetIt.I<SessionService>().checkSession();
-      GetIt.I<Talker>().info(await GetIt.I<SessionService>().getSessionId());
-      await dotenv.load(fileName: '.env');
-      runApp(MovieNestApp());
-    },
-    (e, st) => GetIt.I<Talker>().handle(e, st),
+Future<void> _initializeFirebase() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
+  final messaging = FirebaseMessaging.instance;
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    description: 'This channel is used for important notifications.', // description
+    importance: Importance.max,
+  );
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    final notification = message.notification;
+    final android = message.notification?.android;
+
+    if (notification != null && android != null) {
+      flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            channelDescription: channel.description,
+            icon: 'launcher_icon',
+          ),
+        ),
+      );
+    }
+  });
+
+  messaging.getToken().then((token) => log(token ?? 'No token'));
+}
+
+Future<void> _initializeHive() async {
+  await Hive.initFlutter();
+  await Hive.openBox('movienest_data');
+}
+
+Future<void> _checkSession() async {
+  await GetIt.I<SessionService>().checkSession();
+  GetIt.I<Talker>().info(await GetIt.I<SessionService>().getSessionId());
+  await dotenv.load(fileName: '.env');
 }
