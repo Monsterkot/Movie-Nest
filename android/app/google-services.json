@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:388926160854:android:43ee9090115d6db770ae77",
+        "mobilesdk_app_id": "1:388926160854:android:394e4664f9212c9470ae77",
         "android_client_info": {
-          "package_name": "com.example.movie_nest_app"
+          "package_name": "com.monsterkot.movienest"
         }
       },
       "oauth_client": [],

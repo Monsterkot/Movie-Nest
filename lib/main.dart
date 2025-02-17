@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -136,7 +135,7 @@ Future<void> _initializeFirebase() async {
     }
   });
 
-  messaging.getToken().then((token) => log(token ?? 'No token'));
+  messaging.getToken().then((token) => GetIt.I<Talker>().info('FCM Token: $token'));
 }
 
 Future<void> _initializeHive() async {

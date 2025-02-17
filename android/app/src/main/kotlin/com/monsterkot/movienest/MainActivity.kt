@@ -1,4 +1,4 @@
-package com.example.movie_nest_app
+package com.monsterkot.movienest
 
 import io.flutter.embedding.android.FlutterActivity
 
