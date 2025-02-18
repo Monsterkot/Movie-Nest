@@ -2,6 +2,8 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
+         maven { url 'https://developer.huawei.com/repo/' }
     }
 }
 
@@ -16,3 +18,4 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
