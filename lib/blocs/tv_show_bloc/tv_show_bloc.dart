@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:movie_nest_app/models/popular_tv_show_response/popular_tv_show_response.dart';
+import 'package:movie_nest_app/models/tv_show_response/tv_show_response.dart';
 import 'package:movie_nest_app/models/tv_show/tv_show.dart';
 import 'package:movie_nest_app/repositories/tv_show_repository.dart';
 import 'package:talker_flutter/talker_flutter.dart';

@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
-
 import '../constants/app_constants.dart';
 import '../constants/media_type.dart';
 import '../repositories/account_repository.dart';

@@ -21,9 +21,9 @@ class PersonService {
     return locale.replaceAll('_', '-');
   }
 
-  Future<Map<String,dynamic>> getPersonDetails(int id) async {
+  Future<Map<String, dynamic>> getPersonDetails(int id) async {
     final uri = _makeUri('/person/$id', {
-      'append_to_response' : 'combined_credits',
+      'append_to_response': 'combined_credits',
       'api_key': apiKey,
       'language': getCurrentLocale(),
     });
@@ -31,5 +31,4 @@ class PersonService {
     Map<String, dynamic> data = response.data;
     return data;
   }
-
 }
