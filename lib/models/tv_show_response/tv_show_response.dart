@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:movie_nest_app/models/tv_show/tv_show.dart';
 
-part 'popular_tv_show_response.g.dart';
+part 'tv_show_response.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class TvShowResponse extends Equatable {
@@ -20,9 +20,9 @@ class TvShowResponse extends Equatable {
   });
 
   factory TvShowResponse.fromJson(Map<String, dynamic> json) =>
-      _$PopularTvShowResponseFromJson(json);
+      _$TvShowResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PopularTvShowResponseToJson(this);
+  Map<String, dynamic> toJson() => _$TvShowResponseToJson(this);
 
   @override
   List<Object?> get props => [
