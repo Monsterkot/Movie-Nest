@@ -29,8 +29,6 @@ import 'repositories/movie_repository.dart';
 
 void main() {
   _initializeDependencies();
-  
-  
   runZonedGuarded(
     () async {
       _initializeFlutterBindings();
@@ -74,7 +72,7 @@ void _initializeDependencies() {
   _registerRepositories();
 }
 
-void _registerServices(Dio dio) {
+void _registerServices(final Dio dio) {
   GetIt.I.registerLazySingleton<AuthService>(() => AuthService(dio: dio));
   GetIt.I.registerLazySingleton<SessionService>(() => SessionService());
   GetIt.I.registerLazySingleton<AccountService>(() => AccountService(dio: dio));

@@ -18,8 +18,10 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(_current != null,
-        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(
+      _current != null,
+      'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.',
+    );
     return _current!;
   }
 
@@ -41,8 +43,10 @@ class S {
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(instance != null,
-        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    assert(
+      instance != null,
+      'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?',
+    );
     return instance!;
   }
 
@@ -52,122 +56,62 @@ class S {
 
   /// `Welcome!`
   String get welcome {
-    return Intl.message(
-      'Welcome!',
-      name: 'welcome',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Welcome!', name: 'welcome', desc: '', args: []);
   }
 
   /// `Search...`
   String get search {
-    return Intl.message(
-      'Search...',
-      name: 'search',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Search...', name: 'search', desc: '', args: []);
   }
 
   /// `Home`
   String get home {
-    return Intl.message(
-      'Home',
-      name: 'home',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Home', name: 'home', desc: '', args: []);
   }
 
   /// `Movies`
   String get movies {
-    return Intl.message(
-      'Movies',
-      name: 'movies',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Movies', name: 'movies', desc: '', args: []);
   }
 
   /// `TV series`
   String get tvSeries {
-    return Intl.message(
-      'TV series',
-      name: 'tvSeries',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('TV series', name: 'tvSeries', desc: '', args: []);
   }
 
   /// `Trending`
   String get trending {
-    return Intl.message(
-      'Trending',
-      name: 'trending',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Trending', name: 'trending', desc: '', args: []);
   }
 
   /// `Profile`
   String get profile {
-    return Intl.message(
-      'Profile',
-      name: 'profile',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Profile', name: 'profile', desc: '', args: []);
   }
 
   /// `Favorites`
   String get favorites {
-    return Intl.message(
-      'Favorites',
-      name: 'favorites',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Favorites', name: 'favorites', desc: '', args: []);
   }
 
   /// `Settings`
   String get settings {
-    return Intl.message(
-      'Settings',
-      name: 'settings',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Settings', name: 'settings', desc: '', args: []);
   }
 
   /// `Log out`
   String get logOut {
-    return Intl.message(
-      'Log out',
-      name: 'logOut',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Log out', name: 'logOut', desc: '', args: []);
   }
 
   /// `Error`
   String get error {
-    return Intl.message(
-      'Error',
-      name: 'error',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Error', name: 'error', desc: '', args: []);
   }
 
   /// `Route error`
   String get routeError {
-    return Intl.message(
-      'Route error',
-      name: 'routeError',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Route error', name: 'routeError', desc: '', args: []);
   }
 
   /// `Log in to your account`
@@ -222,32 +166,17 @@ class S {
 
   /// `Username`
   String get username {
-    return Intl.message(
-      'Username',
-      name: 'username',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Username', name: 'username', desc: '', args: []);
   }
 
   /// `Password`
   String get password {
-    return Intl.message(
-      'Password',
-      name: 'password',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Password', name: 'password', desc: '', args: []);
   }
 
   /// `Login`
   String get login {
-    return Intl.message(
-      'Login',
-      name: 'login',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Login', name: 'login', desc: '', args: []);
   }
 
   /// `Reset password`
@@ -292,42 +221,22 @@ class S {
 
   /// `Yes`
   String get yes {
-    return Intl.message(
-      'Yes',
-      name: 'yes',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Yes', name: 'yes', desc: '', args: []);
   }
 
   /// `No`
   String get no {
-    return Intl.message(
-      'No',
-      name: 'no',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('No', name: 'no', desc: '', args: []);
   }
 
   /// `Loading...`
   String get loading {
-    return Intl.message(
-      'Loading...',
-      name: 'loading',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Loading...', name: 'loading', desc: '', args: []);
   }
 
   /// `User Score`
   String get userScore {
-    return Intl.message(
-      'User Score',
-      name: 'userScore',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('User Score', name: 'userScore', desc: '', args: []);
   }
 
   /// `Play Trailer`
@@ -342,22 +251,12 @@ class S {
 
   /// `Overview`
   String get overview {
-    return Intl.message(
-      'Overview',
-      name: 'overview',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Overview', name: 'overview', desc: '', args: []);
   }
 
   /// `Series Cast`
   String get seriesCast {
-    return Intl.message(
-      'Series Cast',
-      name: 'seriesCast',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Series Cast', name: 'seriesCast', desc: '', args: []);
   }
 
   /// `Full Cast & Crew`
@@ -372,42 +271,22 @@ class S {
 
   /// `Biography`
   String get biography {
-    return Intl.message(
-      'Biography',
-      name: 'biography',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Biography', name: 'biography', desc: '', args: []);
   }
 
   /// `Show Less`
   String get showLess {
-    return Intl.message(
-      'Show Less',
-      name: 'showLess',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Show Less', name: 'showLess', desc: '', args: []);
   }
 
   /// `Show More`
   String get showMore {
-    return Intl.message(
-      'Show More',
-      name: 'showMore',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Show More', name: 'showMore', desc: '', args: []);
   }
 
   /// `Known For`
   String get knownFor {
-    return Intl.message(
-      'Known For',
-      name: 'knownFor',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Known For', name: 'knownFor', desc: '', args: []);
   }
 
   /// `Personal info`
@@ -422,12 +301,7 @@ class S {
 
   /// `Stage Name`
   String get stageName {
-    return Intl.message(
-      'Stage Name',
-      name: 'stageName',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Stage Name', name: 'stageName', desc: '', args: []);
   }
 
   /// `Known Credits`
@@ -442,42 +316,22 @@ class S {
 
   /// `Gender`
   String get gender {
-    return Intl.message(
-      'Gender',
-      name: 'gender',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Gender', name: 'gender', desc: '', args: []);
   }
 
   /// `Birthday`
   String get birthday {
-    return Intl.message(
-      'Birthday',
-      name: 'birthday',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Birthday', name: 'birthday', desc: '', args: []);
   }
 
   /// `Deathday`
   String get deathday {
-    return Intl.message(
-      'Deathday',
-      name: 'deathday',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Deathday', name: 'deathday', desc: '', args: []);
   }
 
   /// `years`
   String get years {
-    return Intl.message(
-      'years',
-      name: 'years',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('years', name: 'years', desc: '', args: []);
   }
 
   /// `Place of Birth`
@@ -532,62 +386,32 @@ class S {
 
   /// `Today`
   String get today {
-    return Intl.message(
-      'Today',
-      name: 'today',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Today', name: 'today', desc: '', args: []);
   }
 
   /// `This Week`
   String get thisWeek {
-    return Intl.message(
-      'This Week',
-      name: 'thisWeek',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('This Week', name: 'thisWeek', desc: '', args: []);
   }
 
   /// `Popular`
   String get popular {
-    return Intl.message(
-      'Popular',
-      name: 'popular',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Popular', name: 'popular', desc: '', args: []);
   }
 
   /// `Now Playing`
   String get nowPlaying {
-    return Intl.message(
-      'Now Playing',
-      name: 'nowPlaying',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Now Playing', name: 'nowPlaying', desc: '', args: []);
   }
 
   /// `Top Rated`
   String get topRated {
-    return Intl.message(
-      'Top Rated',
-      name: 'topRated',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Top Rated', name: 'topRated', desc: '', args: []);
   }
 
   /// `Upcoming`
   String get upcoming {
-    return Intl.message(
-      'Upcoming',
-      name: 'upcoming',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Upcoming', name: 'upcoming', desc: '', args: []);
   }
 
   /// `Airing Today`
@@ -602,12 +426,7 @@ class S {
 
   /// `On The Air`
   String get onTheAir {
-    return Intl.message(
-      'On The Air',
-      name: 'onTheAir',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('On The Air', name: 'onTheAir', desc: '', args: []);
   }
 }
 

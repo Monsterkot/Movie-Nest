@@ -22,79 +22,88 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "airingToday": MessageLookupByLibrary.simpleMessage("В эфире сегодня"),
-        "areYouSureYouWantToLogOut": MessageLookupByLibrary.simpleMessage(
-            "Вы уверены что хотите выйти из аккаунта?"),
-        "biography": MessageLookupByLibrary.simpleMessage("Биография"),
-        "birthday": MessageLookupByLibrary.simpleMessage("Дата рождения"),
-        "clickHereToConfirmEmail": MessageLookupByLibrary.simpleMessage(
-            "Нажмите сюда чтобы подтвердить свой email."),
-        "clickHereToRegister": MessageLookupByLibrary.simpleMessage(
-            "Нажмите сюда чтобы зарегистрироваться."),
-        "confirmEmailText": MessageLookupByLibrary.simpleMessage(
-            "Если вы зарегистрировались, но не получили электронное письмо с подтверждением. "),
-        "deathday": MessageLookupByLibrary.simpleMessage("Дата смерти"),
-        "error": MessageLookupByLibrary.simpleMessage("Ошибка"),
-        "favorites": MessageLookupByLibrary.simpleMessage("Избранное"),
-        "fullCastCrew": MessageLookupByLibrary.simpleMessage(
-            "Полный актерский состав и съемочная группа"),
-        "gender": MessageLookupByLibrary.simpleMessage("Гендер"),
-        "home": MessageLookupByLibrary.simpleMessage("Главная"),
-        "invalidUsernameOrPassword": MessageLookupByLibrary.simpleMessage(
-            "Неверное имя пользователя или пароль"),
-        "knownCredits":
-            MessageLookupByLibrary.simpleMessage("Известно авторство"),
-        "knownFor": MessageLookupByLibrary.simpleMessage("Известность за"),
-        "loading": MessageLookupByLibrary.simpleMessage("Загрузка..."),
-        "logInToYourAccount":
-            MessageLookupByLibrary.simpleMessage("Войдите в свой аккаунт"),
-        "logOut": MessageLookupByLibrary.simpleMessage("Выйти"),
-        "login": MessageLookupByLibrary.simpleMessage("Войти"),
-        "loginInstructions": MessageLookupByLibrary.simpleMessage(
-            "Чтобы воспользоваться функциями редактирования и составления рейтинга на TMDB, а также получать персональные рекомендации, вы должны войти в свою учетную запись. Если у вас нет учетной записи, зарегистрировать ее легко и бесплатно. "),
-        "movies": MessageLookupByLibrary.simpleMessage("Фильмы"),
-        "no": MessageLookupByLibrary.simpleMessage("Нет"),
-        "nowPlaying": MessageLookupByLibrary.simpleMessage("Сейчас смотрят"),
-        "onTheAir": MessageLookupByLibrary.simpleMessage("По телевидению"),
-        "overview": MessageLookupByLibrary.simpleMessage("Описание"),
-        "password": MessageLookupByLibrary.simpleMessage("Пароль"),
-        "personalInfo":
-            MessageLookupByLibrary.simpleMessage("Персональная информация"),
-        "placeOfBirth": MessageLookupByLibrary.simpleMessage("Место рождения"),
-        "playTrailer": MessageLookupByLibrary.simpleMessage("Смотреть трейлер"),
-        "popular": MessageLookupByLibrary.simpleMessage("Популярные"),
-        "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
-        "resetPassword":
-            MessageLookupByLibrary.simpleMessage("Сбросить пароль"),
-        "routeError": MessageLookupByLibrary.simpleMessage("Ошибка маршрута"),
-        "search": MessageLookupByLibrary.simpleMessage("Поиск..."),
-        "seriesCast": MessageLookupByLibrary.simpleMessage("Актерский состав"),
-        "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
-        "showLess": MessageLookupByLibrary.simpleMessage("Показать меньше"),
-        "showMore": MessageLookupByLibrary.simpleMessage("Показать больше"),
-        "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
-            "Что-то пошло не так, проверьте ваше соединение с интернетом"),
-        "stageName":
-            MessageLookupByLibrary.simpleMessage("Сценический псевдоним"),
-        "thisWeek": MessageLookupByLibrary.simpleMessage("На этой неделе"),
-        "today": MessageLookupByLibrary.simpleMessage("Сегодня"),
-        "topRated": MessageLookupByLibrary.simpleMessage("Лучшие"),
-        "trending": MessageLookupByLibrary.simpleMessage("В тренде"),
-        "tvSeries": MessageLookupByLibrary.simpleMessage("Сериалы"),
-        "unknownErrorTryAgainLater": MessageLookupByLibrary.simpleMessage(
-            "Неизвестная ошибка, попробуйте еще раз позже"),
-        "upcoming": MessageLookupByLibrary.simpleMessage("Ожидаемые"),
-        "userScore":
-            MessageLookupByLibrary.simpleMessage("Оценка пользователей"),
-        "username": MessageLookupByLibrary.simpleMessage("Имя Пользователя"),
-        "usernameAndPasswordFieldsMustBeFilledIn":
-            MessageLookupByLibrary.simpleMessage(
-                "Поля имени пользователя и пароля должны быть заполнены"),
-        "viewFullProfile":
-            MessageLookupByLibrary.simpleMessage("Посмотреть полный профиль"),
-        "welcome": MessageLookupByLibrary.simpleMessage("Добро пожаловать!"),
-        "years": MessageLookupByLibrary.simpleMessage("лет"),
-        "yes": MessageLookupByLibrary.simpleMessage("Да"),
-        "yourProfile": MessageLookupByLibrary.simpleMessage("Ваш профиль")
-      };
+    "airingToday": MessageLookupByLibrary.simpleMessage("В эфире сегодня"),
+    "areYouSureYouWantToLogOut": MessageLookupByLibrary.simpleMessage(
+      "Вы уверены что хотите выйти из аккаунта?",
+    ),
+    "biography": MessageLookupByLibrary.simpleMessage("Биография"),
+    "birthday": MessageLookupByLibrary.simpleMessage("Дата рождения"),
+    "clickHereToConfirmEmail": MessageLookupByLibrary.simpleMessage(
+      "Нажмите сюда чтобы подтвердить свой email.",
+    ),
+    "clickHereToRegister": MessageLookupByLibrary.simpleMessage(
+      "Нажмите сюда чтобы зарегистрироваться.",
+    ),
+    "confirmEmailText": MessageLookupByLibrary.simpleMessage(
+      "Если вы зарегистрировались, но не получили электронное письмо с подтверждением. ",
+    ),
+    "deathday": MessageLookupByLibrary.simpleMessage("Дата смерти"),
+    "error": MessageLookupByLibrary.simpleMessage("Ошибка"),
+    "favorites": MessageLookupByLibrary.simpleMessage("Избранное"),
+    "fullCastCrew": MessageLookupByLibrary.simpleMessage(
+      "Полный актерский состав и съемочная группа",
+    ),
+    "gender": MessageLookupByLibrary.simpleMessage("Гендер"),
+    "home": MessageLookupByLibrary.simpleMessage("Главная"),
+    "invalidUsernameOrPassword": MessageLookupByLibrary.simpleMessage(
+      "Неверное имя пользователя или пароль",
+    ),
+    "knownCredits": MessageLookupByLibrary.simpleMessage("Известно авторство"),
+    "knownFor": MessageLookupByLibrary.simpleMessage("Известность за"),
+    "loading": MessageLookupByLibrary.simpleMessage("Загрузка..."),
+    "logInToYourAccount": MessageLookupByLibrary.simpleMessage(
+      "Войдите в свой аккаунт",
+    ),
+    "logOut": MessageLookupByLibrary.simpleMessage("Выйти"),
+    "login": MessageLookupByLibrary.simpleMessage("Войти"),
+    "loginInstructions": MessageLookupByLibrary.simpleMessage(
+      "Чтобы воспользоваться функциями редактирования и составления рейтинга на TMDB, а также получать персональные рекомендации, вы должны войти в свою учетную запись. Если у вас нет учетной записи, зарегистрировать ее легко и бесплатно. ",
+    ),
+    "movies": MessageLookupByLibrary.simpleMessage("Фильмы"),
+    "no": MessageLookupByLibrary.simpleMessage("Нет"),
+    "nowPlaying": MessageLookupByLibrary.simpleMessage("Сейчас смотрят"),
+    "onTheAir": MessageLookupByLibrary.simpleMessage("По телевидению"),
+    "overview": MessageLookupByLibrary.simpleMessage("Описание"),
+    "password": MessageLookupByLibrary.simpleMessage("Пароль"),
+    "personalInfo": MessageLookupByLibrary.simpleMessage(
+      "Персональная информация",
+    ),
+    "placeOfBirth": MessageLookupByLibrary.simpleMessage("Место рождения"),
+    "playTrailer": MessageLookupByLibrary.simpleMessage("Смотреть трейлер"),
+    "popular": MessageLookupByLibrary.simpleMessage("Популярные"),
+    "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
+    "resetPassword": MessageLookupByLibrary.simpleMessage("Сбросить пароль"),
+    "routeError": MessageLookupByLibrary.simpleMessage("Ошибка маршрута"),
+    "search": MessageLookupByLibrary.simpleMessage("Поиск..."),
+    "seriesCast": MessageLookupByLibrary.simpleMessage("Актерский состав"),
+    "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
+    "showLess": MessageLookupByLibrary.simpleMessage("Показать меньше"),
+    "showMore": MessageLookupByLibrary.simpleMessage("Показать больше"),
+    "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
+      "Что-то пошло не так, проверьте ваше соединение с интернетом",
+    ),
+    "stageName": MessageLookupByLibrary.simpleMessage("Сценический псевдоним"),
+    "thisWeek": MessageLookupByLibrary.simpleMessage("На этой неделе"),
+    "today": MessageLookupByLibrary.simpleMessage("Сегодня"),
+    "topRated": MessageLookupByLibrary.simpleMessage("Лучшие"),
+    "trending": MessageLookupByLibrary.simpleMessage("В тренде"),
+    "tvSeries": MessageLookupByLibrary.simpleMessage("Сериалы"),
+    "unknownErrorTryAgainLater": MessageLookupByLibrary.simpleMessage(
+      "Неизвестная ошибка, попробуйте еще раз позже",
+    ),
+    "upcoming": MessageLookupByLibrary.simpleMessage("Ожидаемые"),
+    "userScore": MessageLookupByLibrary.simpleMessage("Оценка пользователей"),
+    "username": MessageLookupByLibrary.simpleMessage("Имя Пользователя"),
+    "usernameAndPasswordFieldsMustBeFilledIn":
+        MessageLookupByLibrary.simpleMessage(
+          "Поля имени пользователя и пароля должны быть заполнены",
+        ),
+    "viewFullProfile": MessageLookupByLibrary.simpleMessage(
+      "Посмотреть полный профиль",
+    ),
+    "welcome": MessageLookupByLibrary.simpleMessage("Добро пожаловать!"),
+    "years": MessageLookupByLibrary.simpleMessage("лет"),
+    "yes": MessageLookupByLibrary.simpleMessage("Да"),
+    "yourProfile": MessageLookupByLibrary.simpleMessage("Ваш профиль"),
+  };
 }
