@@ -9,7 +9,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:movie_nest_app/firebase_options.dart';
+//import 'package:movie_nest_app/firebase_options.dart';
 import 'package:movie_nest_app/repositories/account_repository.dart';
 import 'package:movie_nest_app/repositories/person_repository.dart';
 import 'package:movie_nest_app/repositories/trending_repository.dart';
@@ -32,7 +32,7 @@ void main() {
   runZonedGuarded(
     () async {
       _initializeFlutterBindings();
-      await _initializeFirebase();
+      //await _initializeFirebase();
       await _initializeHive();
       await _checkSession();
       runApp(MovieNestApp());
@@ -94,47 +94,47 @@ void _initializeFlutterBindings() {
   WidgetsFlutterBinding.ensureInitialized();
 }
 
-Future<void> _initializeFirebase() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  final messaging = FirebaseMessaging.instance;
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+// Future<void> _initializeFirebase() async {
+//   await Firebase.initializeApp(
+//     options: DefaultFirebaseOptions.currentPlatform,
+//   );
+//   final messaging = FirebaseMessaging.instance;
+//   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications', // title
-    description: 'This channel is used for important notifications.', // description
-    importance: Importance.max,
-  );
+//   const AndroidNotificationChannel channel = AndroidNotificationChannel(
+//     'high_importance_channel', // id
+//     'High Importance Notifications', // title
+//     description: 'This channel is used for important notifications.', // description
+//     importance: Importance.max,
+//   );
 
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
+//   await flutterLocalNotificationsPlugin
+//       .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+//       ?.createNotificationChannel(channel);
 
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    final notification = message.notification;
-    final android = message.notification?.android;
+//   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+//     final notification = message.notification;
+//     final android = message.notification?.android;
 
-    if (notification != null && android != null) {
-      flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            channelDescription: channel.description,
-            icon: 'launcher_icon',
-          ),
-        ),
-      );
-    }
-  });
+//     if (notification != null && android != null) {
+//       flutterLocalNotificationsPlugin.show(
+//         notification.hashCode,
+//         notification.title,
+//         notification.body,
+//         NotificationDetails(
+//           android: AndroidNotificationDetails(
+//             channel.id,
+//             channel.name,
+//             channelDescription: channel.description,
+//             icon: 'launcher_icon',
+//           ),
+//         ),
+//       );
+//     }
+//   });
 
-  messaging.getToken().then((token) => GetIt.I<Talker>().info('FCM Token: $token'));
-}
+//   messaging.getToken().then((token) => GetIt.I<Talker>().info('FCM Token: $token'));
+// }
 
 Future<void> _initializeHive() async {
   await Hive.initFlutter();
